@@ -98,6 +98,9 @@ td.hebrew{font-size:24px}
 select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
 }
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="config.js"></script>
 <script src="dados.js"></script>
 
@@ -114,29 +117,34 @@ select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
  <div class="auth-card">
   <div class="kicker" style="text-align:center;color:var(--green)">Hebraico Bíblico II</div>
   <h1>Alef</h1>
-  <p>Vocabulário, numerais e verbos em um só lugar.</p>
+  <p>Entre com a mesma conta no Android e no iPhone.</p>
   <div class="auth-tabs">
    <button type="button" class="btn" id="tabLogin">Entrar</button>
    <button type="button" class="btn ghost" id="tabRegister">Criar conta</button>
   </div>
   <form id="authForm">
-   <label for="user">Usuário</label>
-   <input id="user" autocomplete="username" maxlength="24" required placeholder="Seu nome ou apelido">
+   <div id="nameWrap" class="hidden">
+    <label for="displayName">Nome no ranking</label>
+    <input id="displayName" autocomplete="name" maxlength="24" placeholder="Seu nome ou apelido">
+    <div style="height:9px"></div>
+   </div>
+   <label for="email">E-mail</label>
+   <input id="email" type="email" autocomplete="email" required placeholder="voce@email.com">
    <div style="height:9px"></div>
    <label for="pass">Senha</label>
-   <input id="pass" type="password" autocomplete="current-password" minlength="4" maxlength="60" required placeholder="Mínimo 4 caracteres">
+   <input id="pass" type="password" autocomplete="current-password" minlength="6" maxlength="60" required placeholder="Mínimo 6 caracteres">
    <div style="height:13px"></div>
    <button class="btn gold" style="width:100%" id="authSubmit">Entrar</button>
    <div class="auth-msg" id="authMsg" aria-live="polite"></div>
   </form>
-  <p class="smallnote">Nesta versão, contas e ranking ficam salvos localmente no aparelho. A estrutura já está preparada para um ranking online futuro.</p>
+  <p class="smallnote">Conta, progresso e ranking são sincronizados pelo Firebase. É necessário internet para entrar e atualizar a classificação.</p>
  </div>
 </div>
 
 <div id="appView" class="hidden">
  <div class="shell">
   <header class="top">
-   <div class="brand"><div class="alef">א</div><div><strong>Alef</strong><span>Hebraico Bíblico II • v1.1</span></div></div>
+   <div class="brand"><div class="alef">א</div><div><strong>Alef</strong><span>Hebraico Bíblico II • v1.2</span></div></div>
    <button class="pill" id="profilePill">👤 <span id="userLabel"></span></button>
   </header>
 
@@ -146,7 +154,7 @@ select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
     <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>70 palavras organizadas em grupos de 10, com tradução nos dois sentidos.</p><button class="btn" data-go="vocab">Estudar vocabulário</button></article>
     <article class="card action-card"><div class="ico">🔢</div><h2>Numerais</h2><p>Cardinais, ordinais e formas masculina/feminina conforme o material.</p><button class="btn" data-go="numbers">Treinar numerais</button></article>
     <article class="card action-card"><div class="ico">🔤</div><h2>Verbos</h2><p>Os sete troncos verbais: Qal, Nifal, Piel, Pual, Hifil, Hofal e Hitpa’el.</p><button class="btn" data-go="verbs">Treinar verbos</button></article>
-    <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Compare a pontuação entre os perfis cadastrados neste aparelho.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
+    <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Compare sua pontuação com todos os jogadores conectados.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
    </div>
   </section>
 
@@ -195,10 +203,10 @@ select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
   <section id="ranking" class="view">
    <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🏆 Ranking</h2></div>
    <div class="card">
-    <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Classificação</h3><p>Perfis deste aparelho</p></div><span class="badge">LOCAL</span></div>
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Classificação</h3><p>Ranking compartilhado</p></div><span class="badge">ONLINE</span></div>
     <div id="rankList" style="margin-top:9px"></div>
    </div>
-   <p class="smallnote">Para um ranking entre celulares diferentes, será necessário conectar o app a um backend online. O arquivo <code>config.js</code> já foi criado para essa próxima etapa.</p>
+   <p class="smallnote">A classificação é sincronizada pelo Firebase entre Android, iPhone e navegador.</p>
   </section>
 
   <section id="profile" class="view">
@@ -220,34 +228,160 @@ select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
 <script>
 (()=> {
 const D=window.ALEF_DATA, $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const LS_USERS='alef_users_v11', LS_CURRENT='alef_current_v11';
+const firebaseApp = firebase.initializeApp(window.ALEF_FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
 let authMode='login', currentUser=null, selectedGroup='1-10';
+let meStats={points:0,correct:0,wrong:0,bestStreak:0,games:0};
+let rankingCache=[];
+let unsubscribeUser=null, unsubscribeRanking=null;
+
 const shuffle=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-const getUsers=()=>{try{return JSON.parse(localStorage.getItem(LS_USERS)||'{}')}catch{return {}}};
-const saveUsers=u=>localStorage.setItem(LS_USERS,JSON.stringify(u));
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+function emptyStats(){return {points:0,correct:0,wrong:0,bestStreak:0,games:0}}
 function normalizeUser(s){return s.trim().replace(/\s+/g,' ').slice(0,24)}
-function emptyStats(){return {points:0,correct:0,wrong:0,bestStreak:0,games:0,last:Date.now()}}
-function setAuthMode(m){authMode=m;$('#tabLogin').className='btn '+(m==='login'?'':'ghost');$('#tabRegister').className='btn '+(m==='register'?'':'ghost');$('#authSubmit').textContent=m==='login'?'Entrar':'Criar conta';$('#authMsg').textContent=''}
-$('#tabLogin').addEventListener('click',()=>setAuthMode('login'));$('#tabRegister').addEventListener('click',()=>setAuthMode('register'));
-$('#authForm').addEventListener('submit',e=>{e.preventDefault();const name=normalizeUser($('#user').value), pass=$('#pass').value;const key=name.toLocaleLowerCase('pt-BR'), users=getUsers();
- if(name.length<2||pass.length<4){$('#authMsg').textContent='Use um nome com 2+ caracteres e senha com 4+.';return}
- if(authMode==='register'){if(users[key]){$('#authMsg').textContent='Esse usuário já existe neste aparelho.';return}users[key]={name,passHash:hash(pass),stats:emptyStats()};saveUsers(users);login(key)}
- else{if(!users[key]||users[key].passHash!==hash(pass)){$('#authMsg').textContent='Usuário ou senha incorretos.';return}login(key)}
+function setAuthMode(m){
+  authMode=m;
+  $('#tabLogin').className='btn '+(m==='login'?'':'ghost');
+  $('#tabRegister').className='btn '+(m==='register'?'':'ghost');
+  $('#authSubmit').textContent=m==='login'?'Entrar':'Criar conta';
+  $('#nameWrap').classList.toggle('hidden',m!=='register');
+  $('#displayName').required=m==='register';
+  $('#authMsg').textContent='';
+}
+$('#tabLogin').addEventListener('click',()=>setAuthMode('login'));
+$('#tabRegister').addEventListener('click',()=>setAuthMode('register'));
+
+function authMessage(err){
+  const code=(err&&err.code)||'';
+  if(code.includes('email-already-in-use')) return 'Este e-mail já possui uma conta.';
+  if(code.includes('invalid-email')) return 'Digite um e-mail válido.';
+  if(code.includes('weak-password')) return 'A senha precisa ter pelo menos 6 caracteres.';
+  if(code.includes('invalid-credential')||code.includes('wrong-password')||code.includes('user-not-found')) return 'E-mail ou senha incorretos.';
+  if(code.includes('network-request-failed')) return 'Sem conexão com a internet.';
+  return 'Não foi possível concluir. Tente novamente.';
+}
+
+$('#authForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=$('#email').value.trim();
+  const pass=$('#pass').value;
+  const name=normalizeUser($('#displayName').value||'');
+  $('#authSubmit').disabled=true;
+  $('#authMsg').textContent='Conectando...';
+  try{
+    if(authMode==='register'){
+      if(name.length<2) throw {code:'name-too-short'};
+      const cred=await auth.createUserWithEmailAndPassword(email,pass);
+      await cred.user.updateProfile({displayName:name});
+      await db.collection('users').doc(cred.user.uid).set({
+        name,
+        email:cred.user.email||email,
+        points:0,
+        correct:0,
+        wrong:0,
+        bestStreak:0,
+        games:0,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      },{merge:true});
+    }else{
+      await auth.signInWithEmailAndPassword(email,pass);
+    }
+    $('#authMsg').textContent='';
+  }catch(err){
+    $('#authMsg').textContent=err.code==='name-too-short'?'Digite um nome com pelo menos 2 caracteres.':authMessage(err);
+  }finally{
+    $('#authSubmit').disabled=false;
+  }
 });
-function login(key){localStorage.setItem(LS_CURRENT,key);currentUser=key;$('#authView').classList.add('hidden');$('#appView').classList.remove('hidden');refreshUserUI();go('home')}
-function tryRestore(){const key=localStorage.getItem(LS_CURRENT), users=getUsers();if(key&&users[key])login(key)}
-function getMe(){const u=getUsers();return currentUser?u[currentUser]:null}
-function addResult(ok,streak=0,bonus=0){const users=getUsers(), me=users[currentUser];if(!me)return; if(ok){me.stats.correct++;me.stats.points+=10+bonus}else me.stats.wrong++;me.stats.bestStreak=Math.max(me.stats.bestStreak,streak);me.stats.last=Date.now();saveUsers(users);refreshUserUI()}
-function gameFinished(){const users=getUsers(),me=users[currentUser];if(me){me.stats.games++;saveUsers(users);refreshUserUI()}}
-function refreshUserUI(){const me=getMe();if(!me)return;$('#userLabel').textContent=me.name;$('#profileCard').innerHTML=`<div class="alef" style="width:70px;height:70px;font-size:50px;margin-bottom:12px">א</div><h2 style="margin:0">${escapeHtml(me.name)}</h2><p style="color:var(--muted)">Perfil local</p><div class="stats"><div class="stat"><b>${me.stats.points}</b><span>pontos</span></div><div class="stat"><b>${me.stats.correct}</b><span>acertos</span></div><div class="stat"><b>${me.stats.wrong}</b><span>erros</span></div><div class="stat"><b>${me.stats.bestStreak}</b><span>melhor sequência</span></div></div>`;renderRanking()}
+
+async function ensureUserDoc(user){
+  const ref=db.collection('users').doc(user.uid);
+  const snap=await ref.get();
+  if(!snap.exists){
+    const fallback=(user.displayName||user.email?.split('@')[0]||'Aluno').slice(0,24);
+    await ref.set({
+      name:fallback,
+      email:user.email||'',
+      ...emptyStats(),
+      createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+  }
+}
+function stopSubscriptions(){
+  if(unsubscribeUser){unsubscribeUser();unsubscribeUser=null}
+  if(unsubscribeRanking){unsubscribeRanking();unsubscribeRanking=null}
+}
+function subscribeUser(user){
+  if(unsubscribeUser) unsubscribeUser();
+  unsubscribeUser=db.collection('users').doc(user.uid).onSnapshot(snap=>{
+    const d=snap.exists?snap.data():{};
+    meStats={...emptyStats(),...d};
+    refreshUserUI();
+  });
+}
+function subscribeRanking(){
+  if(unsubscribeRanking) unsubscribeRanking();
+  unsubscribeRanking=db.collection('users').orderBy('points','desc').limit(50).onSnapshot(snap=>{
+    rankingCache=snap.docs.map(doc=>({uid:doc.id,...doc.data()}));
+    renderRanking();
+  },()=>{rankingCache=[];renderRanking();});
+}
+auth.onAuthStateChanged(async user=>{
+  stopSubscriptions();
+  currentUser=user||null;
+  if(user){
+    try{await ensureUserDoc(user)}catch(e){}
+    $('#authView').classList.add('hidden');
+    $('#appView').classList.remove('hidden');
+    subscribeUser(user);
+    subscribeRanking();
+    go('home');
+  }else{
+    meStats=emptyStats();
+    rankingCache=[];
+    $('#appView').classList.add('hidden');
+    $('#authView').classList.remove('hidden');
+  }
+});
+function addResult(ok,streak=0,bonus=0){
+  if(!currentUser)return;
+  const ref=db.collection('users').doc(currentUser.uid);
+  const update={updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  if(ok){
+    update.correct=firebase.firestore.FieldValue.increment(1);
+    update.points=firebase.firestore.FieldValue.increment(10+bonus);
+  }else{
+    update.wrong=firebase.firestore.FieldValue.increment(1);
+  }
+  if(streak>(meStats.bestStreak||0))update.bestStreak=streak;
+  ref.set(update,{merge:true}).catch(()=>{});
+}
+function gameFinished(){
+  if(!currentUser)return;
+  db.collection('users').doc(currentUser.uid).set({
+    games:firebase.firestore.FieldValue.increment(1),
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  },{merge:true}).catch(()=>{});
+}
+function refreshUserUI(){
+  if(!currentUser)return;
+  const name=meStats.name||currentUser.displayName||currentUser.email?.split('@')[0]||'Aluno';
+  $('#userLabel').textContent=name;
+  $('#profileCard').innerHTML=`<div class="alef" style="width:70px;height:70px;font-size:50px;margin-bottom:12px">א</div><h2 style="margin:0">${escapeHtml(name)}</h2><p style="color:var(--muted)">${escapeHtml(currentUser.email||'Conta Firebase')}</p><div class="stats"><div class="stat"><b>${meStats.points||0}</b><span>pontos</span></div><div class="stat"><b>${meStats.correct||0}</b><span>acertos</span></div><div class="stat"><b>${meStats.wrong||0}</b><span>erros</span></div><div class="stat"><b>${meStats.bestStreak||0}</b><span>melhor sequência</span></div></div>`;
+  renderRanking();
+}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('#logoutBtn').addEventListener('click',()=>{localStorage.removeItem(LS_CURRENT);currentUser=null;$('#appView').classList.add('hidden');$('#authView').classList.remove('hidden');$('#pass').value=''});
+$('#logoutBtn').addEventListener('click',()=>auth.signOut());
 $('#profilePill').addEventListener('click',()=>go('profile'));
 function go(id){$$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.navb').forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='ranking')renderRanking()}
 $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-
-function renderRanking(){const users=Object.entries(getUsers()).map(([key,u])=>({key,...u})).sort((a,b)=>b.stats.points-a.stats.points||b.stats.correct-a.stats.correct);$('#rankList').innerHTML=users.length?users.map((u,i)=>`<div class="rank-item ${u.key===currentUser?'me':''}"><div class="rank-pos">${i+1}</div><div><strong>${escapeHtml(u.name)}</strong><div class="smallnote">${u.stats.correct} acertos • ${u.stats.games} rodadas</div></div><strong>${u.stats.points} pts</strong></div>`).join(''):'<p>Nenhum perfil ainda.</p>'}
+function renderRanking(){
+  const users=rankingCache;
+  $('#rankList').innerHTML=users.length?users.map((u,i)=>`<div class="rank-item ${currentUser&&u.uid===currentUser.uid?'me':''}"><div class="rank-pos">${i+1}</div><div><strong>${escapeHtml(u.name||'Aluno')}</strong><div class="smallnote">${u.correct||0} acertos • ${u.games||0} rodadas</div></div><strong>${u.points||0} pts</strong></div>`).join(''):'<p>Nenhum jogador no ranking ainda.</p>';
+}
 
 const groupLabels=[];for(let s=1;s<=70;s+=10)groupLabels.push(`${s}-${Math.min(s+9,70)}`);
 $('#vocabGroups').innerHTML=groupLabels.map(g=>`<button class="groupbtn ${g===selectedGroup?'active':''}" data-group="${g}">${g}</button>`).join('')+`<button class="groupbtn" data-group="all">Todas</button>`;
@@ -286,7 +420,6 @@ $('#startVerbs').addEventListener('click',()=>{const mode=$('#verbMode').value, 
  if(mode==='roots'){startQuiz(D.raizes,'mixed',$('#verbGame'),'Raízes verbais',rounds,(item,dir,pool)=>{const correct=dir==='h2p'?item.p:item.h;const vals=shuffle(pool.map(x=>dir==='h2p'?x.p:x.h).filter(x=>x!==correct));return {prompt:dir==='h2p'?item.h:item.p,promptHebrew:dir==='h2p',correct,options:shuffle([correct,...vals.slice(0,3)]),optionsHebrew:dir==='p2h'}});return}
  startQuiz(D.binyanim,'h2p',$('#verbGame'),'Troncos verbais',rounds,(item,dir,pool)=>{if(mode==='trunk'){const correct=item.nome;return {prompt:item.heb,promptHebrew:true,correct,options:shuffle([correct,...shuffle(pool.map(x=>x.nome).filter(x=>x!==correct)).slice(0,3)]),optionsHebrew:false}}if(mode==='meaning'){const correct=item.sentido;return {prompt:`${item.nome} • ${item.heb}`,promptHebrew:false,correct,options:shuffle([correct,...shuffle(pool.map(x=>x.sentido).filter(x=>x!==correct)).slice(0,3)]),optionsHebrew:false}}const correct=`${item.voz} • ${item.modo}`;let vals=[...new Set(pool.map(x=>`${x.voz} • ${x.modo}`).filter(x=>x!==correct))];return {prompt:item.nome,promptHebrew:false,correct,options:shuffle([correct,...shuffle(vals).slice(0,3)]),optionsHebrew:false}})});
 
-tryRestore();
 })();
 </script>
 
