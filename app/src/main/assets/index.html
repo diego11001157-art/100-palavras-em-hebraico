@@ -109,8 +109,8 @@ select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
   <h1>Alef</h1>
   <p>Vocabulário, numerais e verbos em um só lugar.</p>
   <div class="auth-tabs">
-   <button class="btn" id="tabLogin">Entrar</button>
-   <button class="btn ghost" id="tabRegister">Criar conta</button>
+   <button type="button" class="btn" id="tabLogin">Entrar</button>
+   <button type="button" class="btn ghost" id="tabRegister">Criar conta</button>
   </div>
   <form id="authForm">
    <label for="user">Usuário</label>
@@ -246,7 +246,7 @@ const groupLabels=[];for(let s=1;s<=70;s+=10)groupLabels.push(`${s}-${Math.min(s
 $('#vocabGroups').innerHTML=groupLabels.map(g=>`<button class="groupbtn ${g===selectedGroup?'active':''}" data-group="${g}">${g}</button>`).join('')+`<button class="groupbtn" data-group="all">Todas</button>`;
 $('#vocabGroups').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(!b)return;selectedGroup=b.dataset.group;$$('.groupbtn').forEach(x=>x.classList.toggle('active',x.dataset.group===selectedGroup))});
 function vocabPool(){if(selectedGroup==='all')return D.vocabulario;const [a,b]=selectedGroup.split('-').map(Number);return D.vocabulario.filter(x=>x.n>=a&&x.n<=b)}
-$('#startVocab').addEventListener('click',()=>{const act=$('#vocabActivity').value;if(act==='quiz')startQuiz(vocabPool(),$('#vocabMode').value,$('#vocabGame'),'Vocabulário');if(act==='flash')startFlash(vocabPool(),$('#vocabMode').value,$('#vocabGame']);if(act==='match')startMatch(vocabPool(),$('#vocabGame'))});
+$('#startVocab').addEventListener('click',()=>{const act=$('#vocabActivity').value;if(act==='quiz')startQuiz(vocabPool(),$('#vocabMode').value,$('#vocabGame'),'Vocabulário');if(act==='flash')startFlash(vocabPool(),$('#vocabMode').value,$('#vocabGame'));if(act==='match')startMatch(vocabPool(),$('#vocabGame'))});
 
 function startQuiz(pool,mode,host,title,rounds=null, custom=null){let q=shuffle(pool),max=rounds||q.length,idx=0,score=0,streak=0,answered=false;if(max>q.length)q=Array.from({length:max},()=>pool[Math.floor(Math.random()*pool.length)]);else q=q.slice(0,max);
  host.innerHTML=`<div class="stats"><div class="stat"><b id="gscore">0</b><span>acertos</span></div><div class="stat"><b id="gstreak">0</b><span>sequência</span></div><div class="stat"><b id="gleft">${max}</b><span>restantes</span></div><div class="stat"><b id="gpts">0</b><span>pontos</span></div></div><div class="progress"><div id="gbar"></div></div><div class="quiz"><div class="qmeta" id="gmeta"></div><div id="gprompt" class="prompt"></div><div id="goptions" class="options"></div><div id="gfeedback" class="feedback"></div><button class="btn hidden" id="gnext">Próxima</button></div>`;
