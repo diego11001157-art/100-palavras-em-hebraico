@@ -1,19 +1,16 @@
 plugins {
     id 'com.android.application'
 }
-
 android {
     namespace 'br.com.hebraico70'
     compileSdk 35
-
     defaultConfig {
         applicationId "br.com.hebraico70"
         minSdk 23
         targetSdk 35
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 4
+        versionName "1.2"
     }
-
     buildTypes {
         release {
             minifyEnabled false
