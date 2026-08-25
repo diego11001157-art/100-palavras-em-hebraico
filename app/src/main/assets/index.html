@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hebraico Bíblico II — Jogo das 70 Palavras</title>
+<meta name="theme-color" content="#183f3b">
+<style>
+:root{--bg:#f3ead5;--panel:#fffaf0;--ink:#2e251c;--muted:#6c6255;--green:#183f3b;--gold:#bd8d39;--line:#d8c9aa;--ok:#2f6c50;--bad:#884239}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{max-width:960px;margin:auto;padding:16px}
+.hero{background:var(--green);color:#fff;border-radius:24px;padding:24px;position:relative;overflow:hidden}
+.hero:after{content:"א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת";position:absolute;right:-12px;bottom:-18px;font-size:42px;letter-spacing:7px;opacity:.08;direction:rtl;white-space:nowrap}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;opacity:.8;font-weight:800}
+h1{font-size:clamp(26px,5vw,42px);line-height:1.08;margin:8px 0}
+.sub{font-size:14px;line-height:1.55;max-width:700px;opacity:.9}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+button,select{font:inherit}
+button{min-height:44px;border:0;border-radius:13px;padding:10px 15px;font-weight:750;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.navbtn{background:#e4d6b8;border:1px solid #cdbd9c;color:var(--ink)}
+.navbtn.active{background:var(--gold)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(16px,3vw,24px)}
+.controls{display:grid;grid-template-columns:1.5fr 1fr auto;gap:10px;align-items:end}
+label{font-size:12px;font-weight:800;display:block;margin-bottom:6px;color:var(--muted)}
+select{width:100%;min-height:44px;border-radius:12px;padding:8px 11px;border:1px solid #cdbd9c;background:#fffdf8;color:var(--ink);font-size:16px}
+.primary{background:var(--gold);color:#1d1409}
+.secondary{background:#e7dcc6;color:var(--ink);border:1px solid #cdbd9c}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+.stat{background:#efe4cf;border-radius:14px;padding:11px;text-align:center}
+.stat b{display:block;font-size:21px}
+.stat span{font-size:11px;color:var(--muted)}
+.bar{height:8px;background:#e5d7bd;border-radius:99px;overflow:hidden;margin:8px 0 18px}
+.bar>div{height:100%;background:var(--gold);width:0;transition:width .25s ease}
+.question{border:1px solid #d7c5a3;border-radius:20px;padding:clamp(18px,4vw,30px);text-align:center;background:#fffdf8}
+.qmeta{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.prompt{font-size:clamp(29px,7vw,58px);font-weight:800;line-height:1.35;margin:14px auto 18px;overflow-wrap:anywhere}
+.prompt.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;direction:rtl;font-size:clamp(46px,10vw,82px);font-weight:600}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.option{background:#f2e8d5;color:var(--ink);border:1px solid #d3c2a2;min-height:58px}
+.option.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;font-size:28px;direction:rtl}
+.option.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.option.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.option:disabled{cursor:default;opacity:.96}
+.feedback{min-height:42px;padding:11px 4px 0;font-weight:700;line-height:1.4}
+.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.summary{text-align:center;padding:24px 10px}
+.summary .big{font-size:48px;font-weight:900;color:var(--gold)}
+.hidden{display:none!important}
+.flash{min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #d7c5a3;border-radius:20px;background:#fffdf8;padding:28px}
+.flash .front{font-size:clamp(34px,8vw,68px);font-weight:800;line-height:1.3}
+.flash .front.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;direction:rtl;font-size:clamp(54px,12vw,88px);font-weight:600}
+.flash .answer{margin-top:16px;font-size:clamp(22px,5vw,34px);font-weight:800;color:var(--gold)}
+.flashmeta{font-size:12px;color:var(--muted);margin-bottom:8px}
+.footer{font-size:12px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.5}
+@media(max-width:620px){.controls{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.options{grid-template-columns:1fr}.hero{border-radius:18px}.app{padding:10px}}
+@media(prefers-color-scheme:dark){
+:root{--bg:#1d1915;--panel:#28231e;--ink:#f6ecda;--muted:#c8bca9;--line:#4a4034}
+.navbtn{background:#322b23;border-color:#54483a;color:var(--ink)}
+select{background:#201c18;color:var(--ink);border-color:#564a3d}
+.stat{background:#211d18}.bar{background:#40372d}.question,.flash{background:#211d19;border-color:#514539}.option{background:#332d26;color:var(--ink);border-color:#574b3e}.secondary{background:#393127;color:var(--ink);border-color:#564a3d}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+<section class="hero">
+<div class="eyebrow">Hebraico Bíblico II</div>
+<h1>מִלִּים • Desafio das 70 palavras</h1>
+<div class="sub">Associe hebraico e português nos dois sentidos. Funciona offline em notebook, tablet e celular.</div>
+</section>
+
+<div class="nav" role="tablist">
+<button type="button" class="navbtn active" id="tabGame">🎯 Jogo</button>
+<button type="button" class="navbtn" id="tabFlash">🃏 Cartões</button>
+</div>
+
+<section class="panel" id="gamePanel">
+<div class="controls">
+<div><label for="direction">Sentido do treino</label><select id="direction"><option value="mixed">Misturado</option><option value="h2p">Hebraico → Português</option><option value="p2h">Português → Hebraico</option></select></div>
+<div><label for="roundSize">Tamanho da rodada</label><select id="roundSize"><option value="10">10 palavras</option><option value="20">20 palavras</option><option value="70">70 palavras</option></select></div>
+<button type="button" class="primary" id="newRound">Nova rodada</button>
+</div>
+<div class="stats" aria-live="polite">
+<div class="stat"><b id="score">0</b><span>acertos</span></div>
+<div class="stat"><b id="streak">0</b><span>sequência</span></div>
+<div class="stat"><b id="remaining">10</b><span>restantes</span></div>
+<div class="stat"><b id="errors">0</b><span>para revisar</span></div>
+</div>
+<div class="bar"><div id="progress"></div></div>
+
+<div id="playArea">
+<div class="question">
+<div class="qmeta" id="qmeta">Escolha a associação correta</div>
+<div class="prompt" id="prompt"></div>
+<div class="options" id="options"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="actions">
+<button type="button" class="secondary hidden" id="nextBtn">Próxima</button>
+<button type="button" class="secondary" id="errorsBtn">Treinar erros</button>
+</div>
+</div>
+</div>
+<div id="summary" class="summary hidden"></div>
+</section>
+
+<section class="panel hidden" id="flashPanel">
+<div class="controls">
+<div><label for="flashDirection">Frente do cartão</label><select id="flashDirection"><option value="h2p">Hebraico</option><option value="p2h">Português</option><option value="mixed">Misturado</option></select></div>
+<div><label for="flashSet">Conjunto</label><select id="flashSet"><option value="all">Todas as 70</option><option value="errors">Somente erros</option></select></div>
+<button type="button" class="primary" id="shuffleFlash">Embaralhar</button>
+</div>
+<div class="flash">
+<div class="flashmeta" id="flashMeta"></div>
+<div class="front" id="flashFront"></div>
+<div class="answer hidden" id="flashAnswer"></div>
+</div>
+<div class="actions">
+<button type="button" class="primary" id="revealBtn">Mostrar resposta</button>
+<button type="button" class="secondary hidden" id="knewBtn">✓ Acertei</button>
+<button type="button" class="secondary hidden" id="reviewBtn">↻ Rever</button>
+</div>
+</section>
+
+<div class="footer">Jogo independente em um único arquivo HTML. Basta enviar este arquivo para outra pessoa e abrir no navegador.</div>
+</main>
+
+<script>
+const V=[
+{n:1,h:'אֵת',p:'Não se traduz'},{n:2,h:'יְהוָה',p:'SENHOR, Deus'},{n:3,h:'אֲשֶׁר',p:'que'},{n:4,h:'כִּי',p:'que, porque, quando'},{n:5,h:'אֶל',p:'para, em direção a'},
+{n:6,h:'עַל',p:'sobre, acerca, acima, por cima'},{n:7,h:'לֹא',p:'não'},{n:8,h:'כָּל',p:'todo'},{n:9,h:'יִשְׂרָאֵל',p:'Israel'},{n:10,h:'ס',p:'Setumah - indicador de parágrafo (pausa menor)'},
+{n:11,h:'וַיֹּאמֶר',p:'E disse'},{n:12,h:'וְאֶת',p:'E …'},{n:13,h:'וְלֹא',p:'e não'},{n:14,h:'בְּנֵי',p:'filhos de'},{n:15,h:'בֵּן',p:'filho'},
+{n:16,h:'פ',p:'Petuhah - indicador de seção (pausa maior)'},{n:17,h:'לוֹ',p:'para ele'},{n:18,h:'אִישׁ',p:'homem'},{n:19,h:'הַמֶּלֶךְ',p:'o rei'},{n:20,h:'עַד',p:'até, tanto quanto'},
+{n:21,h:'בֵּית',p:'casa de'},{n:22,h:'הָאָרֶץ',p:'a Terra, o chão, a terra'},{n:23,h:'לֵאמֹר',p:'dizendo'},{n:24,h:'מֶלֶךְ',p:'rei'},{n:25,h:'הוּא',p:'ele, este'},
+{n:26,h:'אִם',p:'se'},{n:27,h:'וַיְהִי',p:'e houve, e foi, e aconteceu'},{n:28,h:'הָעָם',p:'o povo'},{n:29,h:'לִי',p:'a mim, para mim'},{n:30,h:'מֹשֶׁה',p:'Moisés'},
+{n:31,h:'הַזֶּה',p:'este'},{n:32,h:'אָמַר',p:'Ele disse / dizer'},{n:33,h:'יְהוּדָה',p:'Judá'},{n:34,h:'אֱלֹהִים',p:'Deus, deuses'},{n:35,h:'לָהֶם',p:'para eles'},
+{n:36,h:'מִן',p:'de, desde'},{n:37,h:'וְכָל',p:'e todo'},{n:38,h:'אֵת',p:'com'},{n:39,h:'דָּוִד',p:'Davi'},{n:40,h:'לִפְנֵי',p:'diante de, face'},
+{n:41,h:'אֲנִי',p:'eu'},{n:42,h:'אַל',p:'não'},{n:43,h:'שָׁם',p:'ali, lá'},{n:44,h:'לַיהוָה',p:'ao SENHOR ou para o Senhor'},{n:45,h:'כֹּה',p:'aqui, agora, assim, de sorte que, ali, lá'},
+{n:46,h:'כֵּן',p:'assim'},{n:47,h:'וְעַל',p:'e/mas sobre, e/mas acerca, e/mas acima, e/mas por cima'},{n:48,h:'גַּם',p:'também'},{n:49,h:'כַּאֲשֶׁר',p:'como, conforme, assim como, porque, quando, quanto, depois'},{n:50,h:'לְךָ',p:'para ti ou a ti'},
+{n:51,h:'אַתָּה',p:'tu'},{n:52,h:'אֶחָד',p:'um, único'},{n:53,h:'לָכֶם',p:'para vós'},{n:54,h:'הַיּוֹם',p:'o dia'},{n:55,h:'הִנֵּה',p:'Eis que'},
+{n:56,h:'עִם',p:'com'},{n:57,h:'אֹתוֹ',p:'[a] ele ou … ele'},{n:58,h:'וְאֵת',p:'e [a/o] ou e …'},{n:59,h:'אֵלָיו',p:'para ele, a ele, em direção a ele'},{n:60,h:'יִהְיֶה',p:'ser/será'},
+{n:61,h:'שָׁנָה',p:'ano'},{n:62,h:'אֲדֹנָי',p:'Meu Senhor ou Senhor'},{n:63,h:'נָא',p:'por favor, eu peço, agora, então'},{n:64,h:'עָלָיו',p:'acerca dele, sobre ele'},{n:65,h:'וְהָיָה',p:'e será, e acontecerá'},
+{n:66,h:'אֱלֹהֵי',p:'Deus [de]'},{n:67,h:'עוֹד',p:'novamente, ainda'},{n:68,h:'אֶרֶץ',p:'Terra, terra'},{n:69,h:'נְאֻם',p:'oráculo, declaração'},{n:70,h:'לְךָ',p:'para ti'}
+];
+const $=s=>document.querySelector(s);
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+const state={queue:[],idx:0,score:0,streak:0,best:0,wrong:new Set(),answered:false,current:null,dir:'h2p',flash:null,flashDir:'h2p'};
+const groupedTranslations=h=>[...new Set(V.filter(x=>x.h===h).map(x=>x.p))];
+function answerFor(item,dir){if(dir==='h2p'){const vals=groupedTranslations(item.h);return vals.length>1?vals.join(' • '):item.p}return item.h}
+function promptFor(item,dir){return dir==='h2p'?item.h:item.p}
+function chooseDir(sel){return sel==='mixed'?(Math.random()<.5?'h2p':'p2h'):sel}
+function uniqueOptions(item,dir){const correct=answerFor(item,dir);const pool=shuffle(V.map(v=>answerFor(v,dir)).filter(x=>x!==correct));const out=[correct];for(const x of pool){if(!out.includes(x))out.push(x);if(out.length===4)break}return shuffle(out)}
+function startRound(useErrors=false){let size=Math.max(1,Math.min(70,Number($('#roundSize').value)||10));let base=V;if(useErrors&&state.wrong.size){const errs=V.filter(v=>state.wrong.has(v.n));const rest=shuffle(V.filter(v=>!state.wrong.has(v.n)));base=[...shuffle(errs),...rest]}else base=shuffle(V);state.queue=base.slice(0,size);state.idx=0;state.score=0;state.streak=0;state.best=0;state.answered=false;$('#summary').classList.add('hidden');$('#playArea').classList.remove('hidden');renderQuestion()}
+function renderStats(){const total=state.queue.length||1;const done=Math.min(state.idx,total);$('#score').textContent=state.score;$('#streak').textContent=state.streak;$('#remaining').textContent=Math.max(0,total-done);$('#errors').textContent=state.wrong.size;$('#progress').style.width=(done/total*100)+'%';$('#errorsBtn').disabled=state.wrong.size===0;$('#errorsBtn').style.opacity=state.wrong.size===0?'.5':'1'}
+function renderQuestion(){if(state.idx>=state.queue.length){finishRound();return}state.current=state.queue[state.idx];state.dir=chooseDir($('#direction').value);state.answered=false;const p=$('#prompt');p.textContent=promptFor(state.current,state.dir);p.classList.toggle('hebrew',state.dir==='h2p');$('#qmeta').textContent=(state.dir==='h2p'?'Hebraico → Português':'Português → Hebraico')+' • Palavra '+state.current.n+' de 70';$('#feedback').textContent='';$('#nextBtn').classList.add('hidden');const box=$('#options');box.innerHTML='';for(const opt of uniqueOptions(state.current,state.dir)){const b=document.createElement('button');b.type='button';b.className='option'+(state.dir==='p2h'?' hebrew':'');b.textContent=opt;b.addEventListener('click',()=>checkAnswer(b,opt));box.appendChild(b)}renderStats()}
+function checkAnswer(btn,value){if(state.answered)return;state.answered=true;const correct=answerFor(state.current,state.dir);const ok=value===correct;for(const b of $('#options').querySelectorAll('button')){b.disabled=true;if(b.textContent===correct)b.classList.add('correct')}if(ok){state.score++;state.streak++;state.best=Math.max(state.best,state.streak);state.wrong.delete(state.current.n);$('#feedback').textContent='✓ '+state.current.h+' = '+correct}else{btn.classList.add('wrong');state.streak=0;state.wrong.add(state.current.n);$('#feedback').textContent='Resposta: '+state.current.h+' = '+correct}$('#nextBtn').classList.remove('hidden');renderStats()}
+function next(){if(!state.answered)return;state.idx++;renderQuestion()}
+function finishRound(){renderStats();$('#playArea').classList.add('hidden');const s=$('#summary');s.classList.remove('hidden');const total=state.queue.length;const pct=total?Math.round(state.score/total*100):0;s.innerHTML='<div class="eyebrow">Rodada concluída</div><div class="big">'+pct+'%</div><p><strong>'+state.score+' de '+total+'</strong> associações corretas.<br>Melhor sequência: <strong>'+state.best+'</strong> • Para revisar: <strong>'+state.wrong.size+'</strong></p><div class="actions"><button type="button" class="primary" id="againBtn">Jogar novamente</button>'+(state.wrong.size?'<button type="button" class="secondary" id="reviewErrorsSummary">Treinar erros</button>':'')+'</div>';$('#againBtn').addEventListener('click',()=>startRound(false));const r=$('#reviewErrorsSummary');if(r)r.addEventListener('click',()=>startRound(true))}
+function showTab(which){const game=which==='game';$('#gamePanel').classList.toggle('hidden',!game);$('#flashPanel').classList.toggle('hidden',game);$('#tabGame').classList.toggle('active',game);$('#tabFlash').classList.toggle('active',!game);if(!game)newFlash()}
+function flashPool(){if($('#flashSet').value==='errors'&&state.wrong.size)return V.filter(v=>state.wrong.has(v.n));return V}
+function newFlash(){const pool=flashPool();state.flash=pool[Math.floor(Math.random()*pool.length)]||V[0];state.flashDir=chooseDir($('#flashDirection').value);const f=$('#flashFront');f.textContent=promptFor(state.flash,state.flashDir);f.classList.toggle('hebrew',state.flashDir==='h2p');$('#flashMeta').textContent='Palavra '+state.flash.n+' de 70 • '+(state.flashDir==='h2p'?'Hebraico → Português':'Português → Hebraico');$('#flashAnswer').textContent=answerFor(state.flash,state.flashDir);$('#flashAnswer').classList.add('hidden');$('#revealBtn').classList.remove('hidden');$('#knewBtn').classList.add('hidden');$('#reviewBtn').classList.add('hidden')}
+function revealFlash(){$('#flashAnswer').classList.remove('hidden');$('#revealBtn').classList.add('hidden');$('#knewBtn').classList.remove('hidden');$('#reviewBtn').classList.remove('hidden')}
+$('#newRound').addEventListener('click',()=>startRound(false));
+$('#nextBtn').addEventListener('click',next);
+$('#errorsBtn').addEventListener('click',()=>{if(state.wrong.size)startRound(true)});
+$('#tabGame').addEventListener('click',()=>showTab('game'));
+$('#tabFlash').addEventListener('click',()=>showTab('flash'));
+$('#shuffleFlash').addEventListener('click',newFlash);
+$('#flashDirection').addEventListener('change',newFlash);
+$('#flashSet').addEventListener('change',newFlash);
+$('#revealBtn').addEventListener('click',revealFlash);
+$('#knewBtn').addEventListener('click',()=>{state.wrong.delete(state.flash.n);newFlash()});
+$('#reviewBtn').addEventListener('click',()=>{state.wrong.add(state.flash.n);newFlash()});
+startRound(false);
+</script>
+</body>
+</html>
