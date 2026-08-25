@@ -2,178 +2,285 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hebraico Bíblico II — Jogo das 70 Palavras</title>
-<meta name="theme-color" content="#183f3b">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173e39">
+<title>Alef • Hebraico Bíblico II</title>
 <style>
-:root{--bg:#f3ead5;--panel:#fffaf0;--ink:#2e251c;--muted:#6c6255;--green:#183f3b;--gold:#bd8d39;--line:#d8c9aa;--ok:#2f6c50;--bad:#884239}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.app{max-width:960px;margin:auto;padding:16px}
-.hero{background:var(--green);color:#fff;border-radius:24px;padding:24px;position:relative;overflow:hidden}
-.hero:after{content:"א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת";position:absolute;right:-12px;bottom:-18px;font-size:42px;letter-spacing:7px;opacity:.08;direction:rtl;white-space:nowrap}
-.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;opacity:.8;font-weight:800}
-h1{font-size:clamp(26px,5vw,42px);line-height:1.08;margin:8px 0}
-.sub{font-size:14px;line-height:1.55;max-width:700px;opacity:.9}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-button,select{font:inherit}
-button{min-height:44px;border:0;border-radius:13px;padding:10px 15px;font-weight:750;cursor:pointer}
-button:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.navbtn{background:#e4d6b8;border:1px solid #cdbd9c;color:var(--ink)}
-.navbtn.active{background:var(--gold)}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(16px,3vw,24px)}
-.controls{display:grid;grid-template-columns:1.5fr 1fr auto;gap:10px;align-items:end}
-label{font-size:12px;font-weight:800;display:block;margin-bottom:6px;color:var(--muted)}
-select{width:100%;min-height:44px;border-radius:12px;padding:8px 11px;border:1px solid #cdbd9c;background:#fffdf8;color:var(--ink);font-size:16px}
-.primary{background:var(--gold);color:#1d1409}
-.secondary{background:#e7dcc6;color:var(--ink);border:1px solid #cdbd9c}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
-.stat{background:#efe4cf;border-radius:14px;padding:11px;text-align:center}
-.stat b{display:block;font-size:21px}
-.stat span{font-size:11px;color:var(--muted)}
-.bar{height:8px;background:#e5d7bd;border-radius:99px;overflow:hidden;margin:8px 0 18px}
-.bar>div{height:100%;background:var(--gold);width:0;transition:width .25s ease}
-.question{border:1px solid #d7c5a3;border-radius:20px;padding:clamp(18px,4vw,30px);text-align:center;background:#fffdf8}
-.qmeta{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.prompt{font-size:clamp(29px,7vw,58px);font-weight:800;line-height:1.35;margin:14px auto 18px;overflow-wrap:anywhere}
-.prompt.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;direction:rtl;font-size:clamp(46px,10vw,82px);font-weight:600}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.option{background:#f2e8d5;color:var(--ink);border:1px solid #d3c2a2;min-height:58px}
-.option.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;font-size:28px;direction:rtl}
-.option.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
-.option.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
-.option:disabled{cursor:default;opacity:.96}
-.feedback{min-height:42px;padding:11px 4px 0;font-weight:700;line-height:1.4}
-.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-.summary{text-align:center;padding:24px 10px}
-.summary .big{font-size:48px;font-weight:900;color:var(--gold)}
-.hidden{display:none!important}
-.flash{min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #d7c5a3;border-radius:20px;background:#fffdf8;padding:28px}
-.flash .front{font-size:clamp(34px,8vw,68px);font-weight:800;line-height:1.3}
-.flash .front.hebrew{font-family:"Times New Roman","Noto Sans Hebrew",serif;direction:rtl;font-size:clamp(54px,12vw,88px);font-weight:600}
-.flash .answer{margin-top:16px;font-size:clamp(22px,5vw,34px);font-weight:800;color:var(--gold)}
-.flashmeta{font-size:12px;color:var(--muted);margin-bottom:8px}
-.footer{font-size:12px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.5}
-@media(max-width:620px){.controls{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.options{grid-template-columns:1fr}.hero{border-radius:18px}.app{padding:10px}}
-@media(prefers-color-scheme:dark){
-:root{--bg:#1d1915;--panel:#28231e;--ink:#f6ecda;--muted:#c8bca9;--line:#4a4034}
-.navbtn{background:#322b23;border-color:#54483a;color:var(--ink)}
-select{background:#201c18;color:var(--ink);border-color:#564a3d}
-.stat{background:#211d18}.bar{background:#40372d}.question,.flash{background:#211d19;border-color:#514539}.option{background:#332d26;color:var(--ink);border-color:#574b3e}.secondary{background:#393127;color:var(--ink);border-color:#564a3d}
+:root{
+ --bg:#f3ead7;--panel:#fffaf0;--panel2:#eadfc8;--ink:#2f261d;--muted:#776a58;
+ --green:#173e39;--green2:#22564e;--gold:#b98b39;--line:#d7c5a4;
+ --ok:#2f6c50;--bad:#8b443c;--blue:#385d73;
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.shell{max-width:980px;margin:0 auto;padding:14px 14px 88px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.alef{width:48px;height:48px;border-radius:15px;background:var(--green);color:#f8ead0;display:grid;place-items:center;font:700 35px "Times New Roman",serif;box-shadow:0 5px 18px #0001}
+.brand strong{display:block;font-size:18px}
+.brand span{display:block;color:var(--muted);font-size:12px}
+.pill{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:9px 12px;color:var(--ink);font-weight:700}
+.hero{background:linear-gradient(145deg,var(--green),#102f2c);color:#fff;border-radius:25px;padding:24px;position:relative;overflow:hidden}
+.hero:after{content:"א";position:absolute;right:-8px;bottom:-45px;font:700 190px "Times New Roman",serif;color:#fff;opacity:.06}
+.hero h1{margin:4px 0 8px;font-size:clamp(28px,7vw,48px);line-height:1}
+.hero p{margin:0;max-width:680px;opacity:.87;line-height:1.5}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.15em;font-weight:800;opacity:.75}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px;min-width:0}
+.card h2,.card h3{margin:0 0 7px}
+.card p{margin:0;color:var(--muted);line-height:1.45;font-size:13px}
+.action-card{display:flex;flex-direction:column;min-height:170px}
+.action-card .ico{font-size:28px;margin-bottom:10px}
+.action-card button{margin-top:auto}
+.btn{border:0;border-radius:13px;min-height:44px;padding:10px 14px;font-weight:800;background:var(--green);color:white}
+.btn.gold{background:var(--gold);color:#211708}
+.btn.ghost{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}
+.btn.bad{background:var(--bad)}
+.btn:disabled{opacity:.45;cursor:default}
+.view{display:none}.view.active{display:block}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.back{border:0;background:transparent;color:var(--green);font-weight:900;min-height:44px;padding:6px 4px}
+.section-title{font-size:24px;margin:0}
+.groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.groupbtn{border:1px solid var(--line);background:var(--panel);border-radius:15px;padding:14px 10px;color:var(--ink);font-weight:800;min-height:60px}
+.groupbtn.active{background:var(--green);color:#fff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin:0 0 5px}
+select,input{width:100%;min-height:46px;border:1px solid var(--line);border-radius:12px;background:#fffdf7;color:var(--ink);padding:9px 11px;font-size:16px}
+.quiz{margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:20px;text-align:center}
+.qmeta{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:900;color:var(--muted)}
+.prompt{margin:12px auto 18px;font-size:clamp(29px,8vw,60px);font-weight:850;line-height:1.28;overflow-wrap:anywhere}
+.hebrew{direction:rtl;font-family:"Times New Roman","Noto Sans Hebrew",serif;font-weight:650}
+.prompt.hebrew{font-size:clamp(48px,12vw,88px)}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.opt{border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--ink);min-height:58px;padding:9px;font-weight:750}
+.opt.hebrew{font-size:26px}
+.opt.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.feedback{min-height:38px;padding-top:10px;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--panel2);border-radius:13px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}.stat span{font-size:10px;color:var(--muted)}
+.progress{height:7px;background:#dfd1b6;border-radius:999px;overflow:hidden}.progress div{height:100%;background:var(--gold);width:0}
+.flashcard{min-height:285px;border:1px solid var(--line);border-radius:22px;background:var(--panel);display:grid;place-items:center;text-align:center;padding:25px}
+.flashbig{font-size:clamp(42px,12vw,84px)}
+.flashans{font-size:26px;color:var(--gold);font-weight:900;margin-top:14px}
+.hidden{display:none!important}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.match{min-height:58px;border:1px solid var(--line);border-radius:13px;background:var(--panel);color:var(--ink);padding:8px;font-weight:750}
+.match.selected{outline:3px solid var(--gold)}
+.match.solved{background:var(--ok);color:#fff;opacity:.7}
+.rulebox{border-left:4px solid var(--gold);background:var(--panel);padding:13px 15px;border-radius:10px;margin:10px 0;color:var(--muted);line-height:1.5}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:17px;background:var(--panel);margin-top:12px}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th,td{padding:11px;border-bottom:1px solid var(--line);text-align:center}
+th{background:var(--green);color:#fff;position:sticky;top:0}
+td.hebrew{font-size:24px}
+.rank-item{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}
+.rank-pos{width:34px;height:34px;border-radius:50%;background:var(--panel2);display:grid;place-items:center;font-weight:900}
+.rank-item.me{background:#b98b3918}
+.badge{display:inline-block;border-radius:999px;padding:4px 8px;background:var(--panel2);font-size:11px;font-weight:800;color:var(--muted)}
+.auth-wrap{max-width:480px;margin:34px auto}
+.auth-logo{width:90px;height:90px;border-radius:28px;margin:0 auto 14px;background:var(--green);color:#f5dfb5;display:grid;place-items:center;font:700 70px "Times New Roman",serif}
+.auth-card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px}
+.auth-card h1{text-align:center;margin:0 0 6px}.auth-card>p{text-align:center;color:var(--muted);font-size:13px;margin:0 0 18px}
+.auth-tabs{display:flex;gap:7px;margin-bottom:13px}.auth-tabs button{flex:1}
+.auth-msg{min-height:30px;text-align:center;font-weight:750;font-size:13px;padding-top:8px}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#fffaf0ed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:20}
+.bottom-inner{width:min(100%,980px);display:grid;grid-template-columns:repeat(5,1fr);padding:5px 8px max(5px,env(safe-area-inset-bottom))}
+.navb{border:0;background:transparent;color:var(--muted);min-height:54px;font-size:11px;font-weight:800}.navb span{display:block;font-size:21px}.navb.active{color:var(--green)}
+.smallnote{font-size:11px;color:var(--muted);line-height:1.45}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.groups{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.options{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.shell{padding:10px 10px 84px}}
+@media(prefers-color-scheme:dark){
+:root{--bg:#181512;--panel:#28231e;--panel2:#393128;--ink:#f7ecd9;--muted:#c5b9a6;--line:#514638}
+select,input{background:#201c18;color:var(--ink)}.bottom{background:#211d19eb}
+}
 </style>
+<script src="config.js"></script>
+<script src="dados.js"></script>
 </head>
 <body>
-<main class="app">
-<section class="hero">
-<div class="eyebrow">Hebraico Bíblico II</div>
-<h1>מִלִּים • Desafio das 70 palavras</h1>
-<div class="sub">Associe hebraico e português nos dois sentidos. Funciona offline em notebook, tablet e celular.</div>
-</section>
-
-<div class="nav" role="tablist">
-<button type="button" class="navbtn active" id="tabGame">🎯 Jogo</button>
-<button type="button" class="navbtn" id="tabFlash">🃏 Cartões</button>
+<div id="authView" class="auth-wrap">
+ <div class="auth-logo">א</div>
+ <div class="auth-card">
+  <div class="kicker" style="text-align:center;color:var(--green)">Hebraico Bíblico II</div>
+  <h1>Alef</h1>
+  <p>Vocabulário, numerais e verbos em um só lugar.</p>
+  <div class="auth-tabs">
+   <button class="btn" id="tabLogin">Entrar</button>
+   <button class="btn ghost" id="tabRegister">Criar conta</button>
+  </div>
+  <form id="authForm">
+   <label for="user">Usuário</label>
+   <input id="user" autocomplete="username" maxlength="24" required placeholder="Seu nome ou apelido">
+   <div style="height:9px"></div>
+   <label for="pass">Senha</label>
+   <input id="pass" type="password" autocomplete="current-password" minlength="4" maxlength="60" required placeholder="Mínimo 4 caracteres">
+   <div style="height:13px"></div>
+   <button class="btn gold" style="width:100%" id="authSubmit">Entrar</button>
+   <div class="auth-msg" id="authMsg" aria-live="polite"></div>
+  </form>
+  <p class="smallnote">Nesta versão, contas e ranking ficam salvos localmente no aparelho. A estrutura já está preparada para um ranking online futuro.</p>
+ </div>
 </div>
 
-<section class="panel" id="gamePanel">
-<div class="controls">
-<div><label for="direction">Sentido do treino</label><select id="direction"><option value="mixed">Misturado</option><option value="h2p">Hebraico → Português</option><option value="p2h">Português → Hebraico</option></select></div>
-<div><label for="roundSize">Tamanho da rodada</label><select id="roundSize"><option value="10">10 palavras</option><option value="20">20 palavras</option><option value="70">70 palavras</option></select></div>
-<button type="button" class="primary" id="newRound">Nova rodada</button>
-</div>
-<div class="stats" aria-live="polite">
-<div class="stat"><b id="score">0</b><span>acertos</span></div>
-<div class="stat"><b id="streak">0</b><span>sequência</span></div>
-<div class="stat"><b id="remaining">10</b><span>restantes</span></div>
-<div class="stat"><b id="errors">0</b><span>para revisar</span></div>
-</div>
-<div class="bar"><div id="progress"></div></div>
+<div id="appView" class="hidden">
+ <div class="shell">
+  <header class="top">
+   <div class="brand"><div class="alef">א</div><div><strong>Alef</strong><span>Hebraico Bíblico II • v1.1</span></div></div>
+   <button class="pill" id="profilePill">👤 <span id="userLabel"></span></button>
+  </header>
 
-<div id="playArea">
-<div class="question">
-<div class="qmeta" id="qmeta">Escolha a associação correta</div>
-<div class="prompt" id="prompt"></div>
-<div class="options" id="options"></div>
-<div class="feedback" id="feedback" aria-live="polite"></div>
-<div class="actions">
-<button type="button" class="secondary hidden" id="nextBtn">Próxima</button>
-<button type="button" class="secondary" id="errorsBtn">Treinar erros</button>
-</div>
-</div>
-</div>
-<div id="summary" class="summary hidden"></div>
-</section>
+  <section id="home" class="view active">
+   <div class="hero"><div class="kicker">Aprender • Praticar • Reter</div><h1>שלום! Vamos estudar?</h1><p>Escolha um módulo. Seus pontos, erros e sequência ficam associados ao seu perfil local.</p></div>
+   <div class="grid">
+    <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>70 palavras organizadas em grupos de 10, com tradução nos dois sentidos.</p><button class="btn" data-go="vocab">Estudar vocabulário</button></article>
+    <article class="card action-card"><div class="ico">🔢</div><h2>Numerais</h2><p>Cardinais, ordinais e formas masculina/feminina conforme o material.</p><button class="btn" data-go="numbers">Treinar numerais</button></article>
+    <article class="card action-card"><div class="ico">🔤</div><h2>Verbos</h2><p>Os sete troncos verbais: Qal, Nifal, Piel, Pual, Hifil, Hofal e Hitpa’el.</p><button class="btn" data-go="verbs">Treinar verbos</button></article>
+    <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Compare a pontuação entre os perfis cadastrados neste aparelho.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
+   </div>
+  </section>
 
-<section class="panel hidden" id="flashPanel">
-<div class="controls">
-<div><label for="flashDirection">Frente do cartão</label><select id="flashDirection"><option value="h2p">Hebraico</option><option value="p2h">Português</option><option value="mixed">Misturado</option></select></div>
-<div><label for="flashSet">Conjunto</label><select id="flashSet"><option value="all">Todas as 70</option><option value="errors">Somente erros</option></select></div>
-<button type="button" class="primary" id="shuffleFlash">Embaralhar</button>
-</div>
-<div class="flash">
-<div class="flashmeta" id="flashMeta"></div>
-<div class="front" id="flashFront"></div>
-<div class="answer hidden" id="flashAnswer"></div>
-</div>
-<div class="actions">
-<button type="button" class="primary" id="revealBtn">Mostrar resposta</button>
-<button type="button" class="secondary hidden" id="knewBtn">✓ Acertei</button>
-<button type="button" class="secondary hidden" id="reviewBtn">↻ Rever</button>
-</div>
-</section>
+  <section id="vocab" class="view">
+   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📚 Vocabulário</h2></div>
+   <div class="groups" id="vocabGroups"></div>
+   <div class="card" style="margin-top:12px">
+    <div class="form-row">
+     <div><label>Modo</label><select id="vocabMode"><option value="mixed">Misturado</option><option value="h2p">Hebraico → Português</option><option value="p2h">Português → Hebraico</option></select></div>
+     <div><label>Atividade</label><select id="vocabActivity"><option value="quiz">Quiz</option><option value="flash">Flashcards</option><option value="match">Associação</option></select></div>
+    </div>
+    <button class="btn gold" id="startVocab" style="margin-top:10px;width:100%">Começar</button>
+   </div>
+   <div id="vocabGame"></div>
+  </section>
 
-<div class="footer">Jogo independente em um único arquivo HTML. Basta enviar este arquivo para outra pessoa e abrir no navegador.</div>
-</main>
+  <section id="numbers" class="view">
+   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🔢 Numerais</h2></div>
+   <div class="rulebox">Cardinais e ordinais são treinados separadamente. Os ordinais concordam em gênero e definição com o substantivo que modificam; acima de dez, o material informa o uso de cardinais.</div>
+   <div class="card">
+    <div class="form-row">
+     <div><label>Conjunto</label><select id="numberSet"><option value="card">Cardinais</option><option value="ord">Ordinais</option></select></div>
+     <div><label>Tipo de desafio</label><select id="numberMode"><option value="translation">Hebraico ↔ Português</option><option value="gender">Masculino × Feminino</option></select></div>
+    </div>
+    <button class="btn gold" id="startNumbers" style="margin-top:10px;width:100%">Iniciar desafio</button>
+   </div>
+   <div id="numberGame"></div>
+   <div class="table-wrap" id="numberTable"></div>
+  </section>
+
+  <section id="verbs" class="view">
+   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🔤 Verbos</h2></div>
+   <div class="rulebox">O material organiza os <strong>binyānîm</strong> em modo simples, intensivo e causativo, com vozes ativa, passiva e reflexiva. O jogo usa o paradigma da raiz קטל apresentado nas fontes.</div>
+   <div class="card">
+    <div class="form-row">
+     <div><label>Treino</label><select id="verbMode"><option value="roots">Raízes verbais ↔ significado</option><option value="trunk">Reconhecer o tronco</option><option value="meaning">Tronco → sentido</option><option value="voice">Voz e modo</option></select></div>
+     <div><label>Rodada</label><select id="verbRounds"><option value="7">7 questões</option><option value="14">14 questões</option><option value="21">21 questões</option></select></div>
+    </div>
+    <button class="btn gold" id="startVerbs" style="margin-top:10px;width:100%">Começar treino verbal</button>
+   </div>
+   <div id="verbGame"></div>
+   <div class="card" style="margin-top:12px"><h3>Raízes verbais da aula</h3><p>Treine o reconhecimento da raiz e seu significado em português.</p><div class="table-wrap"><table><thead><tr><th>Raiz</th><th>Significado</th></tr></thead><tbody id="rootTable"></tbody></table></div></div>
+   <div class="table-wrap"><table><thead><tr><th>Tronco</th><th>Forma</th><th>Modo</th><th>Voz</th><th>Sentido no paradigma</th></tr></thead><tbody id="verbTable"></tbody></table></div>
+  </section>
+
+  <section id="ranking" class="view">
+   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🏆 Ranking</h2></div>
+   <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Classificação</h3><p>Perfis deste aparelho</p></div><span class="badge">LOCAL</span></div>
+    <div id="rankList" style="margin-top:9px"></div>
+   </div>
+   <p class="smallnote">Para um ranking entre celulares diferentes, será necessário conectar o app a um backend online. O arquivo <code>config.js</code> já foi criado para essa próxima etapa.</p>
+  </section>
+
+  <section id="profile" class="view">
+   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">👤 Perfil</h2></div>
+   <div class="card" id="profileCard"></div>
+   <button class="btn bad" style="margin-top:12px;width:100%" id="logoutBtn">Sair da conta</button>
+  </section>
+ </div>
+
+ <nav class="bottom"><div class="bottom-inner">
+  <button class="navb active" data-go="home"><span>⌂</span>Início</button>
+  <button class="navb" data-go="vocab"><span>📚</span>Palavras</button>
+  <button class="navb" data-go="numbers"><span>🔢</span>Números</button>
+  <button class="navb" data-go="verbs"><span>🔤</span>Verbos</button>
+  <button class="navb" data-go="ranking"><span>🏆</span>Ranking</button>
+ </div></nav>
+</div>
 
 <script>
-const V=[
-{n:1,h:'אֵת',p:'Não se traduz'},{n:2,h:'יְהוָה',p:'SENHOR, Deus'},{n:3,h:'אֲשֶׁר',p:'que'},{n:4,h:'כִּי',p:'que, porque, quando'},{n:5,h:'אֶל',p:'para, em direção a'},
-{n:6,h:'עַל',p:'sobre, acerca, acima, por cima'},{n:7,h:'לֹא',p:'não'},{n:8,h:'כָּל',p:'todo'},{n:9,h:'יִשְׂרָאֵל',p:'Israel'},{n:10,h:'ס',p:'Setumah - indicador de parágrafo (pausa menor)'},
-{n:11,h:'וַיֹּאמֶר',p:'E disse'},{n:12,h:'וְאֶת',p:'E …'},{n:13,h:'וְלֹא',p:'e não'},{n:14,h:'בְּנֵי',p:'filhos de'},{n:15,h:'בֵּן',p:'filho'},
-{n:16,h:'פ',p:'Petuhah - indicador de seção (pausa maior)'},{n:17,h:'לוֹ',p:'para ele'},{n:18,h:'אִישׁ',p:'homem'},{n:19,h:'הַמֶּלֶךְ',p:'o rei'},{n:20,h:'עַד',p:'até, tanto quanto'},
-{n:21,h:'בֵּית',p:'casa de'},{n:22,h:'הָאָרֶץ',p:'a Terra, o chão, a terra'},{n:23,h:'לֵאמֹר',p:'dizendo'},{n:24,h:'מֶלֶךְ',p:'rei'},{n:25,h:'הוּא',p:'ele, este'},
-{n:26,h:'אִם',p:'se'},{n:27,h:'וַיְהִי',p:'e houve, e foi, e aconteceu'},{n:28,h:'הָעָם',p:'o povo'},{n:29,h:'לִי',p:'a mim, para mim'},{n:30,h:'מֹשֶׁה',p:'Moisés'},
-{n:31,h:'הַזֶּה',p:'este'},{n:32,h:'אָמַר',p:'Ele disse / dizer'},{n:33,h:'יְהוּדָה',p:'Judá'},{n:34,h:'אֱלֹהִים',p:'Deus, deuses'},{n:35,h:'לָהֶם',p:'para eles'},
-{n:36,h:'מִן',p:'de, desde'},{n:37,h:'וְכָל',p:'e todo'},{n:38,h:'אֵת',p:'com'},{n:39,h:'דָּוִד',p:'Davi'},{n:40,h:'לִפְנֵי',p:'diante de, face'},
-{n:41,h:'אֲנִי',p:'eu'},{n:42,h:'אַל',p:'não'},{n:43,h:'שָׁם',p:'ali, lá'},{n:44,h:'לַיהוָה',p:'ao SENHOR ou para o Senhor'},{n:45,h:'כֹּה',p:'aqui, agora, assim, de sorte que, ali, lá'},
-{n:46,h:'כֵּן',p:'assim'},{n:47,h:'וְעַל',p:'e/mas sobre, e/mas acerca, e/mas acima, e/mas por cima'},{n:48,h:'גַּם',p:'também'},{n:49,h:'כַּאֲשֶׁר',p:'como, conforme, assim como, porque, quando, quanto, depois'},{n:50,h:'לְךָ',p:'para ti ou a ti'},
-{n:51,h:'אַתָּה',p:'tu'},{n:52,h:'אֶחָד',p:'um, único'},{n:53,h:'לָכֶם',p:'para vós'},{n:54,h:'הַיּוֹם',p:'o dia'},{n:55,h:'הִנֵּה',p:'Eis que'},
-{n:56,h:'עִם',p:'com'},{n:57,h:'אֹתוֹ',p:'[a] ele ou … ele'},{n:58,h:'וְאֵת',p:'e [a/o] ou e …'},{n:59,h:'אֵלָיו',p:'para ele, a ele, em direção a ele'},{n:60,h:'יִהְיֶה',p:'ser/será'},
-{n:61,h:'שָׁנָה',p:'ano'},{n:62,h:'אֲדֹנָי',p:'Meu Senhor ou Senhor'},{n:63,h:'נָא',p:'por favor, eu peço, agora, então'},{n:64,h:'עָלָיו',p:'acerca dele, sobre ele'},{n:65,h:'וְהָיָה',p:'e será, e acontecerá'},
-{n:66,h:'אֱלֹהֵי',p:'Deus [de]'},{n:67,h:'עוֹד',p:'novamente, ainda'},{n:68,h:'אֶרֶץ',p:'Terra, terra'},{n:69,h:'נְאֻם',p:'oráculo, declaração'},{n:70,h:'לְךָ',p:'para ti'}
-];
-const $=s=>document.querySelector(s);
-const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-const state={queue:[],idx:0,score:0,streak:0,best:0,wrong:new Set(),answered:false,current:null,dir:'h2p',flash:null,flashDir:'h2p'};
-const groupedTranslations=h=>[...new Set(V.filter(x=>x.h===h).map(x=>x.p))];
-function answerFor(item,dir){if(dir==='h2p'){const vals=groupedTranslations(item.h);return vals.length>1?vals.join(' • '):item.p}return item.h}
-function promptFor(item,dir){return dir==='h2p'?item.h:item.p}
-function chooseDir(sel){return sel==='mixed'?(Math.random()<.5?'h2p':'p2h'):sel}
-function uniqueOptions(item,dir){const correct=answerFor(item,dir);const pool=shuffle(V.map(v=>answerFor(v,dir)).filter(x=>x!==correct));const out=[correct];for(const x of pool){if(!out.includes(x))out.push(x);if(out.length===4)break}return shuffle(out)}
-function startRound(useErrors=false){let size=Math.max(1,Math.min(70,Number($('#roundSize').value)||10));let base=V;if(useErrors&&state.wrong.size){const errs=V.filter(v=>state.wrong.has(v.n));const rest=shuffle(V.filter(v=>!state.wrong.has(v.n)));base=[...shuffle(errs),...rest]}else base=shuffle(V);state.queue=base.slice(0,size);state.idx=0;state.score=0;state.streak=0;state.best=0;state.answered=false;$('#summary').classList.add('hidden');$('#playArea').classList.remove('hidden');renderQuestion()}
-function renderStats(){const total=state.queue.length||1;const done=Math.min(state.idx,total);$('#score').textContent=state.score;$('#streak').textContent=state.streak;$('#remaining').textContent=Math.max(0,total-done);$('#errors').textContent=state.wrong.size;$('#progress').style.width=(done/total*100)+'%';$('#errorsBtn').disabled=state.wrong.size===0;$('#errorsBtn').style.opacity=state.wrong.size===0?'.5':'1'}
-function renderQuestion(){if(state.idx>=state.queue.length){finishRound();return}state.current=state.queue[state.idx];state.dir=chooseDir($('#direction').value);state.answered=false;const p=$('#prompt');p.textContent=promptFor(state.current,state.dir);p.classList.toggle('hebrew',state.dir==='h2p');$('#qmeta').textContent=(state.dir==='h2p'?'Hebraico → Português':'Português → Hebraico')+' • Palavra '+state.current.n+' de 70';$('#feedback').textContent='';$('#nextBtn').classList.add('hidden');const box=$('#options');box.innerHTML='';for(const opt of uniqueOptions(state.current,state.dir)){const b=document.createElement('button');b.type='button';b.className='option'+(state.dir==='p2h'?' hebrew':'');b.textContent=opt;b.addEventListener('click',()=>checkAnswer(b,opt));box.appendChild(b)}renderStats()}
-function checkAnswer(btn,value){if(state.answered)return;state.answered=true;const correct=answerFor(state.current,state.dir);const ok=value===correct;for(const b of $('#options').querySelectorAll('button')){b.disabled=true;if(b.textContent===correct)b.classList.add('correct')}if(ok){state.score++;state.streak++;state.best=Math.max(state.best,state.streak);state.wrong.delete(state.current.n);$('#feedback').textContent='✓ '+state.current.h+' = '+correct}else{btn.classList.add('wrong');state.streak=0;state.wrong.add(state.current.n);$('#feedback').textContent='Resposta: '+state.current.h+' = '+correct}$('#nextBtn').classList.remove('hidden');renderStats()}
-function next(){if(!state.answered)return;state.idx++;renderQuestion()}
-function finishRound(){renderStats();$('#playArea').classList.add('hidden');const s=$('#summary');s.classList.remove('hidden');const total=state.queue.length;const pct=total?Math.round(state.score/total*100):0;s.innerHTML='<div class="eyebrow">Rodada concluída</div><div class="big">'+pct+'%</div><p><strong>'+state.score+' de '+total+'</strong> associações corretas.<br>Melhor sequência: <strong>'+state.best+'</strong> • Para revisar: <strong>'+state.wrong.size+'</strong></p><div class="actions"><button type="button" class="primary" id="againBtn">Jogar novamente</button>'+(state.wrong.size?'<button type="button" class="secondary" id="reviewErrorsSummary">Treinar erros</button>':'')+'</div>';$('#againBtn').addEventListener('click',()=>startRound(false));const r=$('#reviewErrorsSummary');if(r)r.addEventListener('click',()=>startRound(true))}
-function showTab(which){const game=which==='game';$('#gamePanel').classList.toggle('hidden',!game);$('#flashPanel').classList.toggle('hidden',game);$('#tabGame').classList.toggle('active',game);$('#tabFlash').classList.toggle('active',!game);if(!game)newFlash()}
-function flashPool(){if($('#flashSet').value==='errors'&&state.wrong.size)return V.filter(v=>state.wrong.has(v.n));return V}
-function newFlash(){const pool=flashPool();state.flash=pool[Math.floor(Math.random()*pool.length)]||V[0];state.flashDir=chooseDir($('#flashDirection').value);const f=$('#flashFront');f.textContent=promptFor(state.flash,state.flashDir);f.classList.toggle('hebrew',state.flashDir==='h2p');$('#flashMeta').textContent='Palavra '+state.flash.n+' de 70 • '+(state.flashDir==='h2p'?'Hebraico → Português':'Português → Hebraico');$('#flashAnswer').textContent=answerFor(state.flash,state.flashDir);$('#flashAnswer').classList.add('hidden');$('#revealBtn').classList.remove('hidden');$('#knewBtn').classList.add('hidden');$('#reviewBtn').classList.add('hidden')}
-function revealFlash(){$('#flashAnswer').classList.remove('hidden');$('#revealBtn').classList.add('hidden');$('#knewBtn').classList.remove('hidden');$('#reviewBtn').classList.remove('hidden')}
-$('#newRound').addEventListener('click',()=>startRound(false));
-$('#nextBtn').addEventListener('click',next);
-$('#errorsBtn').addEventListener('click',()=>{if(state.wrong.size)startRound(true)});
-$('#tabGame').addEventListener('click',()=>showTab('game'));
-$('#tabFlash').addEventListener('click',()=>showTab('flash'));
-$('#shuffleFlash').addEventListener('click',newFlash);
-$('#flashDirection').addEventListener('change',newFlash);
-$('#flashSet').addEventListener('change',newFlash);
-$('#revealBtn').addEventListener('click',revealFlash);
-$('#knewBtn').addEventListener('click',()=>{state.wrong.delete(state.flash.n);newFlash()});
-$('#reviewBtn').addEventListener('click',()=>{state.wrong.add(state.flash.n);newFlash()});
-startRound(false);
+(()=> {
+const D=window.ALEF_DATA, $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const LS_USERS='alef_users_v11', LS_CURRENT='alef_current_v11';
+let authMode='login', currentUser=null, selectedGroup='1-10';
+const shuffle=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+const getUsers=()=>{try{return JSON.parse(localStorage.getItem(LS_USERS)||'{}')}catch{return {}}};
+const saveUsers=u=>localStorage.setItem(LS_USERS,JSON.stringify(u));
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+function normalizeUser(s){return s.trim().replace(/\s+/g,' ').slice(0,24)}
+function emptyStats(){return {points:0,correct:0,wrong:0,bestStreak:0,games:0,last:Date.now()}}
+function setAuthMode(m){authMode=m;$('#tabLogin').className='btn '+(m==='login'?'':'ghost');$('#tabRegister').className='btn '+(m==='register'?'':'ghost');$('#authSubmit').textContent=m==='login'?'Entrar':'Criar conta';$('#authMsg').textContent=''}
+$('#tabLogin').addEventListener('click',()=>setAuthMode('login'));$('#tabRegister').addEventListener('click',()=>setAuthMode('register'));
+$('#authForm').addEventListener('submit',e=>{e.preventDefault();const name=normalizeUser($('#user').value), pass=$('#pass').value;const key=name.toLocaleLowerCase('pt-BR'), users=getUsers();
+ if(name.length<2||pass.length<4){$('#authMsg').textContent='Use um nome com 2+ caracteres e senha com 4+.';return}
+ if(authMode==='register'){if(users[key]){$('#authMsg').textContent='Esse usuário já existe neste aparelho.';return}users[key]={name,passHash:hash(pass),stats:emptyStats()};saveUsers(users);login(key)}
+ else{if(!users[key]||users[key].passHash!==hash(pass)){$('#authMsg').textContent='Usuário ou senha incorretos.';return}login(key)}
+});
+function login(key){localStorage.setItem(LS_CURRENT,key);currentUser=key;$('#authView').classList.add('hidden');$('#appView').classList.remove('hidden');refreshUserUI();go('home')}
+function tryRestore(){const key=localStorage.getItem(LS_CURRENT), users=getUsers();if(key&&users[key])login(key)}
+function getMe(){const u=getUsers();return currentUser?u[currentUser]:null}
+function addResult(ok,streak=0,bonus=0){const users=getUsers(), me=users[currentUser];if(!me)return; if(ok){me.stats.correct++;me.stats.points+=10+bonus}else me.stats.wrong++;me.stats.bestStreak=Math.max(me.stats.bestStreak,streak);me.stats.last=Date.now();saveUsers(users);refreshUserUI()}
+function gameFinished(){const users=getUsers(),me=users[currentUser];if(me){me.stats.games++;saveUsers(users);refreshUserUI()}}
+function refreshUserUI(){const me=getMe();if(!me)return;$('#userLabel').textContent=me.name;$('#profileCard').innerHTML=`<div class="alef" style="width:70px;height:70px;font-size:50px;margin-bottom:12px">א</div><h2 style="margin:0">${escapeHtml(me.name)}</h2><p style="color:var(--muted)">Perfil local</p><div class="stats"><div class="stat"><b>${me.stats.points}</b><span>pontos</span></div><div class="stat"><b>${me.stats.correct}</b><span>acertos</span></div><div class="stat"><b>${me.stats.wrong}</b><span>erros</span></div><div class="stat"><b>${me.stats.bestStreak}</b><span>melhor sequência</span></div></div>`;renderRanking()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('#logoutBtn').addEventListener('click',()=>{localStorage.removeItem(LS_CURRENT);currentUser=null;$('#appView').classList.add('hidden');$('#authView').classList.remove('hidden');$('#pass').value=''});
+$('#profilePill').addEventListener('click',()=>go('profile'));
+function go(id){$$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.navb').forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='ranking')renderRanking()}
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+function renderRanking(){const users=Object.entries(getUsers()).map(([key,u])=>({key,...u})).sort((a,b)=>b.stats.points-a.stats.points||b.stats.correct-a.stats.correct);$('#rankList').innerHTML=users.length?users.map((u,i)=>`<div class="rank-item ${u.key===currentUser?'me':''}"><div class="rank-pos">${i+1}</div><div><strong>${escapeHtml(u.name)}</strong><div class="smallnote">${u.stats.correct} acertos • ${u.stats.games} rodadas</div></div><strong>${u.stats.points} pts</strong></div>`).join(''):'<p>Nenhum perfil ainda.</p>'}
+
+const groupLabels=[];for(let s=1;s<=70;s+=10)groupLabels.push(`${s}-${Math.min(s+9,70)}`);
+$('#vocabGroups').innerHTML=groupLabels.map(g=>`<button class="groupbtn ${g===selectedGroup?'active':''}" data-group="${g}">${g}</button>`).join('')+`<button class="groupbtn" data-group="all">Todas</button>`;
+$('#vocabGroups').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(!b)return;selectedGroup=b.dataset.group;$$('.groupbtn').forEach(x=>x.classList.toggle('active',x.dataset.group===selectedGroup))});
+function vocabPool(){if(selectedGroup==='all')return D.vocabulario;const [a,b]=selectedGroup.split('-').map(Number);return D.vocabulario.filter(x=>x.n>=a&&x.n<=b)}
+$('#startVocab').addEventListener('click',()=>{const act=$('#vocabActivity').value;if(act==='quiz')startQuiz(vocabPool(),$('#vocabMode').value,$('#vocabGame'),'Vocabulário');if(act==='flash')startFlash(vocabPool(),$('#vocabMode').value,$('#vocabGame']);if(act==='match')startMatch(vocabPool(),$('#vocabGame'))});
+
+function startQuiz(pool,mode,host,title,rounds=null, custom=null){let q=shuffle(pool),max=rounds||q.length,idx=0,score=0,streak=0,answered=false;if(max>q.length)q=Array.from({length:max},()=>pool[Math.floor(Math.random()*pool.length)]);else q=q.slice(0,max);
+ host.innerHTML=`<div class="stats"><div class="stat"><b id="gscore">0</b><span>acertos</span></div><div class="stat"><b id="gstreak">0</b><span>sequência</span></div><div class="stat"><b id="gleft">${max}</b><span>restantes</span></div><div class="stat"><b id="gpts">0</b><span>pontos</span></div></div><div class="progress"><div id="gbar"></div></div><div class="quiz"><div class="qmeta" id="gmeta"></div><div id="gprompt" class="prompt"></div><div id="goptions" class="options"></div><div id="gfeedback" class="feedback"></div><button class="btn hidden" id="gnext">Próxima</button></div>`;
+ let pts=0;
+ function render(){if(idx>=max){gameFinished();host.innerHTML=`<div class="quiz"><div class="kicker">Rodada concluída</div><div style="font-size:54px;font-weight:950;color:var(--gold)">${Math.round(score/max*100)}%</div><p><strong>${score}/${max}</strong> respostas corretas • ${pts} pontos ganhos</p><button class="btn gold" id="grestart">Jogar novamente</button></div>`;host.querySelector('#grestart').addEventListener('click',()=>startQuiz(pool,mode,host,title,rounds,custom));return}
+  answered=false;const item=q[idx],dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode;let qa=custom?custom(item,dir,pool):defaultQA(item,dir,pool);
+  const pr=host.querySelector('#gprompt');pr.textContent=qa.prompt;pr.classList.toggle('hebrew',qa.promptHebrew);
+  host.querySelector('#gmeta').textContent=`${title} • ${idx+1}/${max}`;host.querySelector('#gfeedback').textContent='';host.querySelector('#gnext').classList.add('hidden');
+  const box=host.querySelector('#goptions');box.innerHTML='';qa.options.forEach(v=>{const b=document.createElement('button');b.className='opt'+(qa.optionsHebrew?' hebrew':'');b.textContent=v;b.addEventListener('click',()=>check(b,v,qa.correct,qa));box.appendChild(b)});
+  host.querySelector('#gleft').textContent=max-idx;host.querySelector('#gbar').style.width=(idx/max*100)+'%';
+ }
+ function check(btn,val,correct,qa){if(answered)return;answered=true;const ok=val===correct;host.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.textContent===correct)b.classList.add('correct')});if(ok){score++;streak++;let bonus=streak>0&&streak%5===0?5:0;pts+=10+bonus;addResult(true,streak,bonus);host.querySelector('#gfeedback').textContent=bonus?`✓ Correto! +${10+bonus} (bônus de sequência)`:'✓ Correto! +10'}else{streak=0;addResult(false,0,0);btn.classList.add('wrong');host.querySelector('#gfeedback').textContent='Resposta: '+correct}
+  host.querySelector('#gscore').textContent=score;host.querySelector('#gstreak').textContent=streak;host.querySelector('#gpts').textContent=pts;host.querySelector('#gnext').classList.remove('hidden')
+ }
+ host.querySelector('#gnext').addEventListener('click',()=>{idx++;render()});render()
+}
+function defaultQA(item,dir,pool){const correct=dir==='h2p'?item.p:item.h;let vals=shuffle(pool.map(x=>dir==='h2p'?x.p:x.h).filter(x=>x!==correct));let opts=[correct];for(const x of vals){if(!opts.includes(x))opts.push(x);if(opts.length===4)break}return {prompt:dir==='h2p'?item.h:item.p,promptHebrew:dir==='h2p',correct,options:shuffle(opts),optionsHebrew:dir==='p2h'}}
+
+function startFlash(pool,mode,host){let list=shuffle(pool),i=0;function draw(){const item=list[i%list.length],dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode;const front=dir==='h2p'?item.h:item.p,ans=dir==='h2p'?item.p:item.h;host.innerHTML=`<div class="flashcard"><div><div class="qmeta">Cartão ${i+1} • ${item.n||''}</div><div class="flashbig ${dir==='h2p'?'hebrew':''}">${escapeHtml(front)}</div><div id="fans" class="flashans hidden ${dir==='p2h'?'hebrew':''}">${escapeHtml(ans)}</div></div></div><div class="toolbar" style="justify-content:center"><button class="btn gold" id="freveal">Mostrar resposta</button><button class="btn ghost hidden" id="fknew">✓ Acertei</button><button class="btn ghost hidden" id="fmiss">↻ Rever</button></div>`;host.querySelector('#freveal').addEventListener('click',()=>{host.querySelector('#fans').classList.remove('hidden');host.querySelector('#freveal').classList.add('hidden');host.querySelector('#fknew').classList.remove('hidden');host.querySelector('#fmiss').classList.remove('hidden')});host.querySelector('#fknew').addEventListener('click',()=>{addResult(true,1,0);i++;draw()});host.querySelector('#fmiss').addEventListener('click',()=>{addResult(false,0,0);i++;draw()})}draw()}
+
+function startMatch(pool,host){let items=shuffle(pool).slice(0,Math.min(5,pool.length)),left=shuffle(items.map(x=>({id:x.n,t:x.h,heb:true}))),right=shuffle(items.map(x=>({id:x.n,t:x.p,heb:false}))),sel=null,solved=new Set();host.innerHTML=`<div class="quiz"><div class="qmeta">Associe as 5 duplas</div><div class="match-grid" id="mgrid"></div><div class="feedback" id="mfb"></div></div>`;function draw(){const grid=host.querySelector('#mgrid');grid.innerHTML='';[left,right].forEach(col=>{const c=document.createElement('div');col.forEach(x=>{const b=document.createElement('button');b.className='match '+(x.heb?'hebrew ':'')+(solved.has(x.id)?'solved':'');b.textContent=x.t;b.disabled=solved.has(x.id);b.addEventListener('click',()=>pick(b,x));c.appendChild(b)});grid.appendChild(c)})}function pick(b,x){if(!sel){sel={b,x};b.classList.add('selected');return}if(sel.x.heb===x.heb){sel.b.classList.remove('selected');sel={b,x};b.classList.add('selected');return}if(sel.x.id===x.id){solved.add(x.id);addResult(true,1,0);host.querySelector('#mfb').textContent='✓ Associação correta';sel=null;draw();if(solved.size===items.length){gameFinished();host.querySelector('#mfb').textContent='🏆 Todas as associações concluídas!'}}else{addResult(false,0,0);host.querySelector('#mfb').textContent='Tente novamente';sel.b.classList.remove('selected');sel=null}}draw()}
+
+function renderNumberTable(){const set=$('#numberSet').value==='card'?D.cardinais:D.ordinais;$('#numberTable').innerHTML=`<table><thead><tr><th>Português</th><th>Masculino</th><th>Feminino</th></tr></thead><tbody>${set.map(x=>`<tr><td>${x.pt}</td><td class="hebrew">${x.m||'—'}</td><td class="hebrew">${x.f||'—'}</td></tr>`).join('')}</tbody></table>`}
+$('#numberSet').addEventListener('change',renderNumberTable);renderNumberTable();
+$('#startNumbers').addEventListener('click',()=>{const set=$('#numberSet').value==='card'?D.cardinais:D.ordinais, mode=$('#numberMode').value;if(mode==='translation')startQuiz(set,'mixed',$('#numberGame'),'Numerais',10,(item,dir,pool)=>{const variants=[item.m,item.f].filter(Boolean),heb=variants[Math.floor(Math.random()*variants.length)];if(dir==='h2p'){const correct=item.pt;let opts=[correct,...shuffle(pool.map(x=>x.pt).filter(x=>x!==correct))].slice(0,4);return {prompt:heb,promptHebrew:true,correct,options:shuffle([...new Set(opts)]),optionsHebrew:false}}else{const correct=heb;let candidates=pool.flatMap(x=>[x.m,x.f]).filter(Boolean).filter(x=>x!==correct);let opts=[correct,...shuffle(candidates)].slice(0,4);return {prompt:item.pt,promptHebrew:false,correct,options:shuffle([...new Set(opts)]),optionsHebrew:true}}});else startQuiz(set,'h2p',$('#numberGame'),'Gênero dos numerais',10,(item,dir,pool)=>{const useM=!!item.m && (!item.f||Math.random()<.5),form=useM?item.m:item.f,correct=useM?'Masculino':'Feminino';return {prompt:form||item.m,promptHebrew:true,correct,options:['Masculino','Feminino'],optionsHebrew:false}})});
+
+$('#rootTable').innerHTML=D.raizes.map(x=>`<tr><td class="hebrew">${x.h}</td><td>${x.p}</td></tr>`).join('');
+$('#verbTable').innerHTML=D.binyanim.map(x=>`<tr><td><strong>${x.nome}</strong></td><td class="hebrew">${x.heb}</td><td>${x.modo}</td><td>${x.voz}</td><td>${x.sentido}</td></tr>`).join('');
+$('#startVerbs').addEventListener('click',()=>{const mode=$('#verbMode').value, rounds=Number($('#verbRounds').value);
+ if(mode==='roots'){startQuiz(D.raizes,'mixed',$('#verbGame'),'Raízes verbais',rounds,(item,dir,pool)=>{const correct=dir==='h2p'?item.p:item.h;const vals=shuffle(pool.map(x=>dir==='h2p'?x.p:x.h).filter(x=>x!==correct));return {prompt:dir==='h2p'?item.h:item.p,promptHebrew:dir==='h2p',correct,options:shuffle([correct,...vals.slice(0,3)]),optionsHebrew:dir==='p2h'}});return}
+ startQuiz(D.binyanim,'h2p',$('#verbGame'),'Troncos verbais',rounds,(item,dir,pool)=>{if(mode==='trunk'){const correct=item.nome;return {prompt:item.heb,promptHebrew:true,correct,options:shuffle([correct,...shuffle(pool.map(x=>x.nome).filter(x=>x!==correct)).slice(0,3)]),optionsHebrew:false}}if(mode==='meaning'){const correct=item.sentido;return {prompt:`${item.nome} • ${item.heb}`,promptHebrew:false,correct,options:shuffle([correct,...shuffle(pool.map(x=>x.sentido).filter(x=>x!==correct)).slice(0,3)]),optionsHebrew:false}}const correct=`${item.voz} • ${item.modo}`;let vals=[...new Set(pool.map(x=>`${x.voz} • ${x.modo}`).filter(x=>x!==correct))];return {prompt:item.nome,promptHebrew:false,correct,options:shuffle([correct,...shuffle(vals).slice(0,3)]),optionsHebrew:false}})});
+
+tryRestore();
+})();
 </script>
 </body>
 </html>
