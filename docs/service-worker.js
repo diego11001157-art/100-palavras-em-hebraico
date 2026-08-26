@@ -1,4 +1,4 @@
-const CACHE='alef-v1.3.0';
+const CACHE='alef-v1.4.0';
 const STATIC=[
   './','./index.html','./styles.css','./app.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',

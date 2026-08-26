@@ -140,5 +140,10 @@
     "P1": "Lições XII–XV • 28/09/2026 • 35%",
     "P2": "Lições XVI–XXI • 23/11/2026 • 35%",
     "T1": "Testes semanais • 17/08 a 09/11/2026 • 30%"
+  },
+  "analyticalLexicon": {
+    "title": "Ponte para o léxico analítico",
+    "text": "No laboratório, a resposta é mostrada como FORMA → TRONCO → PGN → RAIZ → SENTIDO. É a mesma disciplina mental recomendada pelo guia: analisar a forma, reconstruir a raiz e confirmar o significado no léxico e no contexto.",
+    "note": "Benjamin Davidson é bibliografia complementar do plano de ensino. A versão portuguesa de 2018 não foi incorporada ao app porque o arquivo integral não está nas fontes do projeto; a organização analítica aqui segue o princípio geral do léxico, sem reproduzir verbetes."
   }
 }

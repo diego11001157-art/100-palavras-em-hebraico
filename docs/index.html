@@ -81,7 +81,7 @@
   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🔤 Verbos</h2><div class="section-sub">Raízes, binyanim e paradigmas verbais.</div></div>
   <div class="tabs" id="verbTabs"><button class="tab active" data-vtab="roots">Raízes</button><button class="tab" data-vtab="binyanim">Troncos</button><button class="tab" data-vtab="paradigms">Conjugações</button></div>
   <div id="verb-roots" class="subview active">
-    <div class="card"><div class="form-row"><div><label>Rodada</label><select id="rootRounds"><option value="7">7 questões</option><option value="14">14 questões</option></select></div><div><label>Direção</label><select id="rootDirection"><option value="mixed">Misturado</option><option value="h2p">Raiz → significado</option><option value="p2h">Significado → raiz</option></select></div></div><button class="btn gold" id="startRoots" style="width:100%;margin-top:10px">Treinar raízes</button></div>
+    <div class="card"><div class="form-row"><div><label>Rodada</label><select id="rootRounds"><option value="7">7 questões</option><option value="14">14 questões</option><option value="18">18 questões</option></select></div><div><label>Direção</label><select id="rootDirection"><option value="mixed">Misturado</option><option value="h2p">Raiz → significado</option><option value="p2h">Significado → raiz</option></select></div></div><button class="btn gold" id="startRoots" style="width:100%;margin-top:10px">Treinar raízes</button></div>
     <div id="rootGame"></div><div class="table-wrap"><table><thead><tr><th>Raiz</th><th>Significado</th></tr></thead><tbody id="rootTable"></tbody></table></div>
   </div>
   <div id="verb-binyanim" class="subview">
@@ -97,11 +97,47 @@
 </section>
 
 <section id="morphology" class="view">
-  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🧩 Morfologia</h2><div class="section-sub">Treine estrutura verbal e morfologia nominal sem misturar categorias diferentes.</div></div>
-  <div class="tabs" id="morphTabs"><button class="tab active" data-mtab="build">Montar terminações</button><button class="tab" data-mtab="identify">Identificar verbo</button><button class="tab" data-mtab="nominal">Nominal</button><button class="tab" data-mtab="rules">Regras rápidas</button></div>
-  <div id="morph-build" class="subview active"><div class="card"><h3>Monte a marca morfológica</h3><p>Escolha a conjugação e responda qual prefixo/terminação identifica o PGN solicitado. Você pode tocar nos marcadores ou digitá-los.</p><div class="form-row" style="margin-top:10px"><div><label>Conjugação</label><select id="buildConj"><option value="perfect">Perfeito</option><option value="imperfect">Imperfeito</option><option value="imperative">Imperativo</option></select></div><div><label>Nova questão</label><button type="button" class="btn light" id="newBuild" style="width:100%">Gerar</button></div></div></div><div id="buildGame"></div></div>
-  <div id="morph-identify" class="subview"><div class="card"><h3>Analise a forma verbal</h3><p>Informe conjugação, pessoa, gênero e número. Formas ambíguas do imperfeito aceitam as análises morfologicamente possíveis.</p><button class="btn gold" id="newIdentify" style="margin-top:10px">Nova forma</button></div><div id="identifyGame"></div></div>
-  <div id="morph-nominal" class="subview"><div class="rulebox"><strong>Não misture os eixos:</strong> singular/plural = <em>número</em>; absoluto/construto = <em>estado</em>. O exercício pergunta separadamente gênero, número e estado.</div><button class="btn gold" id="newNominal">Nova palavra</button><div id="nominalGame"></div></div>
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🧩 Laboratório Morfológico</h2><div class="section-sub">Construa, desmonte e analise formas como em um pequeno laboratório de Hebraico Bíblico II.</div></div>
+  <div class="rulebox"><strong>Método:</strong> FORMA → TRONCO → PGN → RAIZ → LÉXICO → CONTEXTO. As formas regulares usam <span class="hebrew">שמר</span> como paradigma forte; verbos fracos aparecem somente em formas reais/sinalizadas, para evitar “regularizar” o que não é regular.</div>
+  <div class="tabs" id="morphTabs">
+    <button class="tab active" data-mtab="build">Construir forma</button>
+    <button class="tab" data-mtab="identify">Identificar verbo</button>
+    <button class="tab" data-mtab="bank">Banco de formas</button>
+    <button class="tab" data-mtab="nominal">Nominal</button>
+    <button class="tab" data-mtab="rules">Regras rápidas</button>
+  </div>
+
+  <div id="morph-build" class="subview active">
+    <div class="card"><h3>Monte a forma pelo prefixo/terminação</h3><p>Escolha o tipo de treino. Você pode tocar nos marcadores prontos ou escrever com o teclado hebraico da tela.</p>
+      <div class="form-row" style="margin-top:10px">
+        <div><label>Conjugação</label><select id="buildConj"><option value="perfect">Perfeito</option><option value="imperfect">Imperfeito</option><option value="imperative">Imperativo</option></select></div>
+        <div><label>Treino</label><select id="buildMode"><option value="ending">Completar a terminação</option><option value="markers">Prefixo + terminação</option></select></div>
+      </div>
+      <button type="button" class="btn light" id="newBuild" style="width:100%;margin-top:10px">Gerar nova questão</button>
+    </div>
+    <div id="buildGame"></div>
+  </div>
+
+  <div id="morph-identify" class="subview">
+    <div class="card"><h3>Analise formas diferentes</h3><p>Agora entram perfeito, imperfeito, imperativo, waw consecutivo, infinitivos, particípios e os sete troncos. Depois de cada resposta aparece <strong>Próxima forma</strong>.</p><button class="btn gold" id="newIdentify" style="margin-top:10px">Nova forma</button></div>
+    <div id="identifyGame"></div>
+  </div>
+
+  <div id="morph-bank" class="subview">
+    <div class="card"><h3>Banco analítico de formas</h3><p>Estude a forma completa antes de jogar. Use os filtros para comparar terminações, troncos e raízes.</p>
+      <div class="bank-filters" style="margin-top:10px">
+        <div><label>Categoria</label><select id="bankCategory"><option value="all">Todas</option></select></div>
+        <div><label>Tronco</label><select id="bankStem"><option value="all">Todos</option></select></div>
+        <div><label>Raiz</label><select id="bankRoot"><option value="all">Todas</option></select></div>
+      </div>
+    </div>
+    <div id="formBank" class="form-bank"></div>
+  </div>
+
+  <div id="morph-nominal" class="subview">
+    <div class="rulebox"><strong>Três eixos separados:</strong> gênero, número e estado. O banco nominal foi ampliado com formas dos seus próprios vocabulários.</div>
+    <button class="btn gold" id="newNominal">Nova palavra</button><div id="nominalGame"></div>
+  </div>
   <div id="morph-rules" class="subview"><div class="grid3" id="quickRules"></div></div>
 </section>
 
@@ -116,6 +152,7 @@
   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">💡 Dicas Kelley</h2><div class="section-sub">Lições XII–XXI • foco em reconhecer, reconstruir e traduzir.</div></div>
   <div class="card"><h3>Algoritmo de análise</h3><p>Use sempre a mesma ordem até que ela fique automática.</p><div class="alg" id="analysisAlgorithm" style="margin-top:11px"></div></div>
   <div class="card" style="margin-top:12px"><h3>Mapa das avaliações</h3><div class="metric"><div><b>P1</b><span id="p1Info"></span></div><div><b>P2</b><span id="p2Info"></span></div><div><b>T1</b><span id="t1Info"></span></div><div><b>10</b><span>lições resumidas</span></div></div></div>
+  <div class="card" style="margin-top:12px" id="lexiconBridge"><h3>🔎 Kelley + léxico analítico</h3><p id="lexiconBridgeText"></p><div class="smallnote" id="lexiconBridgeNote" style="margin-top:8px"></div></div>
   <div class="tabs" id="kelleyFilters"><button class="tab active" data-kfilter="all">Todas</button><button class="tab" data-kfilter="P1">P1 • XII–XV</button><button class="tab" data-kfilter="P2">P2 • XVI–XXI</button></div>
   <div class="lesson-grid" id="lessonGrid"></div>
 </section>

@@ -334,6 +334,30 @@
       "id": "r14",
       "h": "עשה",
       "p": "fazer"
+    },
+    {
+      "id": "r15",
+      "h": "שמר",
+      "p": "guardar",
+      "source": "Kelley — paradigma forte"
+    },
+    {
+      "id": "r16",
+      "h": "אמר",
+      "p": "dizer",
+      "source": "Vocabulário / Kelley"
+    },
+    {
+      "id": "r17",
+      "h": "היה",
+      "p": "ser, estar",
+      "source": "Vocabulário atual"
+    },
+    {
+      "id": "r18",
+      "h": "מות",
+      "p": "morrer",
+      "source": "Kelley — infinitivo absoluto"
     }
   ]
 }

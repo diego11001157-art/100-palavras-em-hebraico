@@ -13,7 +13,17 @@
       "form": "שָׁמַר",
       "prefix": "∅",
       "suffix": "∅",
-      "reading": "ele guardou / guardou"
+      "reading": "ele guardou / guardou",
+      "id": "shmr-perfect-1",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמַר"
     },
     {
       "pgn": "3fs",
@@ -23,7 +33,17 @@
       "form": "שָׁמְרָה",
       "prefix": "∅",
       "suffix": "ה",
-      "reading": "ela guardou"
+      "reading": "ela guardou",
+      "id": "shmr-perfect-2",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמְרָ"
     },
     {
       "pgn": "2ms",
@@ -33,7 +53,17 @@
       "form": "שָׁמַרְתָּ",
       "prefix": "∅",
       "suffix": "תָּ",
-      "reading": "tu guardaste (m.)"
+      "reading": "tu guardaste (m.)",
+      "id": "shmr-perfect-3",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמַרְ"
     },
     {
       "pgn": "2fs",
@@ -43,7 +73,17 @@
       "form": "שָׁמַרְתְּ",
       "prefix": "∅",
       "suffix": "תְּ",
-      "reading": "tu guardaste (f.)"
+      "reading": "tu guardaste (f.)",
+      "id": "shmr-perfect-4",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמַרְ"
     },
     {
       "pgn": "1cs",
@@ -53,7 +93,17 @@
       "form": "שָׁמַרְתִּי",
       "prefix": "∅",
       "suffix": "תִּי",
-      "reading": "eu guardei"
+      "reading": "eu guardei",
+      "id": "shmr-perfect-5",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמַרְ"
     },
     {
       "pgn": "3cp",
@@ -63,7 +113,17 @@
       "form": "שָׁמְרוּ",
       "prefix": "∅",
       "suffix": "וּ",
-      "reading": "eles/elas guardaram"
+      "reading": "eles/elas guardaram",
+      "id": "shmr-perfect-6",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמְר"
     },
     {
       "pgn": "2mp",
@@ -73,7 +133,17 @@
       "form": "שְׁמַרְתֶּם",
       "prefix": "∅",
       "suffix": "תֶּם",
-      "reading": "vós guardastes (m.)"
+      "reading": "vós guardastes (m.)",
+      "id": "shmr-perfect-7",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שְׁמַרְ"
     },
     {
       "pgn": "2fp",
@@ -83,7 +153,17 @@
       "form": "שְׁמַרְתֶּן",
       "prefix": "∅",
       "suffix": "תֶּן",
-      "reading": "vós guardastes (f.)"
+      "reading": "vós guardastes (f.)",
+      "id": "shmr-perfect-8",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שְׁמַרְ"
     },
     {
       "pgn": "1cp",
@@ -93,7 +173,17 @@
       "form": "שָׁמַרְנוּ",
       "prefix": "∅",
       "suffix": "נוּ",
-      "reading": "nós guardamos"
+      "reading": "nós guardamos",
+      "id": "shmr-perfect-9",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שָׁמַרְ"
     }
   ],
   "imperfect": [
@@ -108,7 +198,17 @@
       "form": "יִשְׁמֹר",
       "prefix": "י",
       "suffix": "∅",
-      "reading": "ele guardará / guarda / guardaria"
+      "reading": "ele guardará / guarda / guardaria",
+      "id": "shmr-imperfect-1",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "יִשְׁמֹר"
     },
     {
       "pgn": "3fs / 2ms",
@@ -122,7 +222,17 @@
       "form": "תִּשְׁמֹר",
       "prefix": "ת",
       "suffix": "∅",
-      "reading": "ela... / tu (m.)...; o contexto decide"
+      "reading": "ela... / tu (m.)...; o contexto decide",
+      "id": "shmr-imperfect-2",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "תִּשְׁמֹר"
     },
     {
       "pgn": "2fs",
@@ -135,7 +245,17 @@
       "form": "תִּשְׁמְרִי",
       "prefix": "ת",
       "suffix": "ִי",
-      "reading": "tu (f.)..."
+      "reading": "tu (f.)...",
+      "id": "shmr-imperfect-3",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "תִּשְׁמְר"
     },
     {
       "pgn": "1cs",
@@ -148,7 +268,17 @@
       "form": "אֶשְׁמֹר",
       "prefix": "א",
       "suffix": "∅",
-      "reading": "eu..."
+      "reading": "eu...",
+      "id": "shmr-imperfect-4",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "אֶשְׁמֹר"
     },
     {
       "pgn": "3mp",
@@ -161,7 +291,17 @@
       "form": "יִשְׁמְרוּ",
       "prefix": "י",
       "suffix": "וּ",
-      "reading": "eles..."
+      "reading": "eles...",
+      "id": "shmr-imperfect-5",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "יִשְׁמְר"
     },
     {
       "pgn": "3fp / 2fp",
@@ -175,7 +315,17 @@
       "form": "תִּשְׁמֹרְנָה",
       "prefix": "ת",
       "suffix": "נָה",
-      "reading": "elas... / vós (f.)...; o contexto decide"
+      "reading": "elas... / vós (f.)...; o contexto decide",
+      "id": "shmr-imperfect-6",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "תִּשְׁמֹרְ"
     },
     {
       "pgn": "2mp",
@@ -188,7 +338,17 @@
       "form": "תִּשְׁמְרוּ",
       "prefix": "ת",
       "suffix": "וּ",
-      "reading": "vós (m.)..."
+      "reading": "vós (m.)...",
+      "id": "shmr-imperfect-7",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "תִּשְׁמְר"
     },
     {
       "pgn": "1cp",
@@ -201,7 +361,17 @@
       "form": "נִשְׁמֹר",
       "prefix": "נ",
       "suffix": "∅",
-      "reading": "nós..."
+      "reading": "nós...",
+      "id": "shmr-imperfect-8",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "נִשְׁמֹר"
     }
   ],
   "imperative": [
@@ -216,7 +386,17 @@
       "form": "שְׁמֹר",
       "prefix": "∅",
       "suffix": "∅",
-      "reading": "guarda! (m.)"
+      "reading": "guarda! (m.)",
+      "id": "shmr-imperative-1",
+      "category": "imperative",
+      "categoryLabel": "Imperativo",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שְׁמֹר"
     },
     {
       "pgn": "2fs",
@@ -229,7 +409,17 @@
       "form": "שִׁמְרִי",
       "prefix": "∅",
       "suffix": "ִי",
-      "reading": "guarda! (f.)"
+      "reading": "guarda! (f.)",
+      "id": "shmr-imperative-2",
+      "category": "imperative",
+      "categoryLabel": "Imperativo",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שִׁמְר"
     },
     {
       "pgn": "2mp",
@@ -242,7 +432,17 @@
       "form": "שִׁמְרוּ",
       "prefix": "∅",
       "suffix": "וּ",
-      "reading": "guardai! (m.)"
+      "reading": "guardai! (m.)",
+      "id": "shmr-imperative-3",
+      "category": "imperative",
+      "categoryLabel": "Imperativo",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שִׁמְר"
     },
     {
       "pgn": "2fp",
@@ -255,111 +455,729 @@
       "form": "שְׁמֹרְנָה",
       "prefix": "∅",
       "suffix": "נָה",
-      "reading": "guardai! (f.)"
+      "reading": "guardai! (f.)",
+      "id": "shmr-imperative-4",
+      "category": "imperative",
+      "categoryLabel": "Imperativo",
+      "stem": "Qal",
+      "root": "שמר",
+      "gloss": "guardar",
+      "finite": true,
+      "source": "Kelley — paradigma forte didático",
+      "sourceType": "Kelley",
+      "body": "שְׁמֹרְ"
     }
   ],
   "nominals": [
     {
+      "id": "n-kol",
       "form": "כָּל",
       "gloss": "todo",
       "gender": "m",
       "number": "s",
       "state": "construct",
-      "sourceNote": "substantivo comum masc. sing. construto"
+      "class": "Substantivo",
+      "sourceNote": "masc. sing. construto — vocabulário 1–10"
     },
     {
+      "id": "n-bnei",
       "form": "בְּנֵי",
       "gloss": "filhos de",
       "gender": "m",
       "number": "p",
       "state": "construct",
-      "sourceNote": "forma plural construta"
+      "class": "Substantivo",
+      "sourceNote": "masc. plural construto — vocabulário, palavra 14"
     },
     {
+      "id": "n-ben",
       "form": "בֵּן",
       "gloss": "filho",
       "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "masc. sing. absoluto"
+      "class": "Substantivo",
+      "sourceNote": "masc. sing. absoluto — vocabulário, palavra 15"
     },
     {
+      "id": "n-ish",
       "form": "אִישׁ",
       "gloss": "homem",
       "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "masc. sing. absoluto"
+      "class": "Substantivo",
+      "sourceNote": "masc. sing. absoluto — vocabulário, palavra 18"
     },
     {
+      "id": "n-hamelech",
       "form": "הַמֶּלֶךְ",
       "gloss": "o rei",
       "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "artigo + masc. sing. absoluto"
+      "class": "Substantivo",
+      "sourceNote": "artigo + masc. sing. absoluto — vocabulário, palavra 19"
     },
     {
+      "id": "n-bet",
+      "form": "בֵּית",
+      "gloss": "casa de",
+      "gender": "m",
+      "number": "s",
+      "state": "construct",
+      "class": "Substantivo",
+      "sourceNote": "masc. sing. construto — vocabulário, palavra 21"
+    },
+    {
+      "id": "n-haaretz",
+      "form": "הָאָרֶץ",
+      "gloss": "a terra",
+      "gender": "f",
+      "number": "s",
+      "state": "absolute",
+      "class": "Substantivo",
+      "sourceNote": "artigo + fem. sing. — vocabulário, palavra 22"
+    },
+    {
+      "id": "n-melech",
+      "form": "מֶלֶךְ",
+      "gloss": "rei",
+      "gender": "m",
+      "number": "s",
+      "state": "construct",
+      "class": "Substantivo",
+      "sourceNote": "masc. sing. construto conforme o material — palavra 24"
+    },
+    {
+      "id": "n-haam",
       "form": "הָעָם",
       "gloss": "o povo",
       "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "artigo + masc. sing. absoluto"
+      "class": "Substantivo",
+      "sourceNote": "artigo + masc. sing. absoluto — vocabulário, palavra 28"
     },
     {
+      "id": "n-hazeh",
+      "form": "הַזֶּה",
+      "gloss": "este",
+      "gender": "m",
+      "number": "s",
+      "state": "absolute",
+      "class": "Demonstrativo",
+      "sourceNote": "pronome demonstrativo masc. sing. absoluto — palavra 31"
+    },
+    {
+      "id": "n-elohim",
       "form": "אֱלֹהִים",
       "gloss": "Deus, deuses",
       "gender": "m",
       "number": "p",
       "state": "absolute",
-      "sourceNote": "masc. plural absoluto"
+      "class": "Substantivo",
+      "sourceNote": "masc. plural absoluto — vocabulário, palavra 34"
     },
     {
+      "id": "n-lifnei",
       "form": "לִפְנֵי",
       "gloss": "diante de, face",
       "gender": "m",
       "number": "p",
       "state": "construct",
-      "sourceNote": "preposição + substantivo masc. plural construto"
+      "class": "Substantivo com preposição",
+      "sourceNote": "preposição + masc. plural construto — vocabulário, palavra 40"
     },
     {
-      "form": "שָׁנָה",
-      "gloss": "ano",
-      "gender": "f",
+      "id": "n-echad",
+      "form": "אֶחָד",
+      "gloss": "um, único",
+      "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "substantivo comum fem. sing. absoluto"
+      "class": "Numeral",
+      "sourceNote": "cardinal masc. sing. absoluto — Vocabulário 1 (11), palavra 2"
     },
     {
+      "id": "n-hayom",
       "form": "הַיּוֹם",
       "gloss": "o dia",
       "gender": "m",
       "number": "s",
       "state": "absolute",
-      "sourceNote": "artigo + substantivo masc. sing. absoluto"
+      "class": "Substantivo",
+      "sourceNote": "artigo + masc. sing. absoluto — Vocabulário 1 (11), palavra 4"
+    },
+    {
+      "id": "n-shanah",
+      "form": "שָׁנָה",
+      "gloss": "ano",
+      "gender": "f",
+      "number": "s",
+      "state": "absolute",
+      "class": "Substantivo",
+      "sourceNote": "fem. sing. absoluto — Vocabulário 3 (13), palavra 11"
+    },
+    {
+      "id": "n-adonai",
+      "form": "אֲדֹנָי",
+      "gloss": "Meu Senhor / Senhor",
+      "gender": "m",
+      "number": "p",
+      "state": "construct",
+      "class": "Substantivo + sufixo",
+      "sourceNote": "masc. plural construto + sufixo 1cs — Vocabulário 3 (13), palavra 12"
     }
   ],
   "quickRules": [
     {
-      "title": "Perfeito",
-      "text": "Reconheça principalmente pelos aformativos (terminações). Eles carregam pessoa, gênero e número."
+      "title": "Perfeito: leia o fim",
+      "text": "Os aformativos são a pista principal de PGN: ∅, ה, תָּ, תְּ, תִּי, וּ, תֶּם, תֶּן, נוּ. Primeiro reconheça a terminação, depois reconstrua a raiz."
     },
     {
-      "title": "Imperfeito",
-      "text": "Procure primeiro os preformativos א / נ / י / ת e depois possíveis terminações."
+      "title": "Imperfeito: leia o início",
+      "text": "Procure os preformativos א / נ / י / ת e só depois as terminações. Algumas formas são ambíguas e o contexto resolve."
     },
     {
       "title": "Imperativo",
-      "text": "No modelo básico ocorre na 2ª pessoa; compare com o imperfeito sem o preformativo, mas confirme a forma."
+      "text": "No esquema básico ocorre na 2ª pessoa. Compare com o imperfeito correspondente sem o preformativo, mas confirme as alterações fonológicas."
+    },
+    {
+      "title": "Sete troncos",
+      "text": "Qal, Nifal, Piel, Pual, Hitpael, Hifil e Hofal: prefixos, vocalização e daguesh são pistas; o sentido típico nunca substitui o léxico/contexto."
+    },
+    {
+      "title": "Verbos fracos",
+      "text": "Não aplique mecanicamente o paradigma שמר a היה, בוא, נתן, קום e outros fracos. Treine as formas reais e explique por que se afastam do verbo forte."
+    },
+    {
+      "title": "Waw e sequência",
+      "text": "Retire/identifique o vav antes de reconstruir a raiz. Em narrativas, o valor da sequência verbal depende do verbo anterior e do contexto."
+    },
+    {
+      "title": "Infinitivos",
+      "text": "Construto: aceita preposição/sufixo e participa de várias construções. Absoluto: não marca PGN e pode intensificar um verbo finito da mesma raiz."
+    },
+    {
+      "title": "Particípio",
+      "text": "É forma nominal-verbal: marca gênero e número, mas não pessoa. Pode funcionar como verbo, adjetivo ou substantivo."
     },
     {
       "title": "Número ≠ estado",
-      "text": "Singular/plural é número. Absoluto/construto é estado nominal: são duas perguntas diferentes."
+      "text": "Singular/plural é número; absoluto/construto é estado nominal. Responda cada eixo separadamente."
     },
     {
-      "title": "Infinitivo construto ≠ estado construto",
-      "text": "“Infinitivo construto” é categoria verbal; “estado construto” pertence à morfologia nominal."
+      "title": "Método analítico",
+      "text": "Separe elementos externos, identifique forma/tronco/PGN, reconstrua a raiz e só então consulte o léxico. Essa sequência aproxima o treino do uso de um léxico analítico."
     }
-  ]
+  ],
+  "verbalForms": [
+    {
+      "id": "amar-qatal",
+      "form": "אָמַר",
+      "root": "אמר",
+      "gloss": "dizer",
+      "stem": "Qal",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele disse / dizer",
+      "source": "Vocabulário atual — palavra 32",
+      "sourceType": "Vocabulário",
+      "finite": true,
+      "note": "Forma lexical de entrada frequente em léxicos.",
+      "prefix": "∅",
+      "suffix": "∅"
+    },
+    {
+      "id": "wayyomer",
+      "form": "וַיֹּאמֶר",
+      "root": "אמר",
+      "gloss": "dizer",
+      "stem": "Qal",
+      "category": "wayyiqtol",
+      "categoryLabel": "Waw consecutivo",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "e disse",
+      "source": "Vocabulário atual — palavra 11",
+      "sourceType": "Vocabulário",
+      "finite": true,
+      "note": "Conjunção + forma narrativa; analise o vav antes da raiz.",
+      "prefix": "וַ + י",
+      "suffix": "∅"
+    },
+    {
+      "id": "lemor",
+      "form": "לֵאמֹר",
+      "root": "אמר",
+      "gloss": "dizer",
+      "stem": "Qal",
+      "category": "inf_construct",
+      "categoryLabel": "Infinitivo construto",
+      "person": "na",
+      "gender": "na",
+      "number": "na",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "dizendo / para dizer",
+      "source": "Vocabulário atual — palavra 23",
+      "sourceType": "Vocabulário",
+      "finite": false,
+      "note": "Infinitivo construto com preposição ל.",
+      "prefix": "ל",
+      "suffix": "—"
+    },
+    {
+      "id": "yihyeh",
+      "form": "יִהְיֶה",
+      "root": "היה",
+      "gloss": "ser, estar",
+      "stem": "Qal",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "será / havia / haverá conforme o contexto",
+      "source": "Vocabulário atual — palavra 60",
+      "sourceType": "Vocabulário",
+      "finite": true,
+      "note": "Verbo fraco: use a forma real, não force o paradigma forte.",
+      "prefix": "י",
+      "suffix": "∅"
+    },
+    {
+      "id": "vayehi",
+      "form": "וַיְהִי",
+      "root": "היה",
+      "gloss": "ser, estar",
+      "stem": "Qal",
+      "category": "wayyiqtol",
+      "categoryLabel": "Waw consecutivo",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "e houve / e foi / e aconteceu",
+      "source": "Vocabulário atual — palavra 27",
+      "sourceType": "Vocabulário",
+      "finite": true,
+      "note": "Forma real de היה com vav consecutivo.",
+      "prefix": "וַ + י",
+      "suffix": "∅"
+    },
+    {
+      "id": "vehayah",
+      "form": "וְהָיָה",
+      "root": "היה",
+      "gloss": "ser, estar",
+      "stem": "Qal",
+      "category": "perfect_consecutive",
+      "categoryLabel": "Perfeito consecutivo",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "e será / e acontecerá",
+      "source": "Vocabulário 3 (13) — palavra 15",
+      "sourceType": "Vocabulário",
+      "finite": true,
+      "note": "Waw + perfeito 3ms consecutivo conforme o material.",
+      "prefix": "וְ",
+      "suffix": "∅"
+    },
+    {
+      "id": "lishmor",
+      "form": "לִשְׁמֹר",
+      "root": "שמר",
+      "gloss": "guardar",
+      "stem": "Qal",
+      "category": "inf_construct",
+      "categoryLabel": "Infinitivo construto",
+      "person": "na",
+      "gender": "na",
+      "number": "na",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "guardar / para guardar",
+      "source": "Kelley — Lição XIX",
+      "sourceType": "Kelley",
+      "finite": false,
+      "note": "O infinitivo construto pode receber preposição e sufixo.",
+      "prefix": "ל",
+      "suffix": "—"
+    },
+    {
+      "id": "mot",
+      "form": "מוֹת",
+      "root": "מות",
+      "gloss": "morrer",
+      "stem": "Qal",
+      "category": "inf_absolute",
+      "categoryLabel": "Infinitivo absoluto",
+      "person": "na",
+      "gender": "na",
+      "number": "na",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "morrer (forma de infinitivo absoluto)",
+      "source": "Kelley — Lição XIX",
+      "sourceType": "Kelley",
+      "finite": false,
+      "note": "No exemplo מוֹת תָּמוּת, intensifica a forma finita.",
+      "prefix": "—",
+      "suffix": "—"
+    },
+    {
+      "id": "tamut",
+      "form": "תָּמוּת",
+      "root": "מות",
+      "gloss": "morrer",
+      "stem": "Qal",
+      "category": "imperfect",
+      "categoryLabel": "Imperfeito",
+      "person": "2",
+      "gender": "m",
+      "number": "s",
+      "pgn": "2ms",
+      "accepted": [
+        "2ms"
+      ],
+      "reading": "tu morrerás",
+      "source": "Kelley — Lição XIX, exemplo מוֹת תָּמוּת",
+      "sourceType": "Kelley",
+      "finite": true,
+      "note": "O contexto com infinitivo absoluto reforça a afirmação.",
+      "prefix": "ת",
+      "suffix": "∅"
+    },
+    {
+      "id": "shomer-ms",
+      "form": "שֹׁמֵר",
+      "root": "שמר",
+      "gloss": "guardar",
+      "stem": "Qal",
+      "category": "participle",
+      "categoryLabel": "Particípio",
+      "person": "na",
+      "gender": "m",
+      "number": "s",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "guardando / aquele que guarda",
+      "source": "Kelley — Lição XX / paradigma forte",
+      "sourceType": "Kelley",
+      "finite": false,
+      "note": "Particípio: sem pessoa; flexiona gênero e número.",
+      "prefix": "—",
+      "suffix": "—"
+    },
+    {
+      "id": "shomeret-fs",
+      "form": "שֹׁמֶרֶת",
+      "root": "שמר",
+      "gloss": "guardar",
+      "stem": "Qal",
+      "category": "participle",
+      "categoryLabel": "Particípio",
+      "person": "na",
+      "gender": "f",
+      "number": "s",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "guardando / aquela que guarda",
+      "source": "Prática autoral — paradigma regular da Lição XX",
+      "sourceType": "Prática",
+      "finite": false,
+      "note": "Forma regular usada para praticar gênero e número do particípio.",
+      "prefix": "—",
+      "suffix": "—"
+    },
+    {
+      "id": "shomrim-mp",
+      "form": "שֹׁמְרִים",
+      "root": "שמר",
+      "gloss": "guardar",
+      "stem": "Qal",
+      "category": "participle",
+      "categoryLabel": "Particípio",
+      "person": "na",
+      "gender": "m",
+      "number": "p",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "guardando / os que guardam",
+      "source": "Prática autoral — paradigma regular da Lição XX",
+      "sourceType": "Prática",
+      "finite": false,
+      "note": "Forma regular usada para praticar gênero e número do particípio.",
+      "prefix": "—",
+      "suffix": "—"
+    },
+    {
+      "id": "shomrot-fp",
+      "form": "שֹׁמְרוֹת",
+      "root": "שמר",
+      "gloss": "guardar",
+      "stem": "Qal",
+      "category": "participle",
+      "categoryLabel": "Particípio",
+      "person": "na",
+      "gender": "f",
+      "number": "p",
+      "pgn": "—",
+      "accepted": [],
+      "reading": "guardando / as que guardam",
+      "source": "Prática autoral — paradigma regular da Lição XX",
+      "sourceType": "Prática",
+      "finite": false,
+      "note": "Forma regular usada para praticar gênero e número do particípio.",
+      "prefix": "—",
+      "suffix": "—"
+    },
+    {
+      "id": "b-qal",
+      "form": "קָטַל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Qal",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele matou",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Simples, ativa",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-nifal",
+      "form": "נִקְטַל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Nifal",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele foi morto",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Simples, passiva",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-piel",
+      "form": "קִטֵּל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Piel",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele trucidou",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Intensivo, ativa",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-pual",
+      "form": "קֻטַּל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Pual",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele foi trucidado",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Intensivo, passiva",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-hifil",
+      "form": "הִקְטִיל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Hifil",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele obrigou alguém a matar",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Causativo, ativa",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-hofal",
+      "form": "הָקְטַל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Hofal",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele foi obrigado a matar alguém",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Causativo, passiva",
+      "prefix": "—",
+      "suffix": "∅"
+    },
+    {
+      "id": "b-hitpael",
+      "form": "הִתְקַטֵּל",
+      "root": "קטל",
+      "gloss": "matar (paradigma)",
+      "stem": "Hitpa’el",
+      "category": "perfect",
+      "categoryLabel": "Perfeito",
+      "person": "3",
+      "gender": "m",
+      "number": "s",
+      "pgn": "3ms",
+      "accepted": [
+        "3ms"
+      ],
+      "reading": "ele se matou",
+      "source": "Material de aula — Introdução aos Verbos",
+      "sourceType": "Aula",
+      "finite": true,
+      "note": "Reflexiva",
+      "prefix": "—",
+      "suffix": "∅"
+    }
+  ],
+  "keyboard": {
+    "letters": [
+      "א",
+      "ב",
+      "ג",
+      "ד",
+      "ה",
+      "ו",
+      "ז",
+      "ח",
+      "ט",
+      "י",
+      "כ",
+      "ך",
+      "ל",
+      "מ",
+      "ם",
+      "נ",
+      "ן",
+      "ס",
+      "ע",
+      "פ",
+      "ף",
+      "צ",
+      "ץ",
+      "ק",
+      "ר",
+      "ש",
+      "ת"
+    ],
+    "marks": [
+      "ְ",
+      "ֱ",
+      "ֲ",
+      "ֳ",
+      "ִ",
+      "ֵ",
+      "ֶ",
+      "ַ",
+      "ָ",
+      "ֹ",
+      "ֻ",
+      "ּ",
+      "ׁ",
+      "ׂ"
+    ],
+    "endings": [
+      "∅",
+      "ה",
+      "תָּ",
+      "תְּ",
+      "תִּי",
+      "וּ",
+      "תֶּם",
+      "תֶּן",
+      "נוּ",
+      "ִי",
+      "נָה"
+    ]
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.3.0",
-  "contentVersion": "2026-08-26.1",
+  "appVersion": "1.4.0",
+  "contentVersion": "2026-08-26.2",
   "wordsAvailable": 70,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.3: Morfologia, terminações verbais e Dicas Kelley."
+  "message": "Alef v1.4: Laboratório Morfológico ampliado, teclado hebraico, banco de formas e correções de sequência."
 }
