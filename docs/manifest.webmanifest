@@ -1,12 +1,11 @@
 {
-  "name": "Alef - Hebraico Bíblico II",
+  "name": "Alef — Hebraico Bíblico II",
   "short_name": "Alef",
-  "description": "Vocabulário, numerais e verbos de Hebraico Bíblico II.",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
-  "background_color": "#f3ead7",
+  "background_color": "#f4f0e5",
   "theme_color": "#173e39",
+  "lang": "pt-BR",
   "icons": [
     {
       "src": "icons/icon-192.png",

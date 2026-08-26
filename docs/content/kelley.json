@@ -1,0 +1,144 @@
+{
+  "title": "Dicas Kelley — Lições XII–XXI",
+  "algorithm": [
+    "Retire elementos externos: vav, preposições e partículas.",
+    "Classifique a forma: perfeito, imperfeito, imperativo, infinitivo ou particípio.",
+    "Identifique o tronco: Qal, Nifal, Piel, Pual, Hitpael, Hifil ou Hofal.",
+    "Determine pessoa, gênero e número quando a forma for finita.",
+    "Reconstrua a raiz, normalmente triconsonantal.",
+    "Consulte o léxico pela raiz.",
+    "Volte à oração e observe sintaxe, partículas e sequência verbal.",
+    "Traduza pelo contexto; não force perfeito = passado nem imperfeito = futuro."
+  ],
+  "lessons": [
+    {
+      "id": "XII",
+      "pages": "109–125",
+      "exam": "P1",
+      "title": "Entrando no sistema verbal",
+      "summary": "Introdução aos verbos, perfeito Qal, valor contextual do perfeito, ordem verbal e uso do dicionário.",
+      "keys": [
+        "Muitos léxicos listam o verbo pela 3ms do perfeito Qal.",
+        "A raiz é o esqueleto semântico; prefixos, vogais e sufixos carregam informação gramatical.",
+        "Memorize os aformativos do perfeito antes de tentar decorar cada forma isoladamente.",
+        "A ação completa não equivale mecanicamente a “passado”: o contexto define a tradução."
+      ]
+    },
+    {
+      "id": "XIII",
+      "pages": "126–137",
+      "exam": "P1",
+      "title": "Interrogativas e numerais",
+      "summary": "Marcas de pergunta e sistema de numerais.",
+      "keys": [
+        "Perguntas sim/não podem usar he interrogativo prefixado.",
+        "Nos numerais 3–10, atenção especial à relação de gênero com o substantivo.",
+        "Leia a forma no contexto em vez de depender só da aparência."
+      ]
+    },
+    {
+      "id": "XIV",
+      "pages": "138–159",
+      "exam": "P1",
+      "title": "Sete troncos e perfeitos",
+      "summary": "Qal, Nifal, Piel, Pual, Hitpael, Hifil e Hofal; identificação morfológica.",
+      "keys": [
+        "Procure prefixos de tronco, vocalização e daguesh como pistas.",
+        "Piel/Pual/Hitpael frequentemente mostram reduplicação (daguesh forte) no radical central quando possível.",
+        "Hifil tende ao valor causativo, mas o léxico e o contexto confirmam o significado.",
+        "Não aplique o “sentido típico” de um tronco mecanicamente a todo verbo."
+      ]
+    },
+    {
+      "id": "XV",
+      "pages": "160–169",
+      "exam": "P1",
+      "title": "Imperfeito Qal e formas volitivas",
+      "summary": "Preformativos, valores do imperfeito, jussivo e coortativo.",
+      "keys": [
+        "Memorize os preformativos א / נ / י / ת.",
+        "O imperfeito pode indicar futuro, hábito, repetição ou valor modal.",
+        "3fs pode coincidir com 2ms; 3fp pode coincidir com 2fp: o contexto resolve.",
+        "Jussivo e coortativo expressam vontade/desejo/ordem e dependem fortemente do contexto."
+      ]
+    },
+    {
+      "id": "XVI",
+      "pages": "170–184",
+      "exam": "P2",
+      "title": "Imperfeitos dos demais troncos e vav consecutivo",
+      "summary": "Padrões de imperfeito nos troncos, vav consecutivo, he-locale e daguesh conjuntivo.",
+      "keys": [
+        "As marcas pessoais do imperfeito continuam úteis mesmo quando o padrão do tronco muda.",
+        "Diferencie vav conjuntivo simples do vav que participa de uma sequência verbal.",
+        "Leia a cadeia verbal como discurso, não como verbos isolados."
+      ]
+    },
+    {
+      "id": "XVII",
+      "pages": "185–197",
+      "exam": "P2",
+      "title": "Sufixos pronominais",
+      "summary": "Sufixos objeto em formas do perfeito e imperfeito.",
+      "keys": [
+        "Separe a palavra em camadas: elementos externos → forma verbal → sufixo objeto.",
+        "Não confunda o sujeito codificado pela conjugação com o pronome objeto anexado.",
+        "Sufixos podem provocar mudanças vocálicas: procure a estrutura, não apenas a forma visual."
+      ]
+    },
+    {
+      "id": "XVIII",
+      "pages": "198–213",
+      "exam": "P2",
+      "title": "Imperativos, נא e proibições",
+      "summary": "Formas de comando, partícula נא e construções negativas.",
+      "keys": [
+        "O imperativo regular do modelo básico é de 2ª pessoa.",
+        "A partícula נא pode suavizar ou reforçar um pedido conforme o contexto.",
+        "Compare proibições com אַל + forma volitiva e לֹא + imperfeito, confirmando a função no contexto."
+      ]
+    },
+    {
+      "id": "XIX",
+      "pages": "214–227",
+      "exam": "P2",
+      "title": "Infinitivo construto e absoluto",
+      "summary": "Duas formas não finitas com comportamentos sintáticos diferentes.",
+      "keys": [
+        "O infinitivo construto aceita preposições e sufixos.",
+        "O infinitivo absoluto frequentemente reforça um verbo finito da mesma raiz.",
+        "Se há preposição/sufixo, pense primeiro em construto; se intensifica verbo da mesma raiz, pense em absoluto.",
+        "Infinitivos não marcam PGN como formas finitas."
+      ]
+    },
+    {
+      "id": "XX",
+      "pages": "228–243",
+      "exam": "P2",
+      "title": "Particípios e sinopse do verbo forte",
+      "summary": "Forma e função dos particípios e visão integrada do paradigma verbal.",
+      "keys": [
+        "Particípios podem funcionar verbalmente, adjetivamente ou nominalmente.",
+        "Eles marcam gênero e número, mas não codificam pessoa como uma forma finita.",
+        "A sinopse do verbo forte ajuda a comparar padrões entre formas e troncos."
+      ]
+    },
+    {
+      "id": "XXI",
+      "pages": "244–257",
+      "exam": "P2",
+      "title": "Vav e sequências verbais",
+      "summary": "Pontuação do vav e coordenação/sequência de formas verbais.",
+      "keys": [
+        "Antes de traduzir o segundo verbo, descubra como ele se relaciona com o primeiro.",
+        "Diferencie coordenação simples de sequência discursiva.",
+        "O contexto narrativo e sintático é decisivo para o valor das formas."
+      ]
+    }
+  ],
+  "examInfo": {
+    "P1": "Lições XII–XV • 28/09/2026 • 35%",
+    "P2": "Lições XVI–XXI • 23/11/2026 • 35%",
+    "T1": "Testes semanais • 17/08 a 09/11/2026 • 30%"
+  }
+}

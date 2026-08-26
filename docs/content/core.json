@@ -1,0 +1,339 @@
+{
+  "cardinais": [
+    {
+      "id": "c1",
+      "num": 1,
+      "pt": "Um",
+      "m": "אֶחָד",
+      "f": "אַחַת"
+    },
+    {
+      "id": "c2",
+      "num": 2,
+      "pt": "Dois",
+      "m": "שְׁנַיִם",
+      "f": "שְׁתַיִם"
+    },
+    {
+      "id": "c3",
+      "num": 3,
+      "pt": "Três",
+      "m": "שָׁלֹשׁ",
+      "f": "שְׁלֹשָׁה"
+    },
+    {
+      "id": "c4",
+      "num": 4,
+      "pt": "Quatro",
+      "m": "אַרְבַּע",
+      "f": "אַרְבָּעָה"
+    },
+    {
+      "id": "c5",
+      "num": 5,
+      "pt": "Cinco",
+      "m": "חָמֵשׁ",
+      "f": "חֲמִשָּׁה"
+    },
+    {
+      "id": "c6",
+      "num": 6,
+      "pt": "Seis",
+      "m": "שֵׁשׁ",
+      "f": "שִׁשָּׁה"
+    },
+    {
+      "id": "c7",
+      "num": 7,
+      "pt": "Sete",
+      "m": "שֶׁבַע",
+      "f": "שִׁבְעָה"
+    },
+    {
+      "id": "c8",
+      "num": 8,
+      "pt": "Oito",
+      "m": "שְׁמֹנֶה",
+      "f": "שְׁמֹנָה"
+    },
+    {
+      "id": "c9",
+      "num": 9,
+      "pt": "Nove",
+      "m": "תֵּשַׁע",
+      "f": "תִּשְׁעָה"
+    },
+    {
+      "id": "c10",
+      "num": 10,
+      "pt": "Dez",
+      "m": "עֶשֶׂר",
+      "f": "עֲשָׂרָה"
+    },
+    {
+      "id": "c100",
+      "num": 100,
+      "pt": "Cem",
+      "m": "מֵאָה",
+      "f": ""
+    },
+    {
+      "id": "c200",
+      "num": 200,
+      "pt": "Duzentos",
+      "m": "מָאתַיִם",
+      "f": ""
+    },
+    {
+      "id": "c300",
+      "num": 300,
+      "pt": "Trezentos",
+      "m": "שְׁלֹשׁ מֵאוֹת",
+      "f": ""
+    },
+    {
+      "id": "c1000",
+      "num": 1000,
+      "pt": "Mil",
+      "m": "אֶלֶף",
+      "f": ""
+    },
+    {
+      "id": "c2000",
+      "num": 2000,
+      "pt": "Dois mil",
+      "m": "אַלְפַיִם",
+      "f": ""
+    },
+    {
+      "id": "c3000",
+      "num": 3000,
+      "pt": "Três mil",
+      "m": "שְׁלֹשֶׁת אֲלָפִים",
+      "f": ""
+    },
+    {
+      "id": "c10000",
+      "num": 10000,
+      "pt": "Dez mil",
+      "m": "רְבָבָה / רִבּוֹ",
+      "f": ""
+    },
+    {
+      "id": "c20000",
+      "num": 20000,
+      "pt": "Vinte mil",
+      "m": "רִבּוֹתַיִם",
+      "f": ""
+    },
+    {
+      "id": "c30000",
+      "num": 30000,
+      "pt": "Trinta mil",
+      "m": "שְׁלֹשׁ רִבּוֹת",
+      "f": ""
+    }
+  ],
+  "ordinais": [
+    {
+      "id": "o1",
+      "num": 1,
+      "pt": "Primeiro",
+      "m": "רִאשׁוֹן",
+      "f": "רִאשׁוֹנָה"
+    },
+    {
+      "id": "o2",
+      "num": 2,
+      "pt": "Segundo",
+      "m": "שֵׁנִי",
+      "f": "שֵׁנִית"
+    },
+    {
+      "id": "o3",
+      "num": 3,
+      "pt": "Terceiro",
+      "m": "שְׁלִישִׁי",
+      "f": "שְׁלִישִׁית"
+    },
+    {
+      "id": "o4",
+      "num": 4,
+      "pt": "Quarto",
+      "m": "רְבִיעִי",
+      "f": "רְבִיעִית"
+    },
+    {
+      "id": "o5",
+      "num": 5,
+      "pt": "Quinto",
+      "m": "חֲמִישִׁי",
+      "f": "חֲמִישִׁית"
+    },
+    {
+      "id": "o6",
+      "num": 6,
+      "pt": "Sexto",
+      "m": "שִׁשִּׁי",
+      "f": "שִׁשִּׁית"
+    },
+    {
+      "id": "o7",
+      "num": 7,
+      "pt": "Sétimo",
+      "m": "שְׁבִיעִי",
+      "f": "שְׁבִיעִית"
+    },
+    {
+      "id": "o8",
+      "num": 8,
+      "pt": "Oitavo",
+      "m": "שְׁמִינִי",
+      "f": "שְׁמִינִית"
+    },
+    {
+      "id": "o9",
+      "num": 9,
+      "pt": "Nono",
+      "m": "תְּשִׁיעִי",
+      "f": "תְּשִׁיעִית"
+    },
+    {
+      "id": "o10",
+      "num": 10,
+      "pt": "Décimo",
+      "m": "עֲשִׂירִי",
+      "f": "עֲשִׂירִית"
+    }
+  ],
+  "binyanim": [
+    {
+      "id": "qal",
+      "nome": "Qal",
+      "heb": "קָטַל",
+      "modo": "Simples",
+      "voz": "Ativa",
+      "sentido": "Ele matou"
+    },
+    {
+      "id": "nifal",
+      "nome": "Nifal",
+      "heb": "נִקְטַל",
+      "modo": "Simples",
+      "voz": "Passiva",
+      "sentido": "Ele foi morto"
+    },
+    {
+      "id": "piel",
+      "nome": "Piel",
+      "heb": "קִטֵּל",
+      "modo": "Intensivo",
+      "voz": "Ativa",
+      "sentido": "Ele trucidou"
+    },
+    {
+      "id": "pual",
+      "nome": "Pual",
+      "heb": "קֻטַּל",
+      "modo": "Intensivo",
+      "voz": "Passiva",
+      "sentido": "Ele foi trucidado"
+    },
+    {
+      "id": "hifil",
+      "nome": "Hifil",
+      "heb": "הִקְטִיל",
+      "modo": "Causativo",
+      "voz": "Ativa",
+      "sentido": "Ele obrigou alguém a matar"
+    },
+    {
+      "id": "hofal",
+      "nome": "Hofal",
+      "heb": "הָקְטַל",
+      "modo": "Causativo",
+      "voz": "Passiva",
+      "sentido": "Ele foi obrigado a matar alguém"
+    },
+    {
+      "id": "hitpael",
+      "nome": "Hitpa’el",
+      "heb": "הִתְקַטֵּל",
+      "modo": "Intensivo",
+      "voz": "Reflexiva",
+      "sentido": "Ele se matou"
+    }
+  ],
+  "raizes": [
+    {
+      "id": "r1",
+      "h": "בוא",
+      "p": "ir, vir"
+    },
+    {
+      "id": "r2",
+      "h": "ידע",
+      "p": "conhecer, saber"
+    },
+    {
+      "id": "r3",
+      "h": "יצא",
+      "p": "sair"
+    },
+    {
+      "id": "r4",
+      "h": "ירד",
+      "p": "descer"
+    },
+    {
+      "id": "r5",
+      "h": "ישב",
+      "p": "assentar, habitar"
+    },
+    {
+      "id": "r6",
+      "h": "ילד",
+      "p": "dar à luz"
+    },
+    {
+      "id": "r7",
+      "h": "הלך",
+      "p": "andar, ir"
+    },
+    {
+      "id": "r8",
+      "h": "לקח",
+      "p": "tomar, pegar"
+    },
+    {
+      "id": "r9",
+      "h": "נתן",
+      "p": "dar"
+    },
+    {
+      "id": "r10",
+      "h": "קום",
+      "p": "levantar"
+    },
+    {
+      "id": "r11",
+      "h": "ראה",
+      "p": "ver"
+    },
+    {
+      "id": "r12",
+      "h": "שוב",
+      "p": "voltar, retornar"
+    },
+    {
+      "id": "r13",
+      "h": "שלח",
+      "p": "enviar, mandar"
+    },
+    {
+      "id": "r14",
+      "h": "עשה",
+      "p": "fazer"
+    }
+  ]
+}

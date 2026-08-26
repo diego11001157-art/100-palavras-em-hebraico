@@ -1,0 +1,632 @@
+[
+  {
+    "n": 1,
+    "h": "אֵת",
+    "p": "Não se traduz",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 2,
+    "h": "יְהוָה",
+    "p": "SENHOR, Deus",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 3,
+    "h": "אֲשֶׁר",
+    "p": "que",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 4,
+    "h": "כִּי",
+    "p": "que, porque, quando",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 5,
+    "h": "אֶל",
+    "p": "para, em direção a",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 6,
+    "h": "עַל",
+    "p": "sobre, acerca, acima, por cima",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 7,
+    "h": "לֹא",
+    "p": "não",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 8,
+    "h": "כָּל",
+    "p": "todo",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 9,
+    "h": "יִשְׂרָאֵל",
+    "p": "Israel",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 10,
+    "h": "ס",
+    "p": "Setumah - indicador de parágrafo (pausa menor)",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 11,
+    "h": "וַיֹּאמֶר",
+    "p": "E disse",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 12,
+    "h": "וְאֶת",
+    "p": "E …",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 13,
+    "h": "וְלֹא",
+    "p": "e não",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 14,
+    "h": "בְּנֵי",
+    "p": "filhos de",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 15,
+    "h": "בֵּן",
+    "p": "filho",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 16,
+    "h": "פ",
+    "p": "Petuhah - indicador de seção (pausa maior)",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 17,
+    "h": "לוֹ",
+    "p": "para ele",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 18,
+    "h": "אִישׁ",
+    "p": "homem",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 19,
+    "h": "הַמֶּלֶךְ",
+    "p": "o rei",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 20,
+    "h": "עַד",
+    "p": "até, tanto quanto",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 21,
+    "h": "בֵּית",
+    "p": "casa de",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 22,
+    "h": "הָאָרֶץ",
+    "p": "a Terra, o chão, a terra",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 23,
+    "h": "לֵאמֹר",
+    "p": "dizendo",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 24,
+    "h": "מֶלֶךְ",
+    "p": "rei",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 25,
+    "h": "הוּא",
+    "p": "ele, este",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 26,
+    "h": "אִם",
+    "p": "se",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 27,
+    "h": "וַיְהִי",
+    "p": "e houve, e foi, e aconteceu",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 28,
+    "h": "הָעָם",
+    "p": "o povo",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 29,
+    "h": "לִי",
+    "p": "a mim, para mim",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 30,
+    "h": "מֹשֶׁה",
+    "p": "Moisés",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 31,
+    "h": "הַזֶּה",
+    "p": "este",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 32,
+    "h": "אָמַר",
+    "p": "Ele disse / dizer",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 33,
+    "h": "יְהוּדָה",
+    "p": "Judá",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 34,
+    "h": "אֱלֹהִים",
+    "p": "Deus, deuses",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 35,
+    "h": "לָהֶם",
+    "p": "para eles",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 36,
+    "h": "מִן",
+    "p": "de, desde",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 37,
+    "h": "וְכָל",
+    "p": "e todo",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 38,
+    "h": "אֵת",
+    "p": "com",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 39,
+    "h": "דָּוִד",
+    "p": "Davi",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 40,
+    "h": "לִפְנֵי",
+    "p": "diante de, face",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 41,
+    "h": "אֲנִי",
+    "p": "eu",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 42,
+    "h": "אַל",
+    "p": "não",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 43,
+    "h": "שָׁם",
+    "p": "ali, lá",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 44,
+    "h": "לַיהוָה",
+    "p": "ao SENHOR ou para o Senhor",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 45,
+    "h": "כֹּה",
+    "p": "aqui, agora, assim, de sorte que, ali, lá",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 46,
+    "h": "כֵּן",
+    "p": "assim",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 47,
+    "h": "וְעַל",
+    "p": "e/mas sobre, e/mas acerca, e/mas acima, e/mas por cima",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 48,
+    "h": "גַּם",
+    "p": "também",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 49,
+    "h": "כַּאֲשֶׁר",
+    "p": "como, conforme, assim como, porque, quando, quanto, depois",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 50,
+    "h": "לְךָ",
+    "p": "para ti ou a ti",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 51,
+    "h": "אַתָּה",
+    "p": "tu",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 52,
+    "h": "אֶחָד",
+    "p": "um, único",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 53,
+    "h": "לָכֶם",
+    "p": "para vós",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 54,
+    "h": "הַיּוֹם",
+    "p": "o dia",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 55,
+    "h": "הִנֵּה",
+    "p": "Eis que",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 56,
+    "h": "עִם",
+    "p": "com",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 57,
+    "h": "אֹתוֹ",
+    "p": "[a] ele ou … ele",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 58,
+    "h": "וְאֵת",
+    "p": "e [a/o] ou e …",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 59,
+    "h": "אֵלָיו",
+    "p": "para ele, a ele, em direção a ele",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 60,
+    "h": "יִהְיֶה",
+    "p": "ser/será",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 61,
+    "h": "שָׁנָה",
+    "p": "ano",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 62,
+    "h": "אֲדֹנָי",
+    "p": "Meu Senhor ou Senhor",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 63,
+    "h": "נָא",
+    "p": "por favor, eu peço, agora, então",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 64,
+    "h": "עָלָיו",
+    "p": "acerca dele, sobre ele",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 65,
+    "h": "וְהָיָה",
+    "p": "e será, e acontecerá",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 66,
+    "h": "אֱלֹהֵי",
+    "p": "Deus [de]",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 67,
+    "h": "עוֹד",
+    "p": "novamente, ainda",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 68,
+    "h": "אֶרֶץ",
+    "p": "Terra, terra",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 69,
+    "h": "נְאֻם",
+    "p": "oráculo, declaração",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  },
+  {
+    "n": 70,
+    "h": "לְךָ",
+    "p": "para ti",
+    "occurrences": null,
+    "example": "",
+    "analysis": "",
+    "release": "base-70"
+  }
+]

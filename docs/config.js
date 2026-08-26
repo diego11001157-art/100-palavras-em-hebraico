@@ -1,6 +1,6 @@
 window.ALEF_CONFIG = {
   "backend": "firebase",
-  "version": "1.2"
+  "version": "1.3"
 };
 
 window.ALEF_FIREBASE_CONFIG = {
