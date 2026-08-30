@@ -14,6 +14,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
@@ -47,7 +48,7 @@
 <div class="update-banner hidden" id="updateBanner"><div><strong>✨ Conteúdo atualizado</strong><br><span id="updateText"></span></div><button id="dismissUpdate">Entendi</button></div>
 
 <section id="home" class="view active">
-  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, raízes, conjugações e análise morfológica. Na v1.5, o treino de terminações usa vários verbos fortes, incluindo קטל “matar”.</p></div>
+  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, morfologia e estudo colaborativo. Na v1.5, você pode ver quem está online, desafiar colegas e reagir com emojis durante os duelos.</p></div>
   <div class="metric">
     <div><b id="homeWords">70</b><span>palavras disponíveis</span></div>
     <div><b>100</b><span>meta de vocabulário</span></div>
@@ -61,6 +62,7 @@
     <article class="card action-card"><div class="ico">💡</div><h2>Dicas Kelley</h2><p>Resumo prático das Lições XII–XXI, com o algoritmo de análise usado nas provas.</p><button class="btn" data-go="kelley">Revisar Kelley</button></article>
     <article class="card action-card"><div class="ico">🔢</div><h2>Numerais</h2><p>Cardinais e ordinais, incluindo contraste masculino/feminino.</p><button class="btn" data-go="numbers">Treinar numerais</button></article>
     <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Pontos compartilhados entre os jogadores conectados ao Firebase.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
+    <article class="card action-card social-card"><div class="ico">⚔️</div><h2>Duelos</h2><p>Veja colegas online, fique disponível e dispute 10 palavras em tempo real.</p><button class="btn gold" data-go="duels">Abrir duelos</button></article>
   </div>
 </section>
 
@@ -158,9 +160,43 @@
   <div class="lesson-grid" id="lessonGrid"></div>
 </section>
 
+
+<section id="duels" class="view">
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">⚔️ Duelos</h2><div class="section-sub">Presença em tempo real • 10 palavras • reações por emoji.</div></div>
+
+  <div class="social-grid">
+    <div class="card">
+      <div class="presence-head">
+        <div>
+          <span class="status-dot online" id="myPresenceDot"></span>
+          <strong id="myPresenceText">Conectando…</strong>
+          <p class="smallnote">Seu status é atualizado automaticamente pelo Firebase.</p>
+        </div>
+        <label class="duel-toggle"><input type="checkbox" id="duelAvailability"> <span>⚔️ Disponível para duelo</span></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📨 Convites</h3>
+      <p>Desafios recebidos aparecem aqui.</p>
+      <div id="inviteList" class="invite-list" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="presence-head">
+      <div><h3 style="margin:0">👥 Jogadores</h3><p>Online primeiro; o último acesso aparece quando o jogador está offline.</p></div>
+      <span class="badge" id="onlineCountBadge">0 online</span>
+    </div>
+    <div id="socialUsers" class="social-users" style="margin-top:10px"></div>
+  </div>
+
+  <div id="duelArena" class="duel-arena"></div>
+</section>
+
 <section id="ranking" class="view">
   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🏆 Ranking</h2></div>
-  <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Classificação</h3><p>Ranking compartilhado</p></div><span class="badge">ONLINE</span></div><div id="rankList" style="margin-top:9px"></div></div>
+  <div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">Classificação</h3><p>XP, presença e acesso rápido aos desafios.</p></div><span class="badge" id="rankingOnlineBadge">PRESENÇA</span></div><div id="rankList" style="margin-top:9px"></div></div>
 </section>
 
 <section id="profile" class="view">
@@ -174,7 +210,7 @@
   <button class="navb" data-go="vocab"><span>📚</span>Palavras</button>
   <button class="navb" data-go="verbs"><span>🔤</span>Verbos</button>
   <button class="navb" data-go="morphology"><span>🧩</span>Morf.</button>
-  <button class="navb" data-go="kelley"><span>💡</span>Kelley</button>
+  <button class="navb" data-go="duels"><span>⚔️</span>Duelo</button>
   <button class="navb" data-go="ranking"><span>🏆</span>Ranking</button>
 </div></nav>
 </div>

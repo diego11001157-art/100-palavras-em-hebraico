@@ -15,6 +15,13 @@ const localErrors=new Set(JSON.parse(localStorage.getItem('alef_vocab_errors')||
 const firebaseApp=firebase.initializeApp(window.ALEF_FIREBASE_CONFIG);
 const auth=firebase.auth();
 const db=firebase.firestore();
+const rtdb=firebase.database();
+
+let presenceCache={},presenceAllRef=null,presenceAllCb=null,myPresenceRef=null,connectedRef=null,connectedCb=null;
+let myAvailability=localStorage.getItem('alef_duel_available')==='1';
+let inviteListeners=new Map(),pendingInvites={};
+let currentDuelId=null,currentDuelData=null,currentDuelRef=null,currentDuelCb=null,reactionRef=null,reactionCb=null;
+let duelAnswerLocked=false,duelReactionKeys=new Set();
 
 async function fetchJSON(path){
   const r=await fetch(path,{cache:'no-store'});
@@ -49,7 +56,7 @@ async function submitAuth(e){
 function showView(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('.navb').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-  if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();
+  if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();if(id==='duels')renderSocial();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function setupNavigation(){$$('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));$('#profilePill').onclick=()=>showView('profile')}
@@ -61,7 +68,7 @@ function subscribeUser(user){
 }
 function subscribeRanking(){
   if(unsubscribeRanking)unsubscribeRanking();
-  unsubscribeRanking=db.collection('users').orderBy('points','desc').limit(50).onSnapshot(s=>{rankingCache=s.docs.map(d=>({id:d.id,...d.data()}));renderRanking()},()=>{rankingCache=[];renderRanking()});
+  unsubscribeRanking=db.collection('users').orderBy('points','desc').limit(50).onSnapshot(s=>{rankingCache=s.docs.map(d=>({id:d.id,...d.data()}));renderRanking();renderSocial();refreshInviteListeners()},()=>{rankingCache=[];renderRanking()});
 }
 async function ensureUserDoc(user){const ref=db.collection('users').doc(user.uid),snap=await ref.get();if(!snap.exists)await ref.set({name:user.displayName||user.email?.split('@')[0]||'Aluno',email:user.email||'',points:0,correct:0,wrong:0,bestStreak:0,games:0,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true})}
 async function recordResult(module,correct,wrong,best=0,basePoints=10){
@@ -218,12 +225,259 @@ function renderKelley(){
 }
 function setupKelleyFilters(){$$('[data-kfilter]').forEach(b=>b.onclick=()=>{kelleyFilter=b.dataset.kfilter;$$('[data-kfilter]').forEach(x=>x.classList.toggle('active',x===b));renderKelley()})}
 
-function renderRanking(){const h=$('#rankList');if(!h)return;if(!rankingCache.length){h.innerHTML='<div class="rulebox">Carregando classificação ou ainda não há jogadores.</div>';return}h.innerHTML=rankingCache.map((r,i)=>`<div class="rank-item"><div class="rank-pos">${i+1}</div><div class="rank-name">${esc(r.name||'Aluno')}<small>${Number(r.correct||0)} acertos • ${Number(r.games||0)} rodadas</small></div><strong>${Number(r.points||0)} XP</strong></div>`).join('')}
-function renderProfile(){if(!currentUser||!$('#profileCard'))return;const total=meStats.correct+meStats.wrong;$('#profileCard').innerHTML=`<h2>${esc(currentUser.displayName||currentUser.email?.split('@')[0]||'Aluno')}</h2><p>${esc(currentUser.email||'')}</p><div class="stats"><div class="stat"><b>${meStats.points}</b><span>XP</span></div><div class="stat"><b>${meStats.correct}</b><span>acertos</span></div><div class="stat"><b>${meStats.wrong}</b><span>erros</span></div><div class="stat"><b>${total?Math.round(meStats.correct/total*100):0}%</b><span>precisão</span></div></div><div class="rulebox">Conteúdo: ${DATA.vocab.length}/${DATA.version.targetWords} palavras • versão ${esc(DATA.version.appVersion)}.</div>`}
+function displayNameForUid(uid){
+  const p=presenceCache[uid]||{};
+  const r=rankingCache.find(x=>x.id===uid)||{};
+  return p.name||r.name||'Aluno';
+}
+function lastSeenText(ts){
+  const n=Number(ts||0);if(!n)return'último acesso indisponível';
+  const now=Date.now(),diff=Math.max(0,now-n),min=Math.floor(diff/60000),h=Math.floor(diff/3600000);
+  const d=new Date(n),today=new Date();
+  if(diff<60000)return'agora';
+  if(min<60)return`há ${min} min`;
+  if(h<24&&d.getDate()===today.getDate())return`hoje, ${d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;
+  const y=new Date(today);y.setDate(today.getDate()-1);
+  if(d.toDateString()===y.toDateString())return`ontem, ${d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+function presenceLine(uid){
+  const p=presenceCache[uid];
+  if(!p)return{online:false,available:false,text:'ainda não acessou a v1.5'};
+  return{online:!!p.online,available:!!p.availableForDuel,text:p.online?'online':lastSeenText(p.lastSeen)};
+}
+function renderRanking(){
+  const h=$('#rankList');if(!h)return;
+  if(!rankingCache.length){h.innerHTML='<div class="rulebox">Carregando classificação ou ainda não há jogadores.</div>';return}
+  const onlineCount=Object.values(presenceCache).filter(p=>p&&p.online).length;
+  if($('#rankingOnlineBadge'))$('#rankingOnlineBadge').textContent=`${onlineCount} ONLINE`;
+  h.innerHTML=rankingCache.map((r,i)=>{
+    const ps=presenceLine(r.id),mine=currentUser&&r.id===currentUser.uid;
+    const challenge=(!mine&&ps.online&&ps.available)?`<div class="rank-challenge"><button class="btn gold small" data-challenge="${r.id}">⚔️ Desafiar</button></div>`:'';
+    return`<div class="rank-item social-rank"><div class="rank-pos">${i+1}</div><div class="rank-name"><span class="status-dot ${ps.online?'online':'offline'}"></span>${esc(r.name||'Aluno')}<small>${Number(r.correct||0)} acertos • ${Number(r.games||0)} rodadas</small><div class="rank-presence">${ps.online?(ps.available?'⚔️ disponível para duelo':'🟢 online'):('🔴 '+esc(ps.text))}</div></div><strong>${Number(r.points||0)} XP</strong>${challenge}</div>`
+  }).join('');
+  $$('[data-challenge]').forEach(b=>b.onclick=()=>sendChallenge(b.dataset.challenge));
+}
+function renderProfile(){
+  if(!currentUser||!$('#profileCard'))return;const total=meStats.correct+meStats.wrong,ps=presenceLine(currentUser.uid);
+  $('#profileCard').innerHTML=`<h2>${esc(currentUser.displayName||currentUser.email?.split('@')[0]||'Aluno')}</h2><p>${esc(currentUser.email||'')}</p><div class="stats"><div class="stat"><b>${meStats.points}</b><span>XP</span></div><div class="stat"><b>${meStats.correct}</b><span>acertos</span></div><div class="stat"><b>${meStats.wrong}</b><span>erros</span></div><div class="stat"><b>${total?Math.round(meStats.correct/total*100):0}%</b><span>precisão</span></div></div><div class="rulebox"><span class="status-dot ${ps.online?'online':'offline'}"></span>${ps.online?'Online agora':'Offline • '+esc(ps.text)}${ps.available?'<br>⚔️ Disponível para duelo':''}<br><br>Conteúdo: ${DATA.vocab.length}/${DATA.version.targetWords} palavras • versão ${esc(DATA.version.appVersion)}.</div>`
+}
+
+
+function myName(){return currentUser?.displayName||currentUser?.email?.split('@')[0]||'Aluno'}
+function setMyAvailability(value){
+  myAvailability=!!value;localStorage.setItem('alef_duel_available',myAvailability?'1':'0');
+  if(myPresenceRef)myPresenceRef.update({availableForDuel:myAvailability,lastSeen:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+  if($('#duelAvailability'))$('#duelAvailability').checked=myAvailability;
+  renderSocial();renderRanking();
+}
+function startPresence(user){
+  stopPresence(false);
+  myPresenceRef=rtdb.ref(`presence/${user.uid}`);
+  connectedRef=rtdb.ref('.info/connected');
+  connectedCb=s=>{
+    if(s.val()!==true)return;
+    const offline={online:false,lastSeen:firebase.database.ServerValue.TIMESTAMP,availableForDuel:false,name:myName()};
+    myPresenceRef.onDisconnect().set(offline).catch(()=>{});
+    myPresenceRef.set({online:true,lastSeen:firebase.database.ServerValue.TIMESTAMP,availableForDuel:myAvailability,name:myName()}).catch(()=>{});
+  };
+  connectedRef.on('value',connectedCb);
+
+  presenceAllRef=rtdb.ref('presence');
+  presenceAllCb=s=>{
+    presenceCache=s.val()||{};
+    renderSocial();renderRanking();renderProfile();refreshInviteListeners();
+  };
+  presenceAllRef.on('value',presenceAllCb);
+}
+function stopPresence(markOffline=true){
+  if(markOffline&&myPresenceRef)myPresenceRef.set({online:false,lastSeen:firebase.database.ServerValue.TIMESTAMP,availableForDuel:false,name:myName()}).catch(()=>{});
+  if(connectedRef&&connectedCb)connectedRef.off('value',connectedCb);
+  if(presenceAllRef&&presenceAllCb)presenceAllRef.off('value',presenceAllCb);
+  connectedRef=connectedCb=presenceAllRef=presenceAllCb=myPresenceRef=null;
+  presenceCache={};
+  clearInviteListeners();
+  stopDuelWatch();
+}
+function clearInviteListeners(){
+  inviteListeners.forEach(({ref,cb})=>ref.off('value',cb));inviteListeners.clear();pendingInvites={};
+}
+function refreshInviteListeners(){
+  if(!currentUser)return;
+  const ids=new Set([...Object.keys(presenceCache),...rankingCache.map(x=>x.id)]);
+  ids.delete(currentUser.uid);
+  ids.forEach(uid=>{
+    if(inviteListeners.has(uid))return;
+    const ref=rtdb.ref(`invites/${currentUser.uid}/${uid}`);
+    const cb=s=>{
+      const v=s.val();
+      if(v&&v.status==='pending')pendingInvites[uid]=v;else delete pendingInvites[uid];
+      renderSocial();
+    };
+    ref.on('value',cb,()=>{});
+    inviteListeners.set(uid,{ref,cb});
+  });
+}
+function buildDuelQuestions(){
+  const pool=shuffle(DATA.vocab).slice(0,Math.min(10,DATA.vocab.length));
+  const out={};
+  pool.forEach((w,i)=>{
+    const distract=shuffle(DATA.vocab.filter(x=>x.n!==w.n&&x.p!==w.p)).slice(0,3).map(x=>x.p);
+    const options=shuffle([w.p,...distract]);
+    out[i]={n:w.n,prompt:w.h,options,answer:options.indexOf(w.p)};
+  });
+  return out;
+}
+function questionArray(q){return Array.isArray(q)?q:Object.keys(q||{}).sort((a,b)=>Number(a)-Number(b)).map(k=>q[k])}
+async function sendChallenge(toUid){
+  if(!currentUser||toUid===currentUser.uid)return;
+  const target=presenceCache[toUid]||{};
+  if(!target.online||!target.availableForDuel){alert('Esse jogador não está disponível para duelo agora.');return}
+  if(currentDuelId&&currentDuelData?.meta?.status==='active'){alert('Finalize o duelo atual antes de iniciar outro.');return}
+  try{
+    const duelId=rtdb.ref('duels').push().key,toName=displayNameForUid(toUid);
+    await rtdb.ref(`duels/${duelId}/meta`).set({challenger:currentUser.uid,opponent:toUid,status:'invited',createdAt:firebase.database.ServerValue.TIMESTAMP,challengerName:myName(),opponentName:toName});
+    await rtdb.ref(`duels/${duelId}/questions`).set(buildDuelQuestions());
+    await rtdb.ref(`duels/${duelId}/players/${currentUser.uid}`).set({name:myName(),score:0,index:0,finished:false});
+    await rtdb.ref(`invites/${toUid}/${currentUser.uid}`).set({fromUid:currentUser.uid,toUid,status:'pending',createdAt:firebase.database.ServerValue.TIMESTAMP,duelId,fromName:myName()});
+    watchDuel(duelId);showView('duels');
+  }catch(e){console.error(e);alert('Não foi possível enviar o desafio agora.')}
+}
+async function acceptInvite(fromUid){
+  const inv=pendingInvites[fromUid];if(!inv||!currentUser)return;
+  try{
+    const duelId=inv.duelId;
+    await rtdb.ref(`duels/${duelId}/players/${currentUser.uid}`).set({name:myName(),score:0,index:0,finished:false});
+    await rtdb.ref(`duels/${duelId}/meta`).update({status:'active',startedAt:firebase.database.ServerValue.TIMESTAMP});
+    await rtdb.ref(`invites/${currentUser.uid}/${fromUid}`).update({status:'accepted'});
+    setMyAvailability(false);watchDuel(duelId);showView('duels');
+  }catch(e){console.error(e);alert('Não foi possível aceitar o desafio.')}
+}
+async function rejectInvite(fromUid){
+  const inv=pendingInvites[fromUid];if(!inv||!currentUser)return;
+  try{
+    if(inv.duelId)await rtdb.ref(`duels/${inv.duelId}/meta`).update({status:'rejected',endedAt:firebase.database.ServerValue.TIMESTAMP});
+    await rtdb.ref(`invites/${currentUser.uid}/${fromUid}`).update({status:'rejected'});
+  }catch(e){console.error(e)}
+}
+async function cancelCurrentInvite(){
+  if(!currentUser||!currentDuelData?.meta)return;
+  const m=currentDuelData.meta;if(m.challenger!==currentUser.uid||m.status!=='invited')return;
+  try{
+    await rtdb.ref(`duels/${currentDuelId}/meta`).update({status:'cancelled',endedAt:firebase.database.ServerValue.TIMESTAMP});
+    await rtdb.ref(`invites/${m.opponent}/${currentUser.uid}`).remove();
+  }catch(e){console.error(e)}
+}
+function stopDuelWatch(clearStored=true){
+  if(currentDuelRef&&currentDuelCb)currentDuelRef.off('value',currentDuelCb);
+  if(reactionRef&&reactionCb)reactionRef.off('child_added',reactionCb);
+  currentDuelRef=currentDuelCb=reactionRef=reactionCb=null;currentDuelId=null;currentDuelData=null;duelAnswerLocked=false;duelReactionKeys.clear();
+  if(clearStored)localStorage.removeItem('alef_current_duel');
+}
+function watchDuel(duelId){
+  if(!duelId)return;
+  if(currentDuelId===duelId&&currentDuelRef)return;
+  stopDuelWatch(false);currentDuelId=duelId;localStorage.setItem('alef_current_duel',duelId);duelReactionKeys.clear();
+  currentDuelRef=rtdb.ref(`duels/${duelId}`);
+  currentDuelCb=s=>{
+    currentDuelData=s.val()||null;
+    const st=currentDuelData?.meta?.status;
+    if(st==='active'){setMyAvailability(false);maybeFinishDuel()}
+    renderSocial();
+  };
+  currentDuelRef.on('value',currentDuelCb,()=>{localStorage.removeItem('alef_current_duel');stopDuelWatch(true);renderSocial()});
+  reactionRef=rtdb.ref(`duels/${duelId}/reactions`).limitToLast(8);
+  const attachedAt=Date.now();
+  reactionCb=s=>{
+    if(duelReactionKeys.has(s.key))return;duelReactionKeys.add(s.key);
+    const v=s.val()||{};
+    if(v.fromUid!==currentUser?.uid&&Number(v.createdAt||0)>=attachedAt-1500)showReaction(v.emoji,displayNameForUid(v.fromUid));
+  };
+  reactionRef.on('child_added',reactionCb,()=>{});
+}
+function maybeFinishDuel(){
+  if(!currentDuelData||currentDuelData.meta?.status!=='active')return;
+  const q=questionArray(currentDuelData.questions),players=currentDuelData.players||{},m=currentDuelData.meta;
+  const a=players[m.challenger],b=players[m.opponent];
+  if(a?.finished&&b?.finished){
+    const winner=a.score===b.score?'draw':(a.score>b.score?m.challenger:m.opponent);
+    rtdb.ref(`duels/${currentDuelId}/meta`).update({status:'finished',winner,endedAt:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+  }
+}
+async function answerDuel(index){
+  if(duelAnswerLocked||!currentUser||!currentDuelData)return;
+  const m=currentDuelData.meta;if(m?.status!=='active')return;
+  const qs=questionArray(currentDuelData.questions),me=currentDuelData.players?.[currentUser.uid]||{score:0,index:0};
+  const q=qs[Number(me.index||0)];if(!q)return;
+  duelAnswerLocked=true;const ok=Number(index)===Number(q.answer),next=Number(me.index||0)+1;
+  try{
+    await rtdb.ref(`duels/${currentDuelId}/players/${currentUser.uid}`).update({name:myName(),score:Number(me.score||0)+(ok?1:0),index:next,finished:next>=qs.length,lastAnswerCorrect:ok,updatedAt:firebase.database.ServerValue.TIMESTAMP,...(next>=qs.length?{finishedAt:firebase.database.ServerValue.TIMESTAMP}:{})});
+  }catch(e){console.error(e)}
+  setTimeout(()=>{duelAnswerLocked=false},250);
+}
+function sendReaction(emoji){
+  if(!currentUser||!currentDuelId||currentDuelData?.meta?.status!=='active')return;
+  rtdb.ref(`duels/${currentDuelId}/reactions`).push({fromUid:currentUser.uid,emoji,createdAt:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+}
+function showReaction(emoji,name){
+  let el=$('#reactionPop');
+  if(!el){el=document.createElement('div');el.id='reactionPop';el.className='reaction-pop';document.body.appendChild(el)}
+  el.textContent=`${emoji} ${name||''}`;el.classList.add('show');clearTimeout(showReaction.t);showReaction.t=setTimeout(()=>el.classList.remove('show'),1700);
+}
+function renderInvites(){
+  const h=$('#inviteList');if(!h)return;const entries=Object.entries(pendingInvites);
+  h.innerHTML=entries.length?entries.map(([uid,v])=>`<div class="invite-item"><div><strong>⚔️ ${esc(v.fromName||displayNameForUid(uid))}</strong><small>Desafio de vocabulário • 10 palavras</small></div><div class="social-actions"><button class="btn gold small" data-accept="${uid}">Aceitar</button><button class="btn bad small" data-reject="${uid}">Recusar</button></div></div>`).join(''):'<div class="smallnote">Nenhum convite pendente.</div>';
+  $$('[data-accept]').forEach(b=>b.onclick=()=>acceptInvite(b.dataset.accept));$$('[data-reject]').forEach(b=>b.onclick=()=>rejectInvite(b.dataset.reject));
+}
+function renderSocialUsers(){
+  const h=$('#socialUsers');if(!h||!currentUser)return;
+  const ids=[...new Set([...Object.keys(presenceCache),...rankingCache.map(x=>x.id)])].filter(x=>x!==currentUser.uid);
+  ids.sort((a,b)=>{const pa=presenceCache[a]||{},pb=presenceCache[b]||{};return Number(pb.online)-Number(pa.online)||Number(pb.availableForDuel)-Number(pa.availableForDuel)||displayNameForUid(a).localeCompare(displayNameForUid(b))});
+  const online=ids.filter(uid=>presenceCache[uid]?.online).length;if($('#onlineCountBadge'))$('#onlineCountBadge').textContent=`${online} online`;
+  h.innerHTML=ids.length?ids.map(uid=>{
+    const ps=presenceLine(uid),can=ps.online&&ps.available;
+    return`<div class="social-user"><div><strong><span class="status-dot ${ps.online?'online':'offline'}"></span>${esc(displayNameForUid(uid))}</strong><small>${ps.online?(ps.available?'⚔️ online e disponível':'🟢 online'):('🔴 '+esc(ps.text))}</small></div><div class="social-actions">${can?`<button class="btn gold small" data-social-challenge="${uid}">⚔️ Desafiar</button>`:''}</div></div>`
+  }).join(''):'<div class="smallnote">Nenhum outro jogador apareceu ainda.</div>';
+  $$('[data-social-challenge]').forEach(b=>b.onclick=()=>sendChallenge(b.dataset.socialChallenge));
+}
+function renderDuelArena(){
+  const h=$('#duelArena');if(!h)return;
+  if(!currentDuelId||!currentDuelData?.meta){h.innerHTML='<div class="card"><h3>Como funciona</h3><p>Ative “Disponível para duelo”. Outro jogador online poderá desafiar você. Os dois recebem as mesmas 10 palavras; vence quem acertar mais.</p></div>';return}
+  const d=currentDuelData,m=d.meta,me=d.players?.[currentUser.uid]||{score:0,index:0},oppUid=m.challenger===currentUser.uid?m.opponent:m.challenger,opp=d.players?.[oppUid]||{score:0,index:0},oppName=m.challenger===currentUser.uid?(m.opponentName||displayNameForUid(oppUid)):(m.challengerName||displayNameForUid(oppUid)),qs=questionArray(d.questions);
+  if(m.status==='invited'){
+    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">⚔️</div><h2>Desafio enviado</h2><p><span class="waiting-pulse"></span> Aguardando ${esc(oppName)} aceitar.</p>${m.challenger===currentUser.uid?'<button class="btn bad" id="cancelDuelInvite">Cancelar convite</button>':''}</div></div>`;if($('#cancelDuelInvite'))$('#cancelDuelInvite').onclick=cancelCurrentInvite;return
+  }
+  if(m.status==='rejected'||m.status==='cancelled'){
+    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">↩️</div><h2>${m.status==='rejected'?'Desafio recusado':'Convite cancelado'}</h2><p>Você pode desafiar outro jogador disponível.</p><button class="btn gold" id="closeDuel">Fechar</button></div></div>`;$('#closeDuel').onclick=()=>{stopDuelWatch();renderSocial()};return
+  }
+  if(m.status==='finished'){
+    const mine=Number(me.score||0),theirs=Number(opp.score||0),won=m.winner===currentUser.uid,draw=m.winner==='draw';
+    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">${draw?'🤝':won?'🏆':'📚'}</div><h2>${draw?'Empate!':won?'Você venceu!':'Vitória de '+esc(oppName)}</h2><div class="duel-score"><div class="player me"><span>Você</span><b>${mine}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${theirs}</b></div></div><p>${mine} × ${theirs} em 10 palavras.</p><div class="social-actions" style="justify-content:center;margin-top:12px"><button class="btn gold" id="rematchBtn">⚔️ Revanche</button><button class="btn ghost" id="finishDuelBtn">Fechar</button></div></div></div>`;
+    $('#rematchBtn').onclick=()=>sendChallenge(oppUid);$('#finishDuelBtn').onclick=()=>{stopDuelWatch();renderSocial()};return
+  }
+  if(m.status!=='active'){h.innerHTML='<div class="card"><p>Preparando duelo…</p></div>';return}
+  const idx=Number(me.index||0);
+  if(me.finished){
+    h.innerHTML=`<div class="duel-card"><div class="duel-score"><div class="player me"><span>Você</span><b>${Number(me.score||0)}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${Number(opp.score||0)}</b></div></div><div class="duel-result"><div class="trophy">⏳</div><h2>Você terminou!</h2><p>Aguardando ${esc(oppName)} concluir ${Number(opp.index||0)}/10.</p>${emojiBar()}</div></div>`;bindEmojiButtons();return
+  }
+  const q=qs[idx];if(!q){h.innerHTML='<div class="card"><p>Sincronizando a próxima pergunta…</p></div>';return}
+  h.innerHTML=`<div class="duel-card"><div class="duel-score"><div class="player me"><span>Você</span><b>${Number(me.score||0)}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${Number(opp.score||0)}</b></div></div><div class="duel-progress"><span>Questão ${idx+1}/10</span><span>${esc(oppName)}: ${Math.min(10,Number(opp.index||0))}/10</span></div><div class="duel-question"><div class="smallnote">Qual o significado?</div><div class="hebrew">${esc(q.prompt)}</div><div class="duel-options">${(q.options||[]).map((o,i)=>`<button class="duel-option" data-duel-answer="${i}">${esc(o)}</button>`).join('')}</div></div>${emojiBar()}</div>`;
+  $$('[data-duel-answer]').forEach(b=>b.onclick=()=>answerDuel(Number(b.dataset.duelAnswer)));bindEmojiButtons();
+}
+function emojiBar(){return`<div class="emoji-bar"><button class="emoji-btn" data-emoji="👏">👏</button><button class="emoji-btn" data-emoji="🔥">🔥</button><button class="emoji-btn" data-emoji="😎">😎</button><button class="emoji-btn" data-emoji="😅">😅</button><button class="emoji-btn" data-emoji="💪">💪</button><button class="emoji-btn" data-emoji="👀">👀</button></div>`}
+function bindEmojiButtons(){$$('[data-emoji]').forEach(b=>b.onclick=()=>sendReaction(b.dataset.emoji))}
+function renderSocial(){
+  if(!currentUser)return;
+  const p=presenceLine(currentUser.uid);
+  if($('#myPresenceDot'))$('#myPresenceDot').className='status-dot '+(p.online?'online':'offline');
+  if($('#myPresenceText'))$('#myPresenceText').textContent=p.online?'Você está online':'Reconectando…';
+  if($('#duelAvailability'))$('#duelAvailability').checked=myAvailability;
+  renderInvites();renderSocialUsers();renderDuelArena();
+}
 
 function setupEvents(){
-  $('#tabLogin').onclick=()=>setAuthMode('login');$('#tabRegister').onclick=()=>setAuthMode('register');$('#authForm').addEventListener('submit',submitAuth);$('#logoutBtn').onclick=()=>auth.signOut();
-  setupNavigation();$('#startVocab').onclick=startVocab;$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
+  $('#tabLogin').onclick=()=>setAuthMode('login');$('#tabRegister').onclick=()=>setAuthMode('register');$('#authForm').addEventListener('submit',submitAuth);$('#logoutBtn').onclick=async()=>{stopPresence(true);await auth.signOut()};
+  setupNavigation();if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);$('#startVocab').onclick=startVocab;$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
   const buildRoot=$('#buildRoot');if(buildRoot){const sets=practiceSets();buildRoot.innerHTML=Object.entries(sets).map(([k,s])=>`<option value="${esc(k)}">${esc(s.label||`${s.root} — ${s.meaning}`)}</option>`).join('');buildRoot.onchange=newBuildQuestion}
 $('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;
 $('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;$('#newIdentify').onclick=newIdentify;$('#newNominal').onclick=newNominal;setupFormBank();
@@ -237,8 +491,8 @@ async function start(){
   setupEvents();renderStatic();registerSW();
   auth.onAuthStateChanged(async user=>{
     currentUser=user;
-    if(user){await ensureUserDoc(user);$('#authView').classList.add('hidden');$('#appView').classList.remove('hidden');$('#userLabel').textContent=user.displayName||user.email?.split('@')[0]||'Aluno';subscribeUser(user);subscribeRanking();showView('home')}
-    else{$('#appView').classList.add('hidden');$('#authView').classList.remove('hidden');if(unsubscribeUser){unsubscribeUser();unsubscribeUser=null}if(unsubscribeRanking){unsubscribeRanking();unsubscribeRanking=null}meStats={points:0,correct:0,wrong:0,bestStreak:0,games:0};setAuthMode('login')}
+    if(user){await ensureUserDoc(user);$('#authView').classList.add('hidden');$('#appView').classList.remove('hidden');$('#userLabel').textContent=user.displayName||user.email?.split('@')[0]||'Aluno';subscribeUser(user);subscribeRanking();startPresence(user);const savedDuel=localStorage.getItem('alef_current_duel');if(savedDuel)watchDuel(savedDuel);showView('home')}
+    else{$('#appView').classList.add('hidden');$('#authView').classList.remove('hidden');if(unsubscribeUser){unsubscribeUser();unsubscribeUser=null}if(unsubscribeRanking){unsubscribeRanking();unsubscribeRanking=null}stopPresence(false);meStats={points:0,correct:0,wrong:0,bestStreak:0,games:0};setAuthMode('login')}
   });
 }
 start();

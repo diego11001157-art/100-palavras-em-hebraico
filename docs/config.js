@@ -1,12 +1,13 @@
 window.ALEF_CONFIG = {
   "backend": "firebase",
-  "version": "1.3"
+  "version": "1.5-social"
 };
 
 window.ALEF_FIREBASE_CONFIG = {
   "apiKey": "AIzaSyD7edr_qSHThpT0PxNjyI2Ep4tTKqYN90s",
   "authDomain": "alef-hebraico-biblico-ll.firebaseapp.com",
   "projectId": "alef-hebraico-biblico-ll",
+  "databaseURL": "https://alef-hebraico-biblico-ll-default-rtdb.firebaseio.com",
   "storageBucket": "alef-hebraico-biblico-ll.firebasestorage.app",
   "messagingSenderId": "579551166505",
   "appId": "1:579551166505:web:871c6e4b48c89cf1651c38",
