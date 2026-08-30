@@ -47,7 +47,7 @@
 <div class="update-banner hidden" id="updateBanner"><div><strong>✨ Conteúdo atualizado</strong><br><span id="updateText"></span></div><button id="dismissUpdate">Entendi</button></div>
 
 <section id="home" class="view active">
-  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>Agora o Alef une vocabulário, raízes, conjugações, análise morfológica e um guia rápido das Lições XII–XXI de Page H. Kelley.</p></div>
+  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, raízes, conjugações e análise morfológica. Na v1.5, o treino de terminações usa vários verbos fortes, incluindo קטל “matar”.</p></div>
   <div class="metric">
     <div><b id="homeWords">70</b><span>palavras disponíveis</span></div>
     <div><b>100</b><span>meta de vocabulário</span></div>
@@ -98,7 +98,7 @@
 
 <section id="morphology" class="view">
   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🧩 Laboratório Morfológico</h2><div class="section-sub">Construa, desmonte e analise formas como em um pequeno laboratório de Hebraico Bíblico II.</div></div>
-  <div class="rulebox"><strong>Método:</strong> FORMA → TRONCO → PGN → RAIZ → LÉXICO → CONTEXTO. As formas regulares usam <span class="hebrew">שמר</span> como paradigma forte; verbos fracos aparecem somente em formas reais/sinalizadas, para evitar “regularizar” o que não é regular.</div>
+  <div class="rulebox"><strong>Método:</strong> FORMA → TRONCO → PGN → RAIZ → LÉXICO → CONTEXTO. O treino de terminações agora alterna verbos fortes como <span class="hebrew">שמר</span>, <span class="hebrew">קטל</span>, <span class="hebrew">כתב</span> e <span class="hebrew">פקד</span>; verbos fracos permanecem em formas reais/sinalizadas.</div>
   <div class="tabs" id="morphTabs">
     <button class="tab active" data-mtab="build">Construir forma</button>
     <button class="tab" data-mtab="identify">Identificar verbo</button>
@@ -108,8 +108,9 @@
   </div>
 
   <div id="morph-build" class="subview active">
-    <div class="card"><h3>Monte a forma pelo prefixo/terminação</h3><p>Escolha o tipo de treino. Você pode tocar nos marcadores prontos ou escrever com o teclado hebraico da tela.</p>
+    <div class="card"><h3>Monte a forma pelo prefixo/terminação</h3><p>O teclado hebraico foi retirado. Escolha o verbo e toque diretamente nos marcadores morfológicos prontos.</p>
       <div class="form-row" style="margin-top:10px">
+        <div><label>Verbo-base</label><select id="buildRoot"></select></div>
         <div><label>Conjugação</label><select id="buildConj"><option value="perfect">Perfeito</option><option value="imperfect">Imperfeito</option><option value="imperative">Imperativo</option></select></div>
         <div><label>Treino</label><select id="buildMode"><option value="ending">Completar a terminação</option><option value="markers">Prefixo + terminação</option></select></div>
       </div>
