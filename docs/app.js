@@ -22,6 +22,7 @@ let myAvailability=localStorage.getItem('alef_duel_available')==='1';
 let inviteListeners=new Map(),pendingInvites={};
 let currentDuelId=null,currentDuelData=null,currentDuelRef=null,currentDuelCb=null,reactionRef=null,reactionCb=null;
 let duelAnswerLocked=false,duelReactionKeys=new Set();
+let selectedDuelMode=localStorage.getItem('alef_duel_mode')||'vocab';
 
 async function fetchJSON(path){
   const r=await fetch(path,{cache:'no-store'});
@@ -318,28 +319,108 @@ function refreshInviteListeners(){
     inviteListeners.set(uid,{ref,cb});
   });
 }
-function buildDuelQuestions(){
-  const pool=shuffle(DATA.vocab).slice(0,Math.min(10,DATA.vocab.length));
-  const out={};
+const DUEL_MODES={
+  vocab:{label:'Palavras',icon:'📚',desc:'Hebraico e significado'},
+  numbers:{label:'Numerais',icon:'🔢',desc:'Cardinais e ordinais'},
+  morphology:{label:'Morfologia',icon:'🧩',desc:'Forma, PGN, tronco e nominal'}
+};
+function duelModeLabel(mode){return DUEL_MODES[mode]?.label||DUEL_MODES.vocab.label}
+function setSelectedDuelMode(mode){
+  if(!DUEL_MODES[mode])mode='vocab';
+  selectedDuelMode=mode;localStorage.setItem('alef_duel_mode',mode);
+  $$('[data-duel-mode]').forEach(b=>b.classList.toggle('active',b.dataset.duelMode===mode));
+  if($('#selectedDuelModeBadge'))$('#selectedDuelModeBadge').textContent=duelModeLabel(mode).toUpperCase();
+}
+function uniqueOptions(answer,pool,count=3){
+  const rest=shuffle([...new Set(pool.filter(x=>x&&x!==answer))]).slice(0,count);
+  return shuffle([answer,...rest]);
+}
+function buildVocabDuelQuestions(){
+  const pool=shuffle(DATA.vocab).slice(0,Math.min(10,DATA.vocab.length)),out={};
   pool.forEach((w,i)=>{
-    const distract=shuffle(DATA.vocab.filter(x=>x.n!==w.n&&x.p!==w.p)).slice(0,3).map(x=>x.p);
-    const options=shuffle([w.p,...distract]);
-    out[i]={n:w.n,prompt:w.h,options,answer:options.indexOf(w.p)};
+    const opts=uniqueOptions(w.p,DATA.vocab.map(x=>x.p));
+    out[i]={mode:'vocab',kind:'Palavras',instruction:'Qual é o significado?',prompt:w.h,context:`Palavra ${w.n}`,options:opts,answer:opts.indexOf(w.p)};
   });
   return out;
 }
+function numeralDuelPool(){
+  const pool=[];
+  (DATA.core?.cardinais||[]).forEach(x=>{
+    if(x.m)pool.push({form:x.m,label:`${x.pt} • masc.`,kind:'Cardinal'});
+    if(x.f)pool.push({form:x.f,label:`${x.pt} • fem.`,kind:'Cardinal'});
+  });
+  (DATA.core?.ordinais||[]).forEach(x=>{
+    if(x.m)pool.push({form:x.m,label:`${x.pt} • masc.`,kind:'Ordinal'});
+    if(x.f)pool.push({form:x.f,label:`${x.pt} • fem.`,kind:'Ordinal'});
+  });
+  return pool;
+}
+function buildNumberDuelQuestions(){
+  const all=numeralDuelPool(),pool=shuffle(all).slice(0,Math.min(10,all.length)),out={};
+  pool.forEach((x,i)=>{
+    const candidates=all.filter(y=>y.kind===x.kind).map(y=>y.label);
+    const opts=uniqueOptions(x.label,candidates);
+    out[i]={mode:'numbers',kind:'Numerais',instruction:'Qual é este numeral?',prompt:x.form,context:x.kind,options:opts,answer:opts.indexOf(x.label)};
+  });
+  return out;
+}
+function morphologyVerbalPool(){
+  const source=[...(DATA.morph?.perfect||[]),...(DATA.morph?.imperfect||[]),...(DATA.morph?.imperative||[]),...(DATA.morph?.verbalForms||[])];
+  const seen=new Set();return source.filter(x=>{
+    const k=`${x.form}|${x.categoryLabel}|${x.pgn}|${x.stem}`;if(!x.form||seen.has(k))return false;seen.add(k);return true;
+  });
+}
+function pgnLabel(p){return String(p||'').replace('ms','ms').replace('fs','fs').replace('mp','mp').replace('fp','fp').replace('cp','cp').replace('cs','cs')}
+function buildMorphologyDuelQuestions(){
+  const verbal=morphologyVerbalPool(),nominal=DATA.morph?.nominals||[],out={},questions=[];
+  const categoryPool=[...new Set(verbal.map(x=>x.categoryLabel).filter(Boolean))];
+  const pgnPool=[...new Set(verbal.map(x=>x.pgn).filter(Boolean))];
+  const stemPool=[...new Set(verbal.map(x=>x.stem).filter(Boolean))];
+  shuffle(verbal).slice(0,7).forEach((x,idx)=>{
+    const skills=[];
+    if(x.categoryLabel&&categoryPool.length>=4)skills.push('category');
+    if(x.pgn&&pgnPool.length>=4)skills.push('pgn');
+    if(x.stem&&stemPool.length>=4)skills.push('stem');
+    const skill=skills[idx%skills.length]||'category';
+    let answer,instruction,pool;
+    if(skill==='pgn'){answer=x.pgn;instruction='Qual é o PGN?';pool=pgnPool}
+    else if(skill==='stem'){answer=x.stem;instruction='Qual é o tronco?';pool=stemPool}
+    else{answer=x.categoryLabel;instruction='Qual é a forma/conjugação?';pool=categoryPool}
+    const opts=uniqueOptions(answer,pool);
+    questions.push({mode:'morphology',kind:'Morfologia verbal',instruction,prompt:x.form,context:`Raiz ${x.root||'—'} • ${x.gloss||x.reading||''}`,options:opts,answer:opts.indexOf(answer)});
+  });
+  const genderMap={m:'Masculino',f:'Feminino',c:'Comum'},numberMap={s:'Singular',p:'Plural',d:'Dual'},stateMap={absolute:'Absoluto',construct:'Construto'};
+  shuffle(nominal).slice(0,3).forEach((x,idx)=>{
+    const skill=['state','number','gender'][idx%3];
+    let answer,instruction,pool;
+    if(skill==='number'){answer=numberMap[x.number]||x.number;instruction='Qual é o número?';pool=['Singular','Plural','Dual']}
+    else if(skill==='gender'){answer=genderMap[x.gender]||x.gender;instruction='Qual é o gênero?';pool=['Masculino','Feminino','Comum']}
+    else{answer=stateMap[x.state]||x.state;instruction='Qual é o estado nominal?';pool=['Absoluto','Construto']}
+    const needed=skill==='state'?1:3;
+    const opts=uniqueOptions(answer,pool,needed);
+    questions.push({mode:'morphology',kind:'Morfologia nominal',instruction,prompt:x.form,context:`${x.class||'Nominal'} • ${x.gloss||''}`,options:opts,answer:opts.indexOf(answer)});
+  });
+  shuffle(questions).slice(0,10).forEach((q,i)=>out[i]=q);
+  return out;
+}
+function buildDuelQuestions(mode='vocab'){
+  if(mode==='numbers')return buildNumberDuelQuestions();
+  if(mode==='morphology')return buildMorphologyDuelQuestions();
+  return buildVocabDuelQuestions();
+}
 function questionArray(q){return Array.isArray(q)?q:Object.keys(q||{}).sort((a,b)=>Number(a)-Number(b)).map(k=>q[k])}
-async function sendChallenge(toUid){
+async function sendChallenge(toUid,mode=selectedDuelMode){
   if(!currentUser||toUid===currentUser.uid)return;
+  if(!DUEL_MODES[mode])mode='vocab';
   const target=presenceCache[toUid]||{};
   if(!target.online||!target.availableForDuel){alert('Esse jogador não está disponível para duelo agora.');return}
   if(currentDuelId&&currentDuelData?.meta?.status==='active'){alert('Finalize o duelo atual antes de iniciar outro.');return}
   try{
     const duelId=rtdb.ref('duels').push().key,toName=displayNameForUid(toUid);
-    await rtdb.ref(`duels/${duelId}/meta`).set({challenger:currentUser.uid,opponent:toUid,status:'invited',createdAt:firebase.database.ServerValue.TIMESTAMP,challengerName:myName(),opponentName:toName});
-    await rtdb.ref(`duels/${duelId}/questions`).set(buildDuelQuestions());
+    await rtdb.ref(`duels/${duelId}/meta`).set({challenger:currentUser.uid,opponent:toUid,status:'invited',mode,createdAt:firebase.database.ServerValue.TIMESTAMP,challengerName:myName(),opponentName:toName});
+    await rtdb.ref(`duels/${duelId}/questions`).set(buildDuelQuestions(mode));
     await rtdb.ref(`duels/${duelId}/players/${currentUser.uid}`).set({name:myName(),score:0,index:0,finished:false});
-    await rtdb.ref(`invites/${toUid}/${currentUser.uid}`).set({fromUid:currentUser.uid,toUid,status:'pending',createdAt:firebase.database.ServerValue.TIMESTAMP,duelId,fromName:myName()});
+    await rtdb.ref(`invites/${toUid}/${currentUser.uid}`).set({fromUid:currentUser.uid,toUid,status:'pending',mode,createdAt:firebase.database.ServerValue.TIMESTAMP,duelId,fromName:myName()});
     watchDuel(duelId);showView('duels');
   }catch(e){console.error(e);alert('Não foi possível enviar o desafio agora.')}
 }
@@ -369,6 +450,7 @@ async function cancelCurrentInvite(){
   }catch(e){console.error(e)}
 }
 function stopDuelWatch(clearStored=true){
+  setBattleOverlay(false);
   if(currentDuelRef&&currentDuelCb)currentDuelRef.off('value',currentDuelCb);
   if(reactionRef&&reactionCb)reactionRef.off('child_added',reactionCb);
   currentDuelRef=currentDuelCb=reactionRef=reactionCb=null;currentDuelId=null;currentDuelData=null;duelAnswerLocked=false;duelReactionKeys.clear();
@@ -426,7 +508,7 @@ function showReaction(emoji,name){
 }
 function renderInvites(){
   const h=$('#inviteList');if(!h)return;const entries=Object.entries(pendingInvites);
-  h.innerHTML=entries.length?entries.map(([uid,v])=>`<div class="invite-item"><div><strong>⚔️ ${esc(v.fromName||displayNameForUid(uid))}</strong><small>Desafio de vocabulário • 10 palavras</small></div><div class="social-actions"><button class="btn gold small" data-accept="${uid}">Aceitar</button><button class="btn bad small" data-reject="${uid}">Recusar</button></div></div>`).join(''):'<div class="smallnote">Nenhum convite pendente.</div>';
+  h.innerHTML=entries.length?entries.map(([uid,v])=>`<div class="invite-item"><div><strong>⚔️ ${esc(v.fromName||displayNameForUid(uid))}</strong><small>${DUEL_MODES[v.mode]?.icon||'⚔️'} ${esc(duelModeLabel(v.mode))} • 10 questões</small></div><div class="social-actions"><button class="btn gold small" data-accept="${uid}">Aceitar</button><button class="btn bad small" data-reject="${uid}">Recusar</button></div></div>`).join(''):'<div class="smallnote">Nenhum convite pendente.</div>';
   $$('[data-accept]').forEach(b=>b.onclick=()=>acceptInvite(b.dataset.accept));$$('[data-reject]').forEach(b=>b.onclick=()=>rejectInvite(b.dataset.reject));
 }
 function renderSocialUsers(){
@@ -442,18 +524,18 @@ function renderSocialUsers(){
 }
 function renderDuelArena(){
   const h=$('#duelArena');if(!h)return;
-  if(!currentDuelId||!currentDuelData?.meta){h.innerHTML='<div class="card"><h3>Como funciona</h3><p>Ative “Disponível para duelo”. Outro jogador online poderá desafiar você. Os dois recebem as mesmas 10 palavras; vence quem acertar mais.</p></div>';return}
+  if(!currentDuelId||!currentDuelData?.meta){h.innerHTML='<div class="card"><h3>Como funciona</h3><p>Escolha Palavras, Numerais ou Morfologia e ative “Disponível para duelo”. Os dois recebem as mesmas 10 questões; vence quem acertar mais.</p></div>';return}
   const d=currentDuelData,m=d.meta,me=d.players?.[currentUser.uid]||{score:0,index:0},oppUid=m.challenger===currentUser.uid?m.opponent:m.challenger,opp=d.players?.[oppUid]||{score:0,index:0},oppName=m.challenger===currentUser.uid?(m.opponentName||displayNameForUid(oppUid)):(m.challengerName||displayNameForUid(oppUid)),qs=questionArray(d.questions);
   if(m.status==='invited'){
-    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">⚔️</div><h2>Desafio enviado</h2><p><span class="waiting-pulse"></span> Aguardando ${esc(oppName)} aceitar.</p>${m.challenger===currentUser.uid?'<button class="btn bad" id="cancelDuelInvite">Cancelar convite</button>':''}</div></div>`;if($('#cancelDuelInvite'))$('#cancelDuelInvite').onclick=cancelCurrentInvite;return
+    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">⚔️</div><h2>Desafio enviado</h2><p><span class="badge">${DUEL_MODES[m.mode]?.icon||'⚔️'} ${esc(duelModeLabel(m.mode))}</span></p><p><span class="waiting-pulse"></span> Aguardando ${esc(oppName)} aceitar.</p>${m.challenger===currentUser.uid?'<button class="btn bad" id="cancelDuelInvite">Cancelar convite</button>':''}</div></div>`;if($('#cancelDuelInvite'))$('#cancelDuelInvite').onclick=cancelCurrentInvite;return
   }
   if(m.status==='rejected'||m.status==='cancelled'){
     h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">↩️</div><h2>${m.status==='rejected'?'Desafio recusado':'Convite cancelado'}</h2><p>Você pode desafiar outro jogador disponível.</p><button class="btn gold" id="closeDuel">Fechar</button></div></div>`;$('#closeDuel').onclick=()=>{stopDuelWatch();renderSocial()};return
   }
   if(m.status==='finished'){
     const mine=Number(me.score||0),theirs=Number(opp.score||0),won=m.winner===currentUser.uid,draw=m.winner==='draw';
-    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">${draw?'🤝':won?'🏆':'📚'}</div><h2>${draw?'Empate!':won?'Você venceu!':'Vitória de '+esc(oppName)}</h2><div class="duel-score"><div class="player me"><span>Você</span><b>${mine}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${theirs}</b></div></div><p>${mine} × ${theirs} em 10 palavras.</p><div class="social-actions" style="justify-content:center;margin-top:12px"><button class="btn gold" id="rematchBtn">⚔️ Revanche</button><button class="btn ghost" id="finishDuelBtn">Fechar</button></div></div></div>`;
-    $('#rematchBtn').onclick=()=>sendChallenge(oppUid);$('#finishDuelBtn').onclick=()=>{stopDuelWatch();renderSocial()};return
+    h.innerHTML=`<div class="duel-card"><div class="duel-result"><div class="trophy">${draw?'🤝':won?'🏆':'📚'}</div><h2>${draw?'Empate!':won?'Você venceu!':'Vitória de '+esc(oppName)}</h2><div class="duel-score"><div class="player me"><span>Você</span><b>${mine}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${theirs}</b></div></div><p>${mine} × ${theirs} • ${esc(duelModeLabel(m.mode))} • 10 questões.</p><div class="social-actions" style="justify-content:center;margin-top:12px"><button class="btn gold" id="rematchBtn">⚔️ Revanche</button><button class="btn ghost" id="finishDuelBtn">Fechar</button></div></div></div>`;
+    $('#rematchBtn').onclick=()=>sendChallenge(oppUid,m.mode||selectedDuelMode);$('#finishDuelBtn').onclick=()=>{stopDuelWatch();renderSocial()};return
   }
   if(m.status!=='active'){h.innerHTML='<div class="card"><p>Preparando duelo…</p></div>';return}
   const idx=Number(me.index||0);
@@ -466,18 +548,52 @@ function renderDuelArena(){
 }
 function emojiBar(){return`<div class="emoji-bar"><button class="emoji-btn" data-emoji="👏">👏</button><button class="emoji-btn" data-emoji="🔥">🔥</button><button class="emoji-btn" data-emoji="😎">😎</button><button class="emoji-btn" data-emoji="😅">😅</button><button class="emoji-btn" data-emoji="💪">💪</button><button class="emoji-btn" data-emoji="👀">👀</button></div>`}
 function bindEmojiButtons(){$$('[data-emoji]').forEach(b=>b.onclick=()=>sendReaction(b.dataset.emoji))}
+
+function battleModeMeta(mode){
+  const x=DUEL_MODES[mode]||DUEL_MODES.vocab;return`${x.icon} ${x.label}`;
+}
+function setBattleOverlay(open){
+  const el=$('#battleOverlay');if(!el)return;
+  el.classList.toggle('hidden',!open);document.body.classList.toggle('battle-open',!!open);
+}
+function renderBattlePage(){
+  const root=$('#battleContent');if(!root)return;
+  if(!currentDuelId||!currentDuelData?.meta){setBattleOverlay(false);return}
+  const d=currentDuelData,m=d.meta;
+  if(!['active','finished'].includes(m.status)){setBattleOverlay(false);return}
+  setBattleOverlay(true);
+  if($('#battleModeLabel'))$('#battleModeLabel').textContent=duelModeLabel(m.mode);
+  const me=d.players?.[currentUser.uid]||{score:0,index:0},oppUid=m.challenger===currentUser.uid?m.opponent:m.challenger,opp=d.players?.[oppUid]||{score:0,index:0},oppName=m.challenger===currentUser.uid?(m.opponentName||displayNameForUid(oppUid)):(m.challengerName||displayNameForUid(oppUid)),qs=questionArray(d.questions);
+  if(m.status==='finished'){
+    const mine=Number(me.score||0),theirs=Number(opp.score||0),won=m.winner===currentUser.uid,draw=m.winner==='draw';
+    root.innerHTML=`<section class="battle-stage battle-wait"><div><div class="icon">${draw?'🤝':won?'🏆':'📚'}</div><span class="battle-mode-chip">${battleModeMeta(m.mode)}</span><h2>${draw?'Empate!':won?'Você venceu!':'Vitória de '+esc(oppName)}</h2><div class="duel-score"><div class="player me"><span>Você</span><b>${mine}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${theirs}</b></div></div><p>10 questões concluídas.</p><div class="battle-result-actions"><button class="btn gold" id="battleRematch">⚔️ Revanche</button><button class="btn ghost" id="battleClose">Voltar aos duelos</button></div></div></section>`;
+    $('#battleRematch').onclick=()=>{setBattleOverlay(false);sendChallenge(oppUid,m.mode||selectedDuelMode)};
+    $('#battleClose').onclick=()=>{setBattleOverlay(false);stopDuelWatch();showView('duels');renderSocial()};
+    return;
+  }
+  const idx=Number(me.index||0);
+  if(me.finished){
+    root.innerHTML=`<section class="battle-stage battle-wait"><div><div class="icon">⏳</div><span class="battle-mode-chip">${battleModeMeta(m.mode)}</span><h2>Você terminou!</h2><div class="duel-score"><div class="player me"><span>Você</span><b>${Number(me.score||0)}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${Number(opp.score||0)}</b></div></div><p>Aguardando ${esc(oppName)} concluir ${Math.min(10,Number(opp.index||0))}/10.</p>${emojiBar()}</div></section>`;
+    bindEmojiButtons();return;
+  }
+  const q=qs[idx];
+  if(!q){root.innerHTML='<section class="battle-stage battle-wait"><div><div class="icon">⏳</div><h2>Sincronizando…</h2></div></section>';return}
+  root.innerHTML=`<section class="battle-stage"><div class="duel-score"><div class="player me"><span>Você</span><b>${Number(me.score||0)}</b></div><div class="duel-vs">×</div><div class="player"><span>${esc(oppName)}</span><b>${Number(opp.score||0)}</b></div></div><div class="duel-progress"><span>${battleModeMeta(m.mode)} • ${idx+1}/10</span><span>${esc(oppName)}: ${Math.min(10,Number(opp.index||0))}/10</span></div><div class="duel-question"><div class="battle-instruction">${esc(q.instruction||'Escolha a resposta correta')}</div><div class="battle-form">${esc(q.prompt)}</div>${q.context?`<div class="battle-context">${esc(q.context)}</div>`:''}<div class="duel-options">${(q.options||[]).map((o,i)=>`<button class="duel-option" data-duel-answer="${i}">${esc(o)}</button>`).join('')}</div></div>${emojiBar()}</section>`;
+  $$('[data-duel-answer]').forEach(b=>b.onclick=()=>answerDuel(Number(b.dataset.duelAnswer)));bindEmojiButtons();
+}
+
 function renderSocial(){
   if(!currentUser)return;
   const p=presenceLine(currentUser.uid);
   if($('#myPresenceDot'))$('#myPresenceDot').className='status-dot '+(p.online?'online':'offline');
   if($('#myPresenceText'))$('#myPresenceText').textContent=p.online?'Você está online':'Reconectando…';
   if($('#duelAvailability'))$('#duelAvailability').checked=myAvailability;
-  renderInvites();renderSocialUsers();renderDuelArena();
+  renderInvites();renderSocialUsers();renderDuelArena();renderBattlePage();
 }
 
 function setupEvents(){
   $('#tabLogin').onclick=()=>setAuthMode('login');$('#tabRegister').onclick=()=>setAuthMode('register');$('#authForm').addEventListener('submit',submitAuth);$('#logoutBtn').onclick=async()=>{stopPresence(true);await auth.signOut()};
-  setupNavigation();if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);$('#startVocab').onclick=startVocab;$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
+  setupNavigation();setSelectedDuelMode(selectedDuelMode);$$('[data-duel-mode]').forEach(b=>b.onclick=()=>setSelectedDuelMode(b.dataset.duelMode));if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);$('#startVocab').onclick=startVocab;$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
   const buildRoot=$('#buildRoot');if(buildRoot){const sets=practiceSets();buildRoot.innerHTML=Object.entries(sets).map(([k,s])=>`<option value="${esc(k)}">${esc(s.label||`${s.root} — ${s.meaning}`)}</option>`).join('');buildRoot.onchange=newBuildQuestion}
 $('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;
 $('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;$('#newIdentify').onclick=newIdentify;$('#newNominal').onclick=newNominal;setupFormBank();

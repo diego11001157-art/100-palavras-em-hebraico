@@ -162,7 +162,23 @@
 
 
 <section id="duels" class="view">
-  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">⚔️ Duelos</h2><div class="section-sub">Presença em tempo real • 10 palavras • reações por emoji.</div></div>
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">⚔️ Duelos</h2><div class="section-sub">Escolha a modalidade, desafie um colega e entre em uma arena exclusiva.</div></div>
+
+
+  <div class="card duel-mode-card">
+    <div class="presence-head">
+      <div>
+        <h3 style="margin:0">🎮 Modo da batalha</h3>
+        <p>Quem envia o desafio escolhe a modalidade. O adversário vê o modo antes de aceitar.</p>
+      </div>
+      <span class="badge" id="selectedDuelModeBadge">PALAVRAS</span>
+    </div>
+    <div class="duel-mode-picker" id="duelModePicker">
+      <button class="duel-mode active" data-duel-mode="vocab"><span>📚</span><strong>Palavras</strong><small>Hebraico ↔ significado</small></button>
+      <button class="duel-mode" data-duel-mode="numbers"><span>🔢</span><strong>Numerais</strong><small>Cardinais e ordinais</small></button>
+      <button class="duel-mode" data-duel-mode="morphology"><span>🧩</span><strong>Morfologia</strong><small>Forma, PGN, tronco e nominal</small></button>
+    </div>
+  </div>
 
   <div class="social-grid">
     <div class="card">
@@ -213,6 +229,17 @@
   <button class="navb" data-go="duels"><span>⚔️</span>Duelo</button>
   <button class="navb" data-go="ranking"><span>🏆</span>Ranking</button>
 </div></nav>
+</div>
+
+
+<div id="battleOverlay" class="battle-overlay hidden" aria-live="polite">
+  <div class="battle-shell">
+    <header class="battle-header">
+      <div class="battle-brand"><div class="battle-alef">א</div><div><strong>ARENA ALEF</strong><small id="battleModeLabel">Palavras</small></div></div>
+      <div class="battle-live"><span class="status-dot online"></span> AO VIVO</div>
+    </header>
+    <main id="battleContent" class="battle-content"></main>
+  </div>
 </div>
 
 <script src="app.js"></script>

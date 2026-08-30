@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.5.1",
-  "contentVersion": "2026-08-29.2-social",
+  "appVersion": "1.5.2",
+  "contentVersion": "2026-08-29.3-battle-modes",
   "wordsAvailable": 70,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.5 Social: presença online/offline, último acesso, disponibilidade para duelo, desafios de vocabulário e reações por emoji."
+  "message": "Alef v1.5.2: Arena de batalha em tela exclusiva e escolha de duelo por Palavras, Numerais ou Morfologia."
 }
