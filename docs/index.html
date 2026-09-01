@@ -67,14 +67,42 @@
 </section>
 
 <section id="vocab" class="view">
-  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📚 Vocabulário</h2><div class="section-sub">Blocos existentes + novos lotes semanais de 5 palavras.</div></div>
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📚 Vocabulário</h2><div class="section-sub">Escolha as palavras e toque diretamente no tipo de treino.</div></div>
   <div class="groups" id="vocabGroups"></div>
-  <div class="card" style="margin-top:12px">
-    <div class="form-row">
-      <div><label>Modo</label><select id="vocabMode"><option value="mixed">Misturado</option><option value="h2p">Hebraico → Português</option><option value="p2h">Português → Hebraico</option></select></div>
-      <div><label>Atividade</label><select id="vocabActivity"><option value="quiz">Quiz</option><option value="flash">Flashcards</option><option value="match">Associação</option></select></div>
-    </div>
-    <button class="btn gold" id="startVocab" style="margin-top:10px;width:100%">Começar</button>
+  <div class="selection-summary" id="vocabSelectionSummary"></div>
+
+  <div class="vocab-mode-grid">
+    <article class="card vocab-mode-card">
+      <div class="mode-head"><span>🎯</span><div><h3>Quiz</h3><p>Escolha a tradução correta entre alternativas.</p></div></div>
+      <div class="mode-actions">
+        <button class="choice-btn" data-vocab-launch="quiz" data-vocab-direction="h2p">עברית → Português</button>
+        <button class="choice-btn" data-vocab-launch="quiz" data-vocab-direction="p2h">Português → עברית</button>
+        <button class="choice-btn goldish" data-vocab-launch="quiz" data-vocab-direction="mixed">🔀 Misturado</button>
+      </div>
+    </article>
+
+    <article class="card vocab-mode-card">
+      <div class="mode-head"><span>⌨️</span><div><h3>Escrever</h3><p>Veja a palavra hebraica e digite o significado em português.</p></div></div>
+      <div class="mode-actions">
+        <button class="choice-btn goldish" data-vocab-launch="type" data-vocab-direction="h2p">Hebraico → digitar português</button>
+      </div>
+    </article>
+
+    <article class="card vocab-mode-card">
+      <div class="mode-head"><span>🧩</span><div><h3>Associação</h3><p>Forme pares entre hebraico e português. Em “Todas”, os blocos continuam até percorrer todo o vocabulário.</p></div></div>
+      <div class="mode-actions">
+        <button class="choice-btn" data-vocab-launch="match" data-vocab-direction="h2p">Iniciar associação</button>
+      </div>
+    </article>
+
+    <article class="card vocab-mode-card">
+      <div class="mode-head"><span>🗂️</span><div><h3>Flashcards</h3><p>Memorize revelando a resposta no seu ritmo.</p></div></div>
+      <div class="mode-actions">
+        <button class="choice-btn" data-vocab-launch="flash" data-vocab-direction="h2p">עברית → Português</button>
+        <button class="choice-btn" data-vocab-launch="flash" data-vocab-direction="p2h">Português → עברית</button>
+        <button class="choice-btn goldish" data-vocab-launch="flash" data-vocab-direction="mixed">🔀 Misturado</button>
+      </div>
+    </article>
   </div>
   <div id="vocabGame"></div>
 </section>
@@ -94,6 +122,19 @@
   <div id="verb-paradigms" class="subview">
     <div class="rulebox">Modelo didático: <span class="hebrew">שמר</span> “guardar”. O perfeito é reconhecido principalmente pelas terminações; o imperfeito pelos preformativos <span class="hebrew">א נ י ת</span> e por alguns aformativos; o imperativo regular do modelo básico ocorre na 2ª pessoa.</div>
     <div class="tabs" id="paradigmTabs"><button class="tab active" data-paradigm="perfect">Perfeito</button><button class="tab" data-paradigm="imperfect">Imperfeito</button><button class="tab" data-paradigm="imperative">Imperativo</button></div>
+    <div id="imperfectStemPicker" class="stem-picker hidden">
+      <span>Tronco do imperfeito:</span>
+      <div class="stem-buttons">
+        <button class="stem-btn active" data-ist="Qal">Qal</button>
+        <button class="stem-btn" data-ist="Nifal">Nifal</button>
+        <button class="stem-btn" data-ist="Piel">Piel</button>
+        <button class="stem-btn" data-ist="Pual">Pual</button>
+        <button class="stem-btn" data-ist="Hitpael">Hitpael</button>
+        <button class="stem-btn" data-ist="Hifil">Hifil</button>
+        <button class="stem-btn" data-ist="Hofal">Hofal</button>
+      </div>
+      <small>Compare as mesmas marcas pessoais e observe como o padrão interno muda.</small>
+    </div>
     <div id="paradigmTable" class="table-wrap"></div>
   </div>
 </section>
@@ -104,6 +145,7 @@
   <div class="tabs" id="morphTabs">
     <button class="tab active" data-mtab="build">Construir forma</button>
     <button class="tab" data-mtab="identify">Identificar verbo</button>
+    <button class="tab" data-mtab="classify">Classificação completa</button>
     <button class="tab" data-mtab="bank">Banco de formas</button>
     <button class="tab" data-mtab="nominal">Nominal</button>
     <button class="tab" data-mtab="rules">Regras rápidas</button>
@@ -124,6 +166,18 @@
   <div id="morph-identify" class="subview">
     <div class="card"><h3>Analise formas diferentes</h3><p>Agora entram perfeito, imperfeito, imperativo, waw consecutivo, infinitivos, particípios e os sete troncos. Depois de cada resposta aparece <strong>Próxima forma</strong>.</p><button class="btn gold" id="newIdentify" style="margin-top:10px">Nova forma</button></div>
     <div id="identifyGame"></div>
+  </div>
+
+  
+  <div id="morph-classify" class="subview">
+    <div class="rulebox"><strong>Treino de análise completa:</strong> retire elementos externos, classifique a forma, identifique o tronco, determine PGN, reconstrua a raiz e só então pense na tradução. Em frases curtas, o contexto pode resolver ambiguidades que a forma isolada não resolve.</div>
+    <div class="card">
+      <div class="presence-head">
+        <div><h3 style="margin:0">Classifique a palavra ou frase</h3><p>Tronco • conjugação • raiz • pessoa • gênero • número.</p></div>
+        <button class="btn gold" id="newClassification">Nova análise</button>
+      </div>
+    </div>
+    <div id="classificationGame"></div>
   </div>
 
   <div id="morph-bank" class="subview">

@@ -71,7 +71,12 @@
       "keys": [
         "As marcas pessoais do imperfeito continuam úteis mesmo quando o padrão do tronco muda.",
         "Diferencie vav conjuntivo simples do vav que participa de uma sequência verbal.",
-        "Leia a cadeia verbal como discurso, não como verbos isolados."
+        "Leia a cadeia verbal como discurso, não como verbos isolados.",
+        "Nos outros troncos, os preformativos/aformativos pessoais continuam reconhecíveis; o padrão interno do tronco muda.",
+        "Nifal: assimilação/daguesh no primeiro radical é uma pista importante no paradigma forte.",
+        "Piel/Pual: daguesh no segundo radical; Pual usa vocalização passiva.",
+        "Hifil: patah no preformativo e i longo interno são pistas típicas; Hofal é sua contraparte passiva.",
+        "Hitpael: a marca ת dentro do padrão ajuda no reconhecimento."
       ]
     },
     {
@@ -145,5 +150,17 @@
     "title": "Ponte para o léxico analítico",
     "text": "No laboratório, a resposta é mostrada como FORMA → TRONCO → PGN → RAIZ → SENTIDO. É a mesma disciplina mental recomendada pelo guia: analisar a forma, reconstruir a raiz e confirmar o significado no léxico e no contexto.",
     "note": "Benjamin Davidson é bibliografia complementar do plano de ensino. A versão portuguesa de 2018 não foi incorporada ao app porque o arquivo integral não está nas fontes do projeto; a organização analítica aqui segue o princípio geral do léxico, sem reproduzir verbetes."
-  }
+  },
+  "resources": [
+    {
+      "title": "Isso é Hebraico — vídeo-aulas",
+      "url": "https://youtu.be/M2GNuw7LAWk?is=-S9Dc2LwdsQXR22S",
+      "note": "Recurso complementar indicado pelo usuário; use junto dos paradigmas e do material da disciplina."
+    },
+    {
+      "title": "Isso é Hebraico — PDFs de paradigmas",
+      "url": "https://issoehebraico.com/pdfs/",
+      "note": "Há paradigmas Qal, Nifal, Piel/Pual, Hifil/Hofal, Hitpael e verbos fracos."
+    }
+  ]
 }

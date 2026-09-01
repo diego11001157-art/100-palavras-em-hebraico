@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.5.2",
-  "contentVersion": "2026-08-29.3-battle-modes",
+  "appVersion": "1.6.0",
+  "contentVersion": "2026-09-01.1-vocab-morphology",
   "wordsAvailable": 70,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.5.2: Arena de batalha em tela exclusiva e escolha de duelo por Palavras, Numerais ou Morfologia."
+  "message": "Alef v1.6: modo Escrever, botões interativos, Todas sem limite de 10, classificação morfológica completa, imperfeito nos sete troncos e reações de duelo corrigidas."
 }

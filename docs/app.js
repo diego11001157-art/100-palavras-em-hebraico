@@ -8,8 +8,8 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 let DATA={vocab:[],core:null,morph:null,kelley:null,version:null};
 let authMode='login',currentUser=null,meStats={points:0,correct:0,wrong:0,bestStreak:0,games:0};
 let unsubscribeUser=null,unsubscribeRanking=null,rankingCache=[];
-let selectedVocab='1-10',currentBuild=null,currentIdentify=null,currentNominal=null,kelleyFilter='all';
-let lastBuildId='',lastIdentifyId='',lastNominalId='';
+let selectedVocab='1-10',currentBuild=null,currentIdentify=null,currentNominal=null,currentClassification=null,kelleyFilter='all';
+let lastBuildId='',lastIdentifyId='',lastNominalId='',lastClassificationId='',selectedImperfectStem='Qal';
 const localErrors=new Set(JSON.parse(localStorage.getItem('alef_vocab_errors')||'[]'));
 
 const firebaseApp=firebase.initializeApp(window.ALEF_FIREBASE_CONFIG);
@@ -102,7 +102,7 @@ function renderVocabGroups(){
     if(g.key==='new')locked=max<=70;if(g.key==='errors')locked=localErrors.size===0;
     return`<button class="groupbtn ${selectedVocab===g.key?'active':''} ${locked?'locked':''}" data-vgroup="${g.key}" ${locked?'disabled':''}>${newtag}${g.label}</button>`
   }).join('');
-  $$('[data-vgroup]').forEach(b=>b.onclick=()=>{selectedVocab=b.dataset.vgroup;renderVocabGroups()});
+  $$('[data-vgroup]').forEach(b=>b.onclick=()=>{selectedVocab=b.dataset.vgroup;renderVocabGroups();updateVocabSelectionSummary();$('#vocabGame').innerHTML=''});updateVocabSelectionSummary();
 }
 function vocabPool(){
   if(selectedVocab==='all')return DATA.vocab;if(selectedVocab==='new'){const max=Math.max(...DATA.vocab.map(w=>w.n));return DATA.vocab.filter(w=>w.n>Math.max(70,max-5))}
@@ -119,19 +119,127 @@ function runChoiceQuiz(container,questions,module,onAnswer){
     $$('[data-opt]').forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const idx=Number(b.dataset.opt),ok=idx===q.answer;if(ok){c++;streak++;best=Math.max(best,streak);b.classList.add('correct')}else{w++;streak=0;b.classList.add('wrong');$(`[data-opt="${q.answer}"]`).classList.add('correct')}$('#qFeedback').textContent=ok?'✓ Correto':'✗ Revise esta forma';if(onAnswer)onAnswer(q,ok);setTimeout(()=>{i++;draw()},850)})
   }draw();
 }
-function vocabQuestions(pool,mode){
-  const round=shuffle(pool).slice(0,Math.min(10,pool.length));return round.map(w=>{const dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode;let opts;if(dir==='h2p'){opts=shuffle([w,...shuffle(DATA.vocab.filter(x=>x.n!==w.n)).slice(0,3)]).map(x=>({text:x.p,hebrew:false,n:x.n}));return{prompt:w.h,hebrew:true,options:opts,answer:opts.findIndex(o=>o.n===w.n),wordId:w.n,meta:`Palavra ${w.n}`}}opts=shuffle([w,...shuffle(DATA.vocab.filter(x=>x.n!==w.n)).slice(0,3)]).map(x=>({text:x.h,hebrew:true,n:x.n}));return{prompt:w.p,hebrew:false,options:opts,answer:opts.findIndex(o=>o.n===w.n),wordId:w.n,meta:`Palavra ${w.n}`}})
+function updateVocabSelectionSummary(){
+  const h=$('#vocabSelectionSummary');if(!h||!DATA.vocab.length)return;
+  const pool=vocabPool(),label=selectedVocab==='all'?'Todas as palavras':selectedVocab==='errors'?'Palavras erradas':selectedVocab==='new'?'Último bloco novo':selectedVocab.replace('-', '–');
+  h.innerHTML=`<strong>${esc(label)}</strong> • ${pool.length} palavra${pool.length===1?'':'s'}${selectedVocab==='all'?' • ordem aleatória, sem limitar a 10':''}`;
 }
-function startVocab(){const pool=vocabPool();if(!pool.length){$('#vocabGame').innerHTML='<div class="rulebox">Este bloco ainda não possui palavras.</div>';return}const act=$('#vocabActivity').value,mode=$('#vocabMode').value;if(act==='quiz'){runChoiceQuiz($('#vocabGame'),vocabQuestions(pool,mode),'vocab',(q,ok)=>{if(ok)localErrors.delete(q.wordId);else localErrors.add(q.wordId);saveErrorSet()})}else if(act==='flash')startFlash(pool,mode);else startMatch(pool)}
-function startFlash(pool,mode){const cards=shuffle(pool);let i=0,revealed=false;function draw(){if(i>=cards.length){$('#vocabGame').innerHTML='<div class="rulebox">Flashcards concluídos.</div>';return}const w=cards[i],dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode;const front=dir==='h2p'?w.h:w.p,back=dir==='h2p'?w.p:w.h,heb=dir==='h2p';$('#vocabGame').innerHTML=`<div class="flashcard"><div><div class="qmeta">${i+1}/${cards.length} • Palavra ${w.n}</div><div class="flashbig ${heb?'hebrew':''}">${esc(front)}</div><div class="flashans ${!revealed?'hidden':''} ${!heb?'hebrew':''}">${esc(back)}</div><div style="margin-top:18px"><button class="btn ${revealed?'ghost':'gold'}" id="flashAction">${revealed?'Próxima':'Mostrar resposta'}</button></div></div></div>`;$('#flashAction').onclick=()=>{if(!revealed){revealed=true;draw()}else{i++;revealed=false;draw()}}}draw()}
-function startMatch(pool){const items=shuffle(pool).slice(0,Math.min(6,pool.length));let leftSel=null,rightSel=null,solved=new Set();function draw(){const left=shuffle(items),right=shuffle(items);$('#vocabGame').innerHTML=`<div class="quiz"><div class="qmeta">Associe hebraico e português</div><div class="match-grid" id="matchGrid"><div class="match-col">${left.map(w=>`<button class="match hebrew" data-side="l" data-id="${w.n}">${esc(w.h)}</button>`).join('')}</div><div class="match-col">${right.map(w=>`<button class="match" data-side="r" data-id="${w.n}">${esc(w.p)}</button>`).join('')}</div></div><div class="feedback" id="matchFeedback"></div></div>`;$$('.match').forEach(b=>{if(solved.has(Number(b.dataset.id)))b.classList.add('solved');b.onclick=()=>{if(b.classList.contains('solved'))return;const side=b.dataset.side;$$(`.match[data-side="${side}"]`).forEach(x=>x.classList.remove('selected'));b.classList.add('selected');if(side==='l')leftSel=Number(b.dataset.id);else rightSel=Number(b.dataset.id);if(leftSel&&rightSel){if(leftSel===rightSel){solved.add(leftSel);$('#matchFeedback').textContent='✓ Par correto';if(solved.size===items.length){recordResult('vocab-match',items.length,0,items.length);setTimeout(()=>$('#vocabGame').innerHTML='<div class="rulebox">Associação concluída ✓</div>',650)}else setTimeout(()=>{leftSel=rightSel=null;draw()},500)}else{$('#matchFeedback').textContent='✗ Tente novamente';setTimeout(()=>{leftSel=rightSel=null;draw()},600)}}}})}draw()}
+function vocabRound(pool){return shuffle(pool)}
+function vocabQuestions(pool,mode){
+  const round=vocabRound(pool);
+  return round.map(w=>{const dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode;let opts;
+    if(dir==='h2p'){
+      opts=shuffle([w,...shuffle(DATA.vocab.filter(x=>x.n!==w.n)).slice(0,3)]).map(x=>({text:x.p,hebrew:false,n:x.n}));
+      return{prompt:w.h,hebrew:true,options:opts,answer:opts.findIndex(o=>o.n===w.n),wordId:w.n,meta:`Palavra ${w.n}`}
+    }
+    opts=shuffle([w,...shuffle(DATA.vocab.filter(x=>x.n!==w.n)).slice(0,3)]).map(x=>({text:x.h,hebrew:true,n:x.n}));
+    return{prompt:w.p,hebrew:false,options:opts,answer:opts.findIndex(o=>o.n===w.n),wordId:w.n,meta:`Palavra ${w.n}`}
+  })
+}
+function splitMeanings(text){
+  return String(text||'').split(/\s*(?:,|;|\/|\bou\b)\s*/i).map(x=>x.trim()).filter(Boolean)
+}
+function normalizePt(text){
+  return String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu,' ').replace(/\s+/g,' ').trim()
+}
+function answerMatchesPortuguese(input,expected){
+  const got=normalizePt(input);if(!got)return false;
+  const accepted=splitMeanings(expected).map(normalizePt);
+  return accepted.some(x=>got===x)||normalizePt(expected)===got;
+}
+function launchVocab(activity,mode='h2p'){
+  const pool=vocabPool(),container=$('#vocabGame');
+  if(!pool.length){container.innerHTML='<div class="rulebox">Este conjunto ainda não possui palavras disponíveis.</div>';return}
+  container.scrollIntoView({behavior:'smooth',block:'start'});
+  if(activity==='quiz')runChoiceQuiz(container,vocabQuestions(pool,mode),'vocab',(q,ok)=>{if(ok)localErrors.delete(q.wordId);else localErrors.add(q.wordId);saveErrorSet()});
+  else if(activity==='type')startTypeVocab(pool);
+  else if(activity==='flash')startFlash(pool,mode);
+  else if(activity==='match')startMatch(pool);
+}
+function startTypeVocab(pool){
+  const cards=shuffle(pool);let i=0,c=0,w=0,streak=0,best=0,locked=false;
+  const container=$('#vocabGame');
+  function draw(){
+    if(i>=cards.length){
+      container.innerHTML=`<div class="quiz"><div class="qmeta">Escrita concluída</div><div class="prompt">${c}/${cards.length}</div><div class="stats"><div class="stat"><b>${c}</b><span>acertos</span></div><div class="stat"><b>${w}</b><span>erros</span></div><div class="stat"><b>${best}</b><span>melhor sequência</span></div><div class="stat"><b>${cards.length?Math.round(c/cards.length*100):0}%</b><span>precisão</span></div></div><button class="btn gold" id="typeAgain">Treinar novamente</button></div>`;
+      recordResult('vocab-escrever',c,w,best);$('#typeAgain').onclick=()=>startTypeVocab(pool);return
+    }
+    locked=false;const item=cards[i];
+    container.innerHTML=`<div class="quiz type-answer-wrap"><div class="qmeta">Digite em português • ${i+1}/${cards.length} • Palavra ${item.n}</div><div class="prompt hebrew">${esc(item.h)}</div><label for="typedPt" class="smallnote">Significado em português</label><input id="typedPt" class="type-answer" type="text" inputmode="text" lang="pt-BR" autocomplete="off" autocapitalize="sentences" spellcheck="true" placeholder="Digite a tradução…"><div class="type-help">Se houver mais de um significado cadastrado, basta escrever um deles.</div><button class="btn gold" id="checkTyped" style="width:100%;margin-top:10px">Conferir</button><div class="feedback" id="typedFeedback"></div><div id="typedAnswer"></div><div class="progress"><div style="width:${Math.round(i/cards.length*100)}%"></div></div></div>`;
+    const input=$('#typedPt');
+    const check=()=>{
+      if(locked)return;locked=true;
+      const ok=answerMatchesPortuguese(input.value,item.p);
+      if(ok){c++;streak++;best=Math.max(best,streak);input.classList.add('type-correct');localErrors.delete(item.n)}
+      else{w++;streak=0;input.classList.add('type-wrong');localErrors.add(item.n)}
+      saveErrorSet();$('#typedFeedback').textContent=ok?'✓ Correto':'✗ Compare com a resposta';
+      $('#typedAnswer').innerHTML=`<div class="answerbox"><span class="hebrew">${esc(item.h)}</span><br><strong>${esc(item.p)}</strong><div class="answer-actions"><button class="btn gold" id="typedNext">${i+1>=cards.length?'Ver resultado':'Próxima palavra'}</button></div></div>`;
+      $('#checkTyped').disabled=true;input.disabled=true;$('#typedNext').onclick=()=>{i++;draw()}
+    };
+    $('#checkTyped').onclick=check;input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check()}});
+    setTimeout(()=>input.focus(),80)
+  }draw()
+}
+function startFlash(pool,mode){
+  const cards=shuffle(pool);let i=0,revealed=false;function draw(){
+    if(i>=cards.length){$('#vocabGame').innerHTML='<div class="rulebox">Flashcards concluídos.</div>';return}
+    const w=cards[i],dir=mode==='mixed'?(Math.random()<.5?'h2p':'p2h'):mode,front=dir==='h2p'?w.h:w.p,back=dir==='h2p'?w.p:w.h,heb=dir==='h2p';
+    $('#vocabGame').innerHTML=`<div class="flashcard"><div><div class="qmeta">${i+1}/${cards.length} • Palavra ${w.n}</div><div class="flashbig ${heb?'hebrew':''}">${esc(front)}</div><div class="flashans ${!revealed?'hidden':''} ${!heb?'hebrew':''}">${esc(back)}</div><div style="margin-top:18px"><button class="btn ${revealed?'ghost':'gold'}" id="flashAction">${revealed?'Próxima':'Mostrar resposta'}</button></div></div></div>`;
+    $('#flashAction').onclick=()=>{if(!revealed){revealed=true;draw()}else{i++;revealed=false;draw()}}
+  }draw()
+}
+function startMatch(pool){
+  const deck=shuffle(pool),chunkSize=6,total=deck.length;let offset=0,totalCorrect=0,totalWrong=0;
+  function startChunk(){
+    const items=deck.slice(offset,offset+chunkSize);let leftSel=null,rightSel=null,solved=new Set(),wrongAttempts=0;
+    if(!items.length){$('#vocabGame').innerHTML=`<div class="quiz"><div class="qmeta">Associação concluída</div><div class="prompt">${totalCorrect}/${total}</div><p>Você percorreu ${total} palavra${total===1?'':'s'} deste conjunto.</p><button class="btn gold" id="matchAgain">Embaralhar novamente</button></div>`;recordResult('vocab-match',totalCorrect,totalWrong,totalCorrect);$('#matchAgain').onclick=()=>startMatch(pool);return}
+    function draw(){
+      const left=shuffle(items),right=shuffle(items);
+      $('#vocabGame').innerHTML=`<div class="quiz match-stage"><div class="match-stage-head"><span>Associe hebraico e português</span><span>${Math.min(offset+items.length,total)}/${total}</span></div><div class="match-grid"><div class="match-col">${left.map(w=>`<button class="match hebrew" data-side="l" data-id="${w.n}">${esc(w.h)}</button>`).join('')}</div><div class="match-col">${right.map(w=>`<button class="match" data-side="r" data-id="${w.n}">${esc(w.p)}</button>`).join('')}</div></div><div class="feedback" id="matchFeedback"></div></div>`;
+      $$('.match').forEach(b=>{
+        if(solved.has(Number(b.dataset.id)))b.classList.add('solved');
+        b.onclick=()=>{
+          if(b.classList.contains('solved'))return;const side=b.dataset.side;
+          $$(`.match[data-side="${side}"]`).forEach(x=>x.classList.remove('selected'));b.classList.add('selected');
+          if(side==='l')leftSel=Number(b.dataset.id);else rightSel=Number(b.dataset.id);
+          if(leftSel&&rightSel){
+            if(leftSel===rightSel){
+              solved.add(leftSel);totalCorrect++;$('#matchFeedback').textContent='✓ Par correto';
+              if(solved.size===items.length){setTimeout(()=>{offset+=items.length;startChunk()},550)}
+              else setTimeout(()=>{leftSel=rightSel=null;draw()},380)
+            }else{
+              wrongAttempts++;totalWrong++;$('#matchFeedback').textContent='✗ Tente novamente';
+              setTimeout(()=>{leftSel=rightSel=null;draw()},520)
+            }
+          }
+        }
+      })
+    }draw()
+  }startChunk()
+}
+function setupVocabButtons(){
+  $$('[data-vocab-launch]').forEach(b=>b.onclick=()=>launchVocab(b.dataset.vocabLaunch,b.dataset.vocabDirection||'h2p'))
+}
 
-function setupVerbTabs(){$$('[data-vtab]').forEach(b=>b.onclick=()=>{$$('[data-vtab]').forEach(x=>x.classList.toggle('active',x===b));$$('#verbs .subview').forEach(v=>v.classList.toggle('active',v.id===`verb-${b.dataset.vtab}`))});$$('[data-paradigm]').forEach(b=>b.onclick=()=>{$$('[data-paradigm]').forEach(x=>x.classList.toggle('active',x===b));renderParadigm(b.dataset.paradigm)})}
+function setupVerbTabs(){
+  $$('[data-vtab]').forEach(b=>b.onclick=()=>{$$('[data-vtab]').forEach(x=>x.classList.toggle('active',x===b));$$('#verbs .subview').forEach(v=>v.classList.toggle('active',v.id===`verb-${b.dataset.vtab}`))});
+  $$('[data-paradigm]').forEach(b=>b.onclick=()=>{$$('[data-paradigm]').forEach(x=>x.classList.toggle('active',x===b));renderParadigm(b.dataset.paradigm)});
+  $$('[data-ist]').forEach(b=>b.onclick=()=>{selectedImperfectStem=b.dataset.ist;$$('[data-ist]').forEach(x=>x.classList.toggle('active',x===b));renderParadigm('imperfect')})
+}
 function renderRootTable(){$('#rootTable').innerHTML=DATA.core.raizes.map(r=>`<tr><td class="hebrew">${esc(r.h)}</td><td>${esc(r.p)}</td></tr>`).join('')}
 function rootQuestions(){const roots=DATA.core.raizes,rounds=Number($('#rootRounds').value),dirSel=$('#rootDirection').value;return shuffle(roots).slice(0,rounds).map(r=>{const dir=dirSel==='mixed'?(Math.random()<.5?'h2p':'p2h'):dirSel;if(dir==='h2p'){const opts=shuffle([r,...shuffle(roots.filter(x=>x.id!==r.id)).slice(0,3)]).map(x=>({text:x.p,id:x.id}));return{prompt:r.h,hebrew:true,options:opts,answer:opts.findIndex(o=>o.id===r.id),meta:'Raiz verbal'}}const opts=shuffle([r,...shuffle(roots.filter(x=>x.id!==r.id)).slice(0,3)]).map(x=>({text:x.h,hebrew:true,id:x.id}));return{prompt:r.p,options:opts,answer:opts.findIndex(o=>o.id===r.id),meta:'Raiz verbal'}})}
 function renderBinyanim(){$('#verbTable').innerHTML=DATA.core.binyanim.map(v=>`<tr><td><strong>${esc(v.nome)}</strong></td><td class="hebrew">${esc(v.heb)}</td><td>${esc(v.modo)}</td><td>${esc(v.voz)}</td><td>${esc(v.sentido)}</td></tr>`).join('')}
 function binyanQuestions(){const a=DATA.core.binyanim;return shuffle(a).map(v=>{const opts=shuffle([v,...shuffle(a.filter(x=>x.id!==v.id)).slice(0,3)]).map(x=>({text:x.nome,id:x.id}));return{prompt:v.heb,hebrew:true,options:opts,answer:opts.findIndex(o=>o.id===v.id),meta:'Reconheça o tronco'}})}
-function renderParadigm(type='perfect'){const rows=DATA.morph[type];const labels={perfect:'Perfeito Qal',imperfect:'Imperfeito Qal',imperative:'Imperativo Qal'};$('#paradigmTable').innerHTML=`<table><thead><tr><th colspan="6">${labels[type]}</th></tr><tr><th>PGN</th><th>Forma</th><th>Prefixo</th><th>Terminação</th><th>Leitura</th><th>Pista</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.pgn)}</td><td class="hebrew">${esc(r.form)}</td><td class="marker">${esc(r.prefix)}</td><td class="marker">${esc(r.suffix)}</td><td>${esc(r.reading)}</td><td>${type==='perfect'?'aformativo':type==='imperfect'?'preformativo + aformativo':'2ª pessoa'}</td></tr>`).join('')}</tbody></table>`}
+function renderParadigm(type='perfect'){
+  const picker=$('#imperfectStemPicker');if(picker)picker.classList.toggle('hidden',type!=='imperfect');
+  let rows=DATA.morph[type]||[],title='';
+  if(type==='imperfect'){
+    rows=(DATA.morph.imperfectStems||{})[selectedImperfectStem]||DATA.morph.imperfect||[];
+    title=`Imperfeito ${selectedImperfectStem}`;
+  }else title={perfect:'Perfeito Qal',imperative:'Imperativo Qal'}[type]||type;
+  const source=type==='imperfect'&&rows[0]?.source?`<div class="smallnote" style="margin:8px 0">Fonte didática: ${esc(rows[0].source)}</div>`:'';
+  $('#paradigmTable').innerHTML=`${source}<table><thead><tr><th colspan="6">${esc(title)}</th></tr><tr><th>PGN</th><th>Forma</th><th>Prefixo</th><th>Terminação</th><th>Leitura</th><th>Pista</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.pgn)}</td><td class="hebrew">${esc(r.form)}</td><td class="marker">${esc(r.prefix)}</td><td class="marker">${esc(r.suffix)}</td><td>${esc(r.reading)}</td><td>${type==='perfect'?'aformativo':type==='imperfect'?'preformativo + padrão do tronco':'2ª pessoa'}</td></tr>`).join('')}</tbody></table>`
+}
 
 function setupMorphTabs(){$$('[data-mtab]').forEach(b=>b.onclick=()=>{$$('[data-mtab]').forEach(x=>x.classList.toggle('active',x===b));$$('#morphology .subview').forEach(v=>v.classList.toggle('active',v.id===`morph-${b.dataset.mtab}`));if(b.dataset.mtab==='bank')renderFormBank()})}
 function practiceSets(){return DATA.morph.practiceParadigms||{shmr:{key:'shmr',root:'שמר',meaning:'guardar',label:'שמר — guardar',perfect:DATA.morph.perfect,imperfect:DATA.morph.imperfect,imperative:DATA.morph.imperative}}}
@@ -173,7 +281,8 @@ function checkBuild(){
 }
 
 function normalizedParadigmForms(){const out=[];const sets=practiceSets();Object.values(sets).forEach(set=>['perfect','imperfect','imperative'].forEach(category=>(set[category]||[]).forEach(item=>out.push({...item,category,categoryLabel:catLabel(category),stem:item.stem||'Qal',root:item.root||set.root,gloss:item.gloss||set.meaning,finite:true,sourceType:item.sourceType||'Prática',source:item.source||'Paradigma didático de verbo forte'}))));return out}
-function allVerbalForms(){const raw=[...normalizedParadigmForms(),...(DATA.morph.verbalForms||[])],seen=new Set();return raw.filter(x=>{const k=[x.form,x.stem,x.category,x.pgn||'',x.root||''].join('|');if(seen.has(k))return false;seen.add(k);return true})}
+function derivedImperfectForms(){return Object.values(DATA.morph.imperfectStems||{}).flat().map((x,i)=>({...x,id:x.id||`derived-imp-${x.stem}-${i}`}))}
+function allVerbalForms(){const raw=[...normalizedParadigmForms(),...derivedImperfectForms(),...(DATA.morph.verbalForms||[])],seen=new Set();return raw.filter(x=>{const k=[x.form,x.stem,x.category,x.pgn||'',x.root||''].join('|');if(seen.has(k))return false;seen.add(k);return true})}
 function categoryOptions(){const seen=new Map();allVerbalForms().forEach(x=>seen.set(x.category,catLabel(x.category)));return[...seen].map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join('')}
 function stemOptions(){return[...new Set(allVerbalForms().map(x=>x.stem).filter(Boolean))].map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('')}
 function newIdentify(){
@@ -191,6 +300,37 @@ function checkIdentify(){
   const ambiguity=item.accepted?.length>1?`<div class="smallnote" style="margin-top:7px">Forma ambígua: ${item.accepted.join(' / ')}; o contexto decide.</div>`:'';
   $('#identifyAnswer').innerHTML=`<div class="answerbox"><div class="hebrew">${esc(item.form)}</div><strong>${esc(catLabel(item.category))} • ${esc(item.stem)}</strong><br><span>${item.finite?esc(item.pgn):item.category==='participle'?`${genderLabel(item.gender)} • ${numberLabel(item.number)}`:'forma não finita'} • ${esc(item.reading||item.gloss)}</span>${ambiguity}${item.note?`<div class="smallnote" style="margin-top:7px">${esc(item.note)}</div>`:''}${morphStrip(item)}<div class="source" style="margin-top:8px">Fonte de estudo: ${esc(item.source||'material didático')}</div><div class="answer-actions"><button class="btn gold" id="nextIdentify">Próxima forma</button></div></div>`;
   $('#checkIdentify').disabled=true;$('#nextIdentify').onclick=newIdentify;recordSingle(ok,'morfologia-identificar');
+}
+
+function rootChoiceOptions(target){
+  const roots=DATA.core.raizes||[],wanted=roots.find(r=>r.h===target),others=shuffle(roots.filter(r=>r.h!==target)).slice(0,5);
+  const list=shuffle([...(wanted?[wanted]:[{h:target,p:''}]),...others]);
+  return list.map(r=>`<option value="${esc(r.h)}">${esc(r.h)}${r.p?` — ${esc(r.p)}`:''}</option>`).join('')
+}
+function classCategoryOptions(){
+  const values=[['perfect','Perfeito'],['imperfect','Imperfeito'],['wayyiqtol','Waw consecutivo'],['imperative','Imperativo'],['inf_construct','Infinitivo construto'],['inf_absolute','Infinitivo absoluto'],['participle','Particípio']];
+  return values.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')
+}
+function newClassification(){
+  const arr=DATA.morph.classificationExercises||[];if(!arr.length)return;
+  const item=pickAvoid(arr,lastClassificationId);lastClassificationId=item.id;currentClassification={item,answered:false};
+  $('#classificationGame').innerHTML=`<div class="quiz classification-card"><div class="qmeta">${item.kind==='phrase'?'Frase curta':'Forma isolada'} • classificação completa</div><div class="class-phrase hebrew">${esc(item.phrase)}</div><div class="class-target">Analise: <b class="hebrew">${esc(item.target)}</b></div><div class="class-fields"><div><label>Conjugação / forma</label><select id="clCategory">${classCategoryOptions()}</select></div><div><label>Tronco</label><select id="clStem">${DATA.core.binyanim.map(x=>`<option value="${esc(x.nome)}">${esc(x.nome)}</option>`).join('')}</select></div><div><label>Raiz</label><select id="clRoot">${rootChoiceOptions(item.root)}</select></div><div><label>Pessoa</label><select id="clPerson"><option value="1">1ª</option><option value="2">2ª</option><option value="3">3ª</option><option value="na">—</option></select></div><div><label>Gênero</label><select id="clGender"><option value="m">Masculino</option><option value="f">Feminino</option><option value="c">Comum</option><option value="na">—</option></select></div><div><label>Número</label><select id="clNumber"><option value="s">Singular</option><option value="p">Plural</option><option value="na">—</option></select></div></div><button class="btn gold" id="checkClassification" style="width:100%;margin-top:12px">Classificar</button><div class="feedback" id="classificationFeedback"></div><div id="classificationAnswer"></div></div>`;
+  $('#checkClassification').onclick=checkClassification
+}
+function checkClassification(){
+  if(!currentClassification||currentClassification.answered)return;const x=currentClassification.item;
+  const got={category:$('#clCategory').value,stem:$('#clStem').value,root:$('#clRoot').value,person:$('#clPerson').value,gender:$('#clGender').value,number:$('#clNumber').value};
+  const acceptedPGN=x.accepted?.length?x.accepted:[x.pgn],gotPGN=got.person+got.gender+got.number;
+  const checks={
+    'Forma':got.category===x.category,
+    'Tronco':got.stem===x.stem,
+    'Raiz':got.root===x.root,
+    'PGN':acceptedPGN.includes(gotPGN)
+  };
+  const correct=Object.values(checks).filter(Boolean).length,currentTotal=Object.keys(checks).length,ok=correct===currentTotal;
+  currentClassification.answered=true;$('#classificationFeedback').textContent=ok?'✓ Classificação completa correta':`Você acertou ${correct}/${currentTotal} blocos da análise.`;
+  $('#classificationAnswer').innerHTML=`<div class="answerbox"><div class="class-result-grid">${Object.entries(checks).map(([k,v])=>`<div class="field-result ${v?'ok':'bad'}"><b>${v?'✓':'✗'} ${k}</b>${k==='Forma'?esc(catLabel(x.category)):k==='Tronco'?esc(x.stem):k==='Raiz'?`<span class="hebrew">${esc(x.root)}</span>`:esc(x.pgn)}</div>`).join('')}</div><div style="margin-top:10px"><strong class="hebrew">${esc(x.target)}</strong> — ${esc(x.gloss||'')}</div>${x.accepted?.length>1?`<div class="smallnote">A forma isolada admite: ${x.accepted.join(' / ')}; nesta frase, o contexto orienta a análise escolhida.</div>`:''}<div class="rulebox" style="margin-top:9px">${esc(x.tip||'')}</div><div class="analysis-route"><span>FORMA</span><span>TRONCO</span><span>PGN</span><span>RAIZ</span><span>LÉXICO</span><span>SINTAXE</span><span>CONTEXTO</span></div><div class="answer-actions"><button class="btn gold" id="nextClassification">Nova análise</button></div></div>`;
+  $('#checkClassification').disabled=true;$('#nextClassification').onclick=newClassification;recordSingle(ok,'morfologia-classificar')
 }
 
 function setupFormBank(){
@@ -223,6 +363,7 @@ function renderNumberTable(){const set=$('#numberSet').value==='card'?DATA.core.
 function renderKelley(){
   const K=DATA.kelley;$('#analysisAlgorithm').innerHTML=K.algorithm.map(x=>`<div>${esc(x)}</div>`).join('');$('#p1Info').textContent=K.examInfo.P1;$('#p2Info').textContent=K.examInfo.P2;$('#t1Info').textContent=K.examInfo.T1;if(K.analyticalLexicon){$('#lexiconBridgeText').textContent=K.analyticalLexicon.text;$('#lexiconBridgeNote').textContent=K.analyticalLexicon.note;}
   const arr=K.lessons.filter(l=>kelleyFilter==='all'||l.exam===kelleyFilter);$('#lessonGrid').innerHTML=arr.map(l=>`<article class="lesson"><span class="examtag">${l.exam}</span><h3>Lição ${esc(l.id)} • ${esc(l.title)}</h3><p>${esc(l.pages)} • ${esc(l.summary)}</p><ul>${l.keys.map(k=>`<li>${esc(k)}</li>`).join('')}</ul></article>`).join('')
+  const kr=$('#kelleyResources');if(kr){kr.innerHTML=(DATA.kelley.resources||[]).map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener"><strong>${esc(r.title)}</strong><small>${esc(r.note||'')}</small></a>`).join('')}
 }
 function setupKelleyFilters(){$$('[data-kfilter]').forEach(b=>b.onclick=()=>{kelleyFilter=b.dataset.kfilter;$$('[data-kfilter]').forEach(x=>x.classList.toggle('active',x===b));renderKelley()})}
 
@@ -365,7 +506,7 @@ function buildNumberDuelQuestions(){
   return out;
 }
 function morphologyVerbalPool(){
-  const source=[...(DATA.morph?.perfect||[]),...(DATA.morph?.imperfect||[]),...(DATA.morph?.imperative||[]),...(DATA.morph?.verbalForms||[])];
+  const source=[...(DATA.morph?.perfect||[]),...(DATA.morph?.imperfect||[]),...(DATA.morph?.imperative||[]),...Object.values(DATA.morph?.imperfectStems||{}).flat(),...(DATA.morph?.verbalForms||[])];
   const seen=new Set();return source.filter(x=>{
     const k=`${x.form}|${x.categoryLabel}|${x.pgn}|${x.stem}`;if(!x.form||seen.has(k))return false;seen.add(k);return true;
   });
@@ -499,7 +640,11 @@ async function answerDuel(index){
 }
 function sendReaction(emoji){
   if(!currentUser||!currentDuelId||currentDuelData?.meta?.status!=='active')return;
-  rtdb.ref(`duels/${currentDuelId}/reactions`).push({fromUid:currentUser.uid,emoji,createdAt:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+  showReaction(emoji,'Você');
+  rtdb.ref(`duels/${currentDuelId}/reactions`).push({fromUid:currentUser.uid,emoji,createdAt:firebase.database.ServerValue.TIMESTAMP}).catch(e=>{
+    console.error('Falha ao enviar reação',e);
+    showReaction('⚠️','Reação não enviada')
+  })
 }
 function showReaction(emoji,name){
   let el=$('#reactionPop');
@@ -593,14 +738,14 @@ function renderSocial(){
 
 function setupEvents(){
   $('#tabLogin').onclick=()=>setAuthMode('login');$('#tabRegister').onclick=()=>setAuthMode('register');$('#authForm').addEventListener('submit',submitAuth);$('#logoutBtn').onclick=async()=>{stopPresence(true);await auth.signOut()};
-  setupNavigation();setSelectedDuelMode(selectedDuelMode);$$('[data-duel-mode]').forEach(b=>b.onclick=()=>setSelectedDuelMode(b.dataset.duelMode));if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);$('#startVocab').onclick=startVocab;$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
+  setupNavigation();setSelectedDuelMode(selectedDuelMode);$$('[data-duel-mode]').forEach(b=>b.onclick=()=>setSelectedDuelMode(b.dataset.duelMode));if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);setupVocabButtons();$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
   const buildRoot=$('#buildRoot');if(buildRoot){const sets=practiceSets();buildRoot.innerHTML=Object.entries(sets).map(([k,s])=>`<option value="${esc(k)}">${esc(s.label||`${s.root} — ${s.meaning}`)}</option>`).join('');buildRoot.onchange=newBuildQuestion}
 $('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;
-$('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;$('#newIdentify').onclick=newIdentify;$('#newNominal').onclick=newNominal;setupFormBank();
+$('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;$('#newIdentify').onclick=newIdentify;$('#newClassification').onclick=newClassification;$('#newNominal').onclick=newNominal;setupFormBank();
   $('#startNumbers').onclick=()=>{renderNumberTable();runChoiceQuiz($('#numberGame'),numberQuestions(),'numerais')};$('#numberSet').onchange=renderNumberTable;
   setupVerbTabs();setupMorphTabs();setupKelleyFilters();
 }
-function renderStatic(){renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newNominal();handleVersion();renderHomeStats()}
+function renderStatic(){renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newClassification();newNominal();handleVersion();renderHomeStats()}
 
 async function start(){
   try{await loadData()}catch(e){showLoadError(e);return}

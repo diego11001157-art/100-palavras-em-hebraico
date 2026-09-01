@@ -1,4 +1,4 @@
-const CACHE='alef-v1.5.2-battle-modes';
+const CACHE='alef-v1.6.0-vocab-morphology';
 const STATIC=[
   './','./index.html','./styles.css','./app.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
