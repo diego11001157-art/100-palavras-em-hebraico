@@ -48,15 +48,16 @@
 <div class="update-banner hidden" id="updateBanner"><div><strong>✨ Conteúdo atualizado</strong><br><span id="updateText"></span></div><button id="dismissUpdate">Entendi</button></div>
 
 <section id="home" class="view active">
-  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, morfologia e estudo colaborativo. Na v1.5, você pode ver quem está online, desafiar colegas e reagir com emojis durante os duelos.</p></div>
+  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, morfologia, verbos e um plano semanal de estudos. A v1.7 acompanha diretamente as atividades atuais de Hebraico Bíblico II.</p></div>
   <div class="metric">
-    <div><b id="homeWords">70</b><span>palavras disponíveis</span></div>
+    <div><b id="homeWords">75</b><span>palavras disponíveis</span></div>
     <div><b>100</b><span>meta de vocabulário</span></div>
     <div><b id="homePoints">0</b><span>XP</span></div>
     <div><b id="homeAccuracy">0%</b><span>precisão</span></div>
   </div>
   <div class="grid">
-    <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>70 palavras atuais e estrutura pronta para receber blocos semanais de 5 até chegar a 100.</p><button class="btn" data-go="vocab">Estudar palavras</button></article>
+    <article class="card action-card week-card"><div class="ico">📅</div><h2>Plano da Semana</h2><p>Vocabulário 05, numerais 1–10, verbos regulares e exercícios Kelley.</p><button class="btn gold" data-go="week">Abrir plano</button></article>
+    <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>75 palavras disponíveis, incluindo o novo Vocabulário 5 (15).</p><button class="btn" data-go="vocab">Estudar palavras</button></article>
     <article class="card action-card"><div class="ico">🔤</div><h2>Verbos</h2><p>Raízes, sete troncos e tabelas do perfeito, imperfeito e imperativo.</p><button class="btn" data-go="verbs">Abrir verbos</button></article>
     <article class="card action-card"><div class="ico">🧩</div><h2>Morfologia</h2><p>Monte terminações e identifique pessoa, gênero, número e estado nominal.</p><button class="btn gold" data-go="morphology">Treinar morfologia</button></article>
     <article class="card action-card"><div class="ico">💡</div><h2>Dicas Kelley</h2><p>Resumo prático das Lições XII–XXI, com o algoritmo de análise usado nas provas.</p><button class="btn" data-go="kelley">Revisar Kelley</button></article>
@@ -64,6 +65,22 @@
     <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Pontos compartilhados entre os jogadores conectados ao Firebase.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
     <article class="card action-card social-card"><div class="ico">⚔️</div><h2>Duelos</h2><p>Veja colegas online, fique disponível e dispute 10 palavras em tempo real.</p><button class="btn gold" data-go="duels">Abrir duelos</button></article>
   </div>
+</section>
+
+
+<section id="week" class="view">
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📅 Plano da Semana</h2><div class="section-sub">Orientações atuais do professor organizadas em um único lugar.</div></div>
+  <div class="week-hero card"><div><span class="badge">SEMANA ATUAL</span><h2 id="weekTitle">Plano de estudo</h2><p id="weekSubtitle"></p></div><div class="week-progress"><b id="weekProgress">0%</b><span>concluído</span></div></div>
+  <div class="card"><h3>✅ Checklist</h3><div id="weekTasks" class="week-tasks"></div></div>
+  <div class="card" style="margin-top:12px">
+    <div class="presence-head"><div><h3 style="margin:0">🔤 Tabela do Professor</h3><p>Prática dos verbos regulares no Qatal e no Yiqtol, seguindo a estrutura das três fichas enviadas.</p></div><span class="badge">3 VERBOS • 7 TRONCOS</span></div>
+    <div class="week-select-grid"><div><label>Verbo</label><select id="weekVerb"></select></div><div><label>Conjugação</label><select id="weekConj"><option value="perfect">Completo • Perfeito / Qatal</option><option value="imperfect">Incompleto • Imperfeito / Yiqtol</option></select></div><div><label>Tronco</label><select id="weekStem"></select></div></div>
+    <div id="weekStemInfo" class="stem-info"></div>
+    <div class="rulebox"><strong>Treino por cores:</strong> toque em “Mostrar marcas” para separar <span class="prefix-color">prefixo</span>, <span class="root-color">raiz</span> e <span class="suffix-color">sufixo</span>.</div>
+    <div id="weekVerbTable" class="table-wrap"></div>
+    <div class="bible-ref-box"><label>📖 Exemplo bíblico encontrado por você</label><div class="bible-ref-row"><input id="weekBibleRef" type="text" placeholder="Ex.: Gn 1:1"><button class="btn gold" id="saveWeekBibleRef">Salvar referência</button></div><div class="smallnote" id="weekBibleSaved">A referência fica salva neste aparelho para esta combinação de verbo, conjugação e tronco.</div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h3>🧠 Como estudar esta semana</h3><div class="study-route"><div><b>1</b><span>Memorize 71–75</span></div><div><b>2</b><span>Cardinais 1–10</span></div><div><b>3</b><span>Qatal: sufixos</span></div><div><b>4</b><span>Yiqtol: prefixos + sufixos</span></div><div><b>5</b><span>Compare os 7 troncos</span></div><div><b>6</b><span>Faça Kelley</span></div></div></div>
 </section>
 
 <section id="vocab" class="view">
@@ -200,6 +217,13 @@
 
 <section id="numbers" class="view">
   <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">🔢 Numerais</h2></div>
+  
+  <div class="card weekly-number-card">
+    <div class="presence-head"><div><h3 style="margin:0">⭐ Foco da semana</h3><p>Cardinais de 1 a 10 • masculino e feminino • forma absoluta.</p></div><span class="badge">CONTEÚDO DE TESTE</span></div>
+    <div class="week-number-actions"><button class="btn gold" id="startWeekNumbers">Treinar os 20 cartões</button><button class="btn ghost" id="showWeekNumbers">Ver tabela 1–10</button></div>
+    <div id="weekNumberTable" class="table-wrap hidden"></div>
+  </div>
+
   <div class="rulebox">Cardinais e ordinais são treinados separadamente. Nos ordinais, a concordância de gênero é importante; acima de dez o material apresenta o uso de cardinais.</div>
   <div class="card"><div class="form-row"><div><label>Conjunto</label><select id="numberSet"><option value="card">Cardinais</option><option value="ord">Ordinais</option></select></div><div><label>Desafio</label><select id="numberMode"><option value="translation">Hebraico ↔ Português</option><option value="gender">Masculino × Feminino</option></select></div></div><button class="btn gold" id="startNumbers" style="margin-top:10px;width:100%">Iniciar desafio</button></div>
   <div id="numberGame"></div><div class="table-wrap" id="numberTable"></div>

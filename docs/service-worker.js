@@ -1,8 +1,8 @@
-const CACHE='alef-v1.6.0-vocab-morphology';
+const CACHE='alef-v1.7.0-weekly-plan';
 const STATIC=[
   './','./index.html','./styles.css','./app.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
-  './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/version.json'
+  './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/version.json','./content/week.json'
 ];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

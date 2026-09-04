@@ -137,3 +137,23 @@ body.battle-open{overflow:hidden}
 @media(max-width:480px){
   .class-fields,.class-result-grid{grid-template-columns:1fr}
 }
+
+/* Alef v1.7 — Plano semanal e tabela do professor */
+.week-card{border-color:#c99b3d}
+.week-hero{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;background:linear-gradient(135deg,#fffaf0,#f2e3c2)}
+.week-hero h2{margin:8px 0 4px}.week-progress{min-width:92px;text-align:center;border-left:1px solid var(--line);padding-left:15px}
+.week-progress b{display:block;font-size:30px;color:var(--green)}.week-progress span{font-size:10px;color:var(--muted)}
+.week-tasks{display:grid;gap:8px;margin-top:10px}.week-task{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:11px 12px}
+.week-task.done{opacity:.7}.week-task.done .week-task-title{text-decoration:line-through}.week-task input{width:19px;height:19px;accent-color:var(--green)}
+.week-task-title{font-weight:900;color:var(--green)}.week-task-detail{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.35}
+.week-select-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.week-select-grid label,.bible-ref-box label{display:block;font-size:10px;font-weight:900;color:var(--muted);margin-bottom:4px}
+.week-select-grid select,.bible-ref-row input{width:100%;min-height:43px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px;color:var(--ink)}
+.stem-info{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.stem-info span{background:var(--green);color:#fff;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:850}
+.week-marker-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 8px;font-size:10px;font-weight:800;color:var(--green)}
+.week-marker-line{font-size:22px;direction:rtl;white-space:nowrap}.prefix-color{color:#1775c8;font-weight:900}.root-color{color:#1a6a50;font-weight:900}.suffix-color{color:#c4493f;font-weight:900}
+.week-reveal{display:none;margin-top:4px}.week-reveal.show{display:block}.bible-ref-box{margin-top:12px;border:1px dashed var(--line);border-radius:15px;padding:12px;background:var(--panel2)}
+.bible-ref-row{display:grid;grid-template-columns:1fr auto;gap:8px}.study-route{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.study-route>div{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:10px}.study-route b{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#1e332e}.study-route span{font-size:11px;font-weight:850}
+.weekly-number-card{margin-bottom:12px;border-color:#c99b3d}.week-number-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.week-number-actions .btn{flex:1 1 180px}
+@media(max-width:760px){.week-select-grid,.study-route{grid-template-columns:1fr}.week-hero{align-items:flex-start}.week-progress{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:8px}.bible-ref-row{grid-template-columns:1fr}.week-task{grid-template-columns:auto 1fr}.week-task .btn{grid-column:2}}

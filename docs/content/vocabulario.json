@@ -628,5 +628,50 @@
     "example": "",
     "analysis": "",
     "release": "base-70"
+  },
+  {
+    "n": 71,
+    "h": "אֵלַי",
+    "p": "a mim, para mim",
+    "occurrences": 368,
+    "example": "Gn 4:10",
+    "analysis": "Prep. “para, em direção” + suf. pron. 1ª pes. com. sing. = “a mim”, “para mim”.",
+    "release": "vocab-15"
+  },
+  {
+    "n": 72,
+    "h": "בּוֹ",
+    "p": "nele, com ele",
+    "occurrences": 365,
+    "example": "Sl 127:1; Jr 20:14",
+    "analysis": "Prep. “em, no, com” + suf. pron. 3ª pes. com. sing. = “nele”, “com ele”.",
+    "release": "vocab-15"
+  },
+  {
+    "n": 73,
+    "h": "הָאֱלֹהִים",
+    "p": "o Deus",
+    "occurrences": 365,
+    "example": "Gn 5:22; Jó 1:6",
+    "analysis": "Artigo “o, a” + subs. (nome) próprio masc. pl. “Deus” = “o Deus”.",
+    "release": "vocab-15"
+  },
+  {
+    "n": 74,
+    "h": "בְּכָל",
+    "p": "em tudo, em todo",
+    "occurrences": 364,
+    "example": "Gn 9:2, 15; 19:17",
+    "analysis": "Prep. “em, no, com” + subs. com. masc. sing. const. “tudo, todo” = “em tudo”, “em todo”. Às vezes traduzido como “de toda”, “de todo”.",
+    "release": "vocab-15"
+  },
+  {
+    "n": 75,
+    "h": "אֵין",
+    "p": "nada, não, não há",
+    "occurrences": 360,
+    "example": "Gn 11:30; 19:31; 20:11; Êx 9:14",
+    "analysis": "Part. adv. = “nada, não, não há”.",
+    "release": "vocab-15"
   }
 ]

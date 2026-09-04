@@ -1,0 +1,262 @@
+{
+  "id": "2026-09-01",
+  "title": "Plano de estudo da semana",
+  "subtitle": "Revisão dirigida pelo professor • sem novo vocabulário na próxima semana",
+  "tasks": [
+    {
+      "id": "vocab15",
+      "title": "Vocabulário 5 (15)",
+      "detail": "Estudar as 5 palavras novas adicionadas ao Alef (71–75).",
+      "action": "vocab"
+    },
+    {
+      "id": "numerais",
+      "title": "Numerais cardinais 1–10",
+      "detail": "Revisar masculino e feminino na forma absoluta. Esses numerais farão parte dos testes.",
+      "action": "numbers"
+    },
+    {
+      "id": "verbos",
+      "title": "Atividade dos verbos regulares",
+      "detail": "Praticar Qatal (Perfeito) e Yiqtol (Imperfeito) nos sete troncos com קטל, שמר e כתב; marcar prefixo e sufixo com cores diferentes.",
+      "action": "week-verbs"
+    },
+    {
+      "id": "biblia",
+      "title": "Ocorrência bíblica",
+      "detail": "Registrar ao menos um exemplo bíblico para cada verbo praticado, conforme a orientação da atividade.",
+      "action": "week-verbs"
+    },
+    {
+      "id": "kelley169",
+      "title": "Page Kelley • p. 169–170",
+      "detail": "Exercícios 1; 2 (a–e); 3; e 4 (os dois primeiros de cada).",
+      "action": "kelley"
+    },
+    {
+      "id": "kelleyReview",
+      "title": "Revisão Kelley",
+      "detail": "Revisar p. 140–156 e os exercícios 1, 2, 3 e 5 das p. 157–160.",
+      "action": "kelley"
+    },
+    {
+      "id": "video",
+      "title": "Vídeo de revisão",
+      "detail": "Reassistir ao vídeo indicado pelo professor sobre o conteúdo verbal.",
+      "url": "https://www.youtube.com/watch?v=M2GNuw7LAWk"
+    }
+  ],
+  "verbs": [
+    {
+      "key": "qatal",
+      "root": "קטל",
+      "label": "קָטַל — matar",
+      "meaning": "matar"
+    },
+    {
+      "key": "shamar",
+      "root": "שמר",
+      "label": "שָׁמַר — guardar/observar",
+      "meaning": "guardar/observar"
+    },
+    {
+      "key": "katav",
+      "root": "כתב",
+      "label": "כָּתַב — escrever",
+      "meaning": "escrever"
+    }
+  ],
+  "stems": [
+    {
+      "key": "Qal",
+      "mode": "Simples",
+      "voice": "Ativa"
+    },
+    {
+      "key": "Nifal",
+      "mode": "Simples",
+      "voice": "Passiva"
+    },
+    {
+      "key": "Piel",
+      "mode": "Intensivo",
+      "voice": "Ativa"
+    },
+    {
+      "key": "Pual",
+      "mode": "Intensivo",
+      "voice": "Passiva"
+    },
+    {
+      "key": "Hitpael",
+      "mode": "Intensivo",
+      "voice": "Reflexiva"
+    },
+    {
+      "key": "Hifil",
+      "mode": "Causativo",
+      "voice": "Ativa"
+    },
+    {
+      "key": "Hofal",
+      "mode": "Causativo",
+      "voice": "Passiva"
+    }
+  ],
+  "perfectRows": [
+    {
+      "pgn": "3ms",
+      "person": "3ª",
+      "gender": "masc.",
+      "number": "Singular",
+      "prefix": "∅",
+      "suffix": "∅"
+    },
+    {
+      "pgn": "3fs",
+      "person": "3ª",
+      "gender": "fem.",
+      "number": "Singular",
+      "prefix": "∅",
+      "suffix": "ה"
+    },
+    {
+      "pgn": "2ms",
+      "person": "2ª",
+      "gender": "masc.",
+      "number": "Singular",
+      "prefix": "∅",
+      "suffix": "תָּ"
+    },
+    {
+      "pgn": "2fs",
+      "person": "2ª",
+      "gender": "fem.",
+      "number": "Singular",
+      "prefix": "∅",
+      "suffix": "תְּ"
+    },
+    {
+      "pgn": "1cs",
+      "person": "1ª",
+      "gender": "comum",
+      "number": "Singular",
+      "prefix": "∅",
+      "suffix": "תִּי"
+    },
+    {
+      "pgn": "3cp",
+      "person": "3ª",
+      "gender": "comum",
+      "number": "Plural",
+      "prefix": "∅",
+      "suffix": "וּ"
+    },
+    {
+      "pgn": "2mp",
+      "person": "2ª",
+      "gender": "masc.",
+      "number": "Plural",
+      "prefix": "∅",
+      "suffix": "תֶּם"
+    },
+    {
+      "pgn": "2fp",
+      "person": "2ª",
+      "gender": "fem.",
+      "number": "Plural",
+      "prefix": "∅",
+      "suffix": "תֶּן"
+    },
+    {
+      "pgn": "1cp",
+      "person": "1ª",
+      "gender": "comum",
+      "number": "Plural",
+      "prefix": "∅",
+      "suffix": "נוּ"
+    }
+  ],
+  "imperfectRows": [
+    {
+      "pgn": "3ms",
+      "person": "3ª",
+      "gender": "masc.",
+      "number": "Singular",
+      "prefix": "י",
+      "suffix": "∅"
+    },
+    {
+      "pgn": "3fs",
+      "person": "3ª",
+      "gender": "fem.",
+      "number": "Singular",
+      "prefix": "ת",
+      "suffix": "∅"
+    },
+    {
+      "pgn": "2ms",
+      "person": "2ª",
+      "gender": "masc.",
+      "number": "Singular",
+      "prefix": "ת",
+      "suffix": "∅"
+    },
+    {
+      "pgn": "2fs",
+      "person": "2ª",
+      "gender": "fem.",
+      "number": "Singular",
+      "prefix": "ת",
+      "suffix": "י"
+    },
+    {
+      "pgn": "1cs",
+      "person": "1ª",
+      "gender": "comum",
+      "number": "Singular",
+      "prefix": "א",
+      "suffix": "∅"
+    },
+    {
+      "pgn": "3mp",
+      "person": "3ª",
+      "gender": "masc.",
+      "number": "Plural",
+      "prefix": "י",
+      "suffix": "וּ"
+    },
+    {
+      "pgn": "3fp",
+      "person": "3ª",
+      "gender": "fem.",
+      "number": "Plural",
+      "prefix": "ת",
+      "suffix": "נָה"
+    },
+    {
+      "pgn": "2mp",
+      "person": "2ª",
+      "gender": "masc.",
+      "number": "Plural",
+      "prefix": "ת",
+      "suffix": "וּ"
+    },
+    {
+      "pgn": "2fp",
+      "person": "2ª",
+      "gender": "fem.",
+      "number": "Plural",
+      "prefix": "ת",
+      "suffix": "נָה"
+    },
+    {
+      "pgn": "1cp",
+      "person": "1ª",
+      "gender": "comum",
+      "number": "Plural",
+      "prefix": "נ",
+      "suffix": "∅"
+    }
+  ]
+}

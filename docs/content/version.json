@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.6.0",
-  "contentVersion": "2026-09-01.1-vocab-morphology",
-  "wordsAvailable": 70,
+  "appVersion": "1.7.0",
+  "contentVersion": "2026-09-03.1-weekly-plan",
+  "wordsAvailable": 75,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.6: modo Escrever, botões interativos, Todas sem limite de 10, classificação morfológica completa, imperfeito nos sete troncos e reações de duelo corrigidas."
+  "message": "Alef v1.7: Vocabulário 05 (71–75), Plano da Semana, revisão dirigida de numerais 1–10 e Tabela do Professor para Qatal/Yiqtol com קטל, שמר e כתב."
 }

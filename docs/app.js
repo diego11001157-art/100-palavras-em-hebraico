@@ -5,7 +5,7 @@ const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floo
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 
-let DATA={vocab:[],core:null,morph:null,kelley:null,version:null};
+let DATA={vocab:[],core:null,morph:null,kelley:null,version:null,week:null};
 let authMode='login',currentUser=null,meStats={points:0,correct:0,wrong:0,bestStreak:0,games:0};
 let unsubscribeUser=null,unsubscribeRanking=null,rankingCache=[];
 let selectedVocab='1-10',currentBuild=null,currentIdentify=null,currentNominal=null,currentClassification=null,kelleyFilter='all';
@@ -30,10 +30,10 @@ async function fetchJSON(path){
   return r.json();
 }
 async function loadData(){
-  const [vocab,core,morph,kelley,version]=await Promise.all([
-    fetchJSON('content/vocabulario.json'),fetchJSON('content/core.json'),fetchJSON('content/morphology.json'),fetchJSON('content/kelley.json'),fetchJSON('content/version.json')
+  const [vocab,core,morph,kelley,version,week]=await Promise.all([
+    fetchJSON('content/vocabulario.json'),fetchJSON('content/core.json'),fetchJSON('content/morphology.json'),fetchJSON('content/kelley.json'),fetchJSON('content/version.json'),fetchJSON('content/week.json')
   ]);
-  DATA={vocab,core,morph,kelley,version};
+  DATA={vocab,core,morph,kelley,version,week};
 }
 function registerSW(){if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{})}}
 function showLoadError(err){document.body.innerHTML=`<div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:#173e39;color:white;font-family:system-ui"><div style="max-width:540px"><h1>Alef</h1><p>Não foi possível carregar o conteúdo didático agora.</p><p style="opacity:.8">${esc(err.message)}</p><button onclick="location.reload()" style="padding:12px 16px;border:0;border-radius:12px;font-weight:800">Tentar novamente</button></div></div>`}
@@ -57,7 +57,7 @@ async function submitAuth(e){
 function showView(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('.navb').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-  if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();if(id==='duels')renderSocial();
+  if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();if(id==='duels')renderSocial();if(id==='week')renderWeek();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function setupNavigation(){$$('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));$('#profilePill').onclick=()=>showView('profile')}
@@ -95,6 +95,33 @@ function groupDefinitions(){
   for(let s=71;s<=100;s+=5)g.push({key:`${s}-${s+4}`,label:`${s}–${s+4}`,start:s,end:s+4,future:true});
   g.push({key:'new',label:'✨ Novas',special:true},{key:'errors',label:'❌ Erros',special:true},{key:'all',label:'Todas',special:true});return g;
 }
+
+function weekState(){try{return JSON.parse(localStorage.getItem('alef_week_state_'+DATA.week.id)||'{}')}catch(_){return{}}}
+function saveWeekState(s){localStorage.setItem('alef_week_state_'+DATA.week.id,JSON.stringify(s))}
+function weekBibleKey(){const v=$('#weekVerb')?.value||DATA.week.verbs[0].key,c=$('#weekConj')?.value||'perfect',s=$('#weekStem')?.value||'Qal';return`alef_week_bible_${DATA.week.id}_${v}_${c}_${s}`}
+function renderWeekTasks(){
+  const h=$('#weekTasks');if(!h)return;const state=weekState();
+  h.innerHTML=DATA.week.tasks.map(t=>`<div class="week-task ${state[t.id]?'done':''}"><input type="checkbox" data-week-check="${t.id}" ${state[t.id]?'checked':''}><div><div class="week-task-title">${esc(t.title)}</div><div class="week-task-detail">${esc(t.detail)}</div></div>${t.url?`<a class="btn ghost small" href="${esc(t.url)}" target="_blank" rel="noopener">Abrir vídeo</a>`:t.action?`<button class="btn ghost small" data-week-go="${esc(t.action)}">Abrir</button>`:''}</div>`).join('');
+  $$('[data-week-check]').forEach(c=>c.onchange=()=>{const s=weekState();s[c.dataset.weekCheck]=c.checked;saveWeekState(s);renderWeekTasks();updateWeekProgress()});
+  $$('[data-week-go]').forEach(b=>b.onclick=()=>{const a=b.dataset.weekGo;if(a==='week-verbs'){document.querySelector('#weekVerbTable')?.scrollIntoView({behavior:'smooth',block:'start'});return}if(a==='vocab'){selectedVocab='71-75';renderVocabGroups();showView('vocab');return}showView(a)});
+}
+function updateWeekProgress(){const state=weekState(),total=DATA.week.tasks.length,done=DATA.week.tasks.filter(t=>state[t.id]).length,pct=total?Math.round(done/total*100):0;if($('#weekProgress'))$('#weekProgress').textContent=pct+'%'}
+function renderWeekSelects(){
+  if(!$('#weekVerb'))return;const keepV=$('#weekVerb').value,keepS=$('#weekStem').value;
+  $('#weekVerb').innerHTML=DATA.week.verbs.map(v=>`<option value="${esc(v.key)}">${esc(v.label)}</option>`).join('');
+  $('#weekStem').innerHTML=DATA.week.stems.map(s=>`<option value="${esc(s.key)}">${esc(s.key)}</option>`).join('');
+  if(keepV)$('#weekVerb').value=keepV;if(keepS)$('#weekStem').value=keepS;
+}
+function renderWeekVerbTable(){
+  const vkey=$('#weekVerb').value,conj=$('#weekConj').value,stemKey=$('#weekStem').value,verb=DATA.week.verbs.find(v=>v.key===vkey),stem=DATA.week.stems.find(s=>s.key===stemKey),rows=conj==='perfect'?DATA.week.perfectRows:DATA.week.imperfectRows;
+  $('#weekStemInfo').innerHTML=`<span>Tronco: ${esc(stem.key)}</span><span>Modo: ${esc(stem.mode)}</span><span>Voz: ${esc(stem.voice)}</span><span>${conj==='perfect'?'Qatal • completo':'Yiqtol • incompleto'}</span>`;
+  $('#weekVerbTable').innerHTML=`<table><thead><tr><th>Número</th><th>Pessoa</th><th>Gênero</th><th>PGN</th><th>Raiz</th><th>Marcas pessoais</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.number)}</td><td>${esc(r.person)}</td><td>${esc(r.gender)}</td><td><strong>${esc(r.pgn)}</strong></td><td class="hebrew">${esc(verb.root)}</td><td><button class="week-marker-btn" data-week-reveal="${i}">Mostrar marcas</button><div class="week-reveal" id="weekReveal${i}"><div class="week-marker-line"><span class="prefix-color">${esc(r.prefix)}</span> + <span class="root-color">${esc(verb.root)}</span> + <span class="suffix-color">${esc(r.suffix)}</span></div><small>prefixo: ${esc(r.prefix)} • sufixo: ${esc(r.suffix)}</small></div></td></tr>`).join('')}</tbody></table>`;
+  $$('[data-week-reveal]').forEach(b=>b.onclick=()=>{const el=$('#weekReveal'+b.dataset.weekReveal);el.classList.toggle('show');b.textContent=el.classList.contains('show')?'Ocultar marcas':'Mostrar marcas'});
+  const saved=localStorage.getItem(weekBibleKey())||'';$('#weekBibleRef').value=saved;$('#weekBibleSaved').textContent=saved?`Salvo: ${saved}`:'A referência fica salva neste aparelho para esta combinação de verbo, conjugação e tronco.'
+}
+function renderWeek(){if(!DATA.week)return;$('#weekTitle').textContent=DATA.week.title;$('#weekSubtitle').textContent=DATA.week.subtitle;renderWeekTasks();updateWeekProgress();renderWeekSelects();renderWeekVerbTable()}
+function setupWeek(){if(!$('#weekVerb'))return;$('#weekVerb').onchange=renderWeekVerbTable;$('#weekConj').onchange=renderWeekVerbTable;$('#weekStem').onchange=renderWeekVerbTable;$('#saveWeekBibleRef').onclick=()=>{const v=$('#weekBibleRef').value.trim();if(v)localStorage.setItem(weekBibleKey(),v);else localStorage.removeItem(weekBibleKey());$('#weekBibleSaved').textContent=v?`Salvo: ${v}`:'Referência removida.'}}
+
 function renderVocabGroups(){
   const max=Math.max(0,...DATA.vocab.map(w=>w.n)),defs=groupDefinitions();
   $('#vocabGroups').innerHTML=defs.map(g=>{
@@ -358,6 +385,16 @@ function checkNominal(){
 function renderQuickRules(){$('#quickRules').innerHTML=DATA.morph.quickRules.map(r=>`<div class="card"><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></div>`).join('')}
 
 function numberQuestions(){const set=$('#numberSet').value==='card'?DATA.core.cardinais:DATA.core.ordinais,mode=$('#numberMode').value;const round=shuffle(set).slice(0,Math.min(10,set.length));return round.map(n=>{if(mode==='gender'&&n.f){const askM=Math.random()<.5,target=askM?n.m:n.f,other=askM?n.f:n.m;const distract=shuffle(set.filter(x=>x.id!==n.id).map(x=>askM?x.m:x.f).filter(Boolean)).slice(0,2);const opts=shuffle([target,other,...distract]).map((x,i)=>({text:x,hebrew:true,key:x}));return{prompt:`${n.pt} • ${askM?'masculino':'feminino'}`,options:opts,answer:opts.findIndex(o=>o.key===target),meta:'Gênero dos numerais'}}const heb=n.m||n.f,opts=shuffle([n,...shuffle(set.filter(x=>x.id!==n.id)).slice(0,3)]).map(x=>({text:x.pt,key:x.id}));return{prompt:heb,hebrew:true,options:opts,answer:opts.findIndex(o=>o.key===n.id),meta:'Numerais'}})}
+
+function weekCardinals(){return(DATA.core.cardinais||[]).filter(x=>Number(x.num)>=1&&Number(x.num)<=10)}
+function renderWeekNumberTable(){const h=$('#weekNumberTable');if(!h)return;const rows=weekCardinals();h.innerHTML=`<table><thead><tr><th>Número</th><th>Português</th><th>Masculino • absoluto</th><th>Feminino • absoluto</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.num}</td><td>${esc(x.pt)}</td><td class="hebrew">${esc(x.m)}</td><td class="hebrew">${esc(x.f)}</td></tr>`).join('')}</tbody></table>`}
+function startWeekNumbers(){
+  const base=weekCardinals(),items=[];base.forEach(x=>{items.push({num:x.num,pt:x.pt,gender:'Masculino',form:x.m});items.push({num:x.num,pt:x.pt,gender:'Feminino',form:x.f})});
+  const questions=shuffle(items).map(x=>{const direction=Math.random()<.5?'h2p':'p2h';if(direction==='h2p'){const answer=`${x.pt} • ${x.gender}`,pool=items.map(y=>`${y.pt} • ${y.gender}`),opts=shuffle([answer,...shuffle([...new Set(pool.filter(p=>p!==answer))]).slice(0,3)]).map(t=>({text:t,hebrew:false}));return{prompt:x.form,hebrew:true,options:opts,answer:opts.findIndex(o=>o.text===answer),meta:'Cardinais 1–10 • absoluto'}}const answer=x.form,pool=items.map(y=>y.form),opts=shuffle([answer,...shuffle([...new Set(pool.filter(p=>p!==answer))]).slice(0,3)]).map(t=>({text:t,hebrew:true}));return{prompt:`${x.pt} • ${x.gender} absoluto`,hebrew:false,options:opts,answer:opts.findIndex(o=>o.text===answer),meta:'Cardinais 1–10 • absoluto'}});
+  runChoiceQuiz($('#numberGame'),questions,'numerais-semana')
+}
+function setupWeekNumbers(){if(!$('#startWeekNumbers'))return;$('#startWeekNumbers').onclick=startWeekNumbers;$('#showWeekNumbers').onclick=()=>{const h=$('#weekNumberTable');renderWeekNumberTable();h.classList.toggle('hidden');$('#showWeekNumbers').textContent=h.classList.contains('hidden')?'Ver tabela 1–10':'Ocultar tabela'}}
+
 function renderNumberTable(){const set=$('#numberSet').value==='card'?DATA.core.cardinais:DATA.core.ordinais;$('#numberTable').innerHTML=`<table><thead><tr><th>Número</th><th>Português</th><th>Masculino</th><th>Feminino</th></tr></thead><tbody>${set.map(n=>`<tr><td>${n.num}</td><td>${esc(n.pt)}</td><td class="hebrew">${esc(n.m)}</td><td class="hebrew">${esc(n.f||'—')}</td></tr>`).join('')}</tbody></table>`}
 
 function renderKelley(){
@@ -738,14 +775,14 @@ function renderSocial(){
 
 function setupEvents(){
   $('#tabLogin').onclick=()=>setAuthMode('login');$('#tabRegister').onclick=()=>setAuthMode('register');$('#authForm').addEventListener('submit',submitAuth);$('#logoutBtn').onclick=async()=>{stopPresence(true);await auth.signOut()};
-  setupNavigation();setSelectedDuelMode(selectedDuelMode);$$('[data-duel-mode]').forEach(b=>b.onclick=()=>setSelectedDuelMode(b.dataset.duelMode));if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);setupVocabButtons();$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
+  setupNavigation();setupWeek();setupWeekNumbers();setSelectedDuelMode(selectedDuelMode);$$('[data-duel-mode]').forEach(b=>b.onclick=()=>setSelectedDuelMode(b.dataset.duelMode));if($('#duelAvailability'))$('#duelAvailability').onchange=e=>setMyAvailability(e.target.checked);setupVocabButtons();$('#startRoots').onclick=()=>runChoiceQuiz($('#rootGame'),rootQuestions(),'raizes');$('#startBinyanQuiz').onclick=()=>runChoiceQuiz($('#binyanGame'),binyanQuestions(),'binyanim');
   const buildRoot=$('#buildRoot');if(buildRoot){const sets=practiceSets();buildRoot.innerHTML=Object.entries(sets).map(([k,s])=>`<option value="${esc(k)}">${esc(s.label||`${s.root} — ${s.meaning}`)}</option>`).join('');buildRoot.onchange=newBuildQuestion}
 $('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;
 $('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestion;$('#buildMode').onchange=newBuildQuestion;$('#newIdentify').onclick=newIdentify;$('#newClassification').onclick=newClassification;$('#newNominal').onclick=newNominal;setupFormBank();
   $('#startNumbers').onclick=()=>{renderNumberTable();runChoiceQuiz($('#numberGame'),numberQuestions(),'numerais')};$('#numberSet').onchange=renderNumberTable;
   setupVerbTabs();setupMorphTabs();setupKelleyFilters();
 }
-function renderStatic(){renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newClassification();newNominal();handleVersion();renderHomeStats()}
+function renderStatic(){renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newClassification();newNominal();renderWeek();handleVersion();renderHomeStats()}
 
 async function start(){
   try{await loadData()}catch(e){showLoadError(e);return}
