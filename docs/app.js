@@ -57,7 +57,7 @@ async function submitAuth(e){
 function showView(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('.navb').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-  if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();if(id==='duels')renderSocial();if(id==='week')renderWeek();
+  if(id==='simulado')window.AlefSimulado.open();if(id==='ranking')renderRanking();if(id==='profile')renderProfile();if(id==='kelley')renderKelley();if(id==='duels')renderSocial();if(id==='week')renderWeek();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function setupNavigation(){$$('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));$('#profilePill').onclick=()=>showView('profile')}
@@ -782,7 +782,7 @@ $('#newBuild').onclick=newBuildQuestion;$('#buildConj').onchange=newBuildQuestio
   $('#startNumbers').onclick=()=>{renderNumberTable();runChoiceQuiz($('#numberGame'),numberQuestions(),'numerais')};$('#numberSet').onchange=renderNumberTable;
   setupVerbTabs();setupMorphTabs();setupKelleyFilters();
 }
-function renderStatic(){renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newClassification();newNominal();renderWeek();handleVersion();renderHomeStats()}
+function renderStatic(){window.AlefSimulado.init(DATA.vocab, ()=>currentUser?.uid||"visitante");renderVocabGroups();renderRootTable();renderBinyanim();renderParadigm('perfect');renderQuickRules();renderNumberTable();renderKelley();newBuildQuestion();newIdentify();newClassification();newNominal();renderWeek();handleVersion();renderHomeStats()}
 
 async function start(){
   try{await loadData()}catch(e){showLoadError(e);return}

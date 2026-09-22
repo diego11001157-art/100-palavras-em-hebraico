@@ -673,5 +673,50 @@
     "example": "Gn 11:30; 19:31; 20:11; Êx 9:14",
     "analysis": "Part. adv. = “nada, não, não há”.",
     "release": "vocab-15"
+  },
+  {
+    "n": 76,
+    "h": "וְהִנֵּה",
+    "p": "e eis que",
+    "occurrences": 360,
+    "example": "Gn 1:31; 6:12",
+    "analysis": "Waw conj. + interjeição = “e eis que”.",
+    "release": "vocab-16"
+  },
+  {
+    "n": 77,
+    "h": "עָשָׂה",
+    "p": "ele fez, fez",
+    "occurrences": 360,
+    "example": "Gn 1:31; 2:2",
+    "analysis": "Qal perfeito, 3ª pessoa masc. sing. do verbo “fazer” = “ele fez”.",
+    "release": "vocab-16"
+  },
+  {
+    "n": 78,
+    "h": "הַכֹּהֵן",
+    "p": "o sacerdote",
+    "occurrences": 355,
+    "example": "Êx 29:30; Lv 1:12",
+    "analysis": "Artigo “o, a” + substantivo masc. sing. absoluto = “o sacerdote”.",
+    "release": "vocab-16"
+  },
+  {
+    "n": 79,
+    "h": "שָׁאוּל",
+    "p": "Saul",
+    "occurrences": 355,
+    "example": "Gn 36:27; 1Sm 1:28",
+    "analysis": "Nome próprio = “Saul”.",
+    "release": "vocab-16"
+  },
+  {
+    "n": 80,
+    "h": "אָדָם",
+    "p": "homem, ser humano, Adão",
+    "occurrences": 344,
+    "example": "Gn 1:26; 3:21; 5:1",
+    "analysis": "Substantivo comum masc. sing. absoluto = “homem, ser humano”, ou nome próprio = “Adão”.",
+    "release": "vocab-16"
   }
 ]

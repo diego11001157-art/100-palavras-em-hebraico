@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.7.0",
-  "contentVersion": "2026-09-03.1-weekly-plan",
-  "wordsAvailable": 75,
+  "appVersion": "1.7.1",
+  "contentVersion": "2026-09-21.2-vocab-16-simulado",
+  "wordsAvailable": 80,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.7: Vocabulário 05 (71–75), Plano da Semana, revisão dirigida de numerais 1–10 e Tabela do Professor para Qatal/Yiqtol com קטל, שמר e כתב."
+  "message": "Alef v1.7.1: palavras 76–80 (Vocabulário 6/16) e Simulado de Hebraico Bíblico II com sete seções, respostas salvas e exercícios variáveis."
 }

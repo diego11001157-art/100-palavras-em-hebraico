@@ -1,6 +1,6 @@
-const CACHE='alef-v1.7.0-weekly-plan';
+const CACHE='alef-v1.7.1-vocab80-simulado';
 const STATIC=[
-  './','./index.html','./styles.css','./app.js','./config.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./simulado.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
   './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/version.json','./content/week.json'
 ];
@@ -10,7 +10,7 @@ self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const url=new URL(e.request.url);
   if(url.origin!==location.origin)return;
-  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||url.pathname.endsWith('/app.js')||url.pathname.endsWith('/styles.css');
+  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||url.pathname.endsWith('/app.js')||url.pathname.endsWith('/simulado.js')||url.pathname.endsWith('/styles.css');
   if(isFresh){
     e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))));
   }else{
