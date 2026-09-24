@@ -1,4 +1,4 @@
-const CACHE='alef-v1.7.1-vocab80-simulado';
+const CACHE='alef-v1.7.2-vocab85-revisao';
 const STATIC=[
   './','./index.html','./styles.css','./app.js','./simulado.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',

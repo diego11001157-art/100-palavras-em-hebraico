@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.7.1",
-  "contentVersion": "2026-09-21.2-vocab-16-simulado",
-  "wordsAvailable": 80,
+  "appVersion": "1.7.2",
+  "contentVersion": "2026-09-24-vocab17-revisao-85",
+  "wordsAvailable": 85,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.7.1: palavras 76–80 (Vocabulário 6/16) e Simulado de Hebraico Bíblico II com sete seções, respostas salvas e exercícios variáveis."
+  "message": "Alef v1.7.2: palavras 81–85 do Vocabulário 7 (17), revisão de análises anteriores e simulado com novas opções de treino para 85 palavras."
 }

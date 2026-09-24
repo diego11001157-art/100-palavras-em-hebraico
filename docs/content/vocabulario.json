@@ -5,7 +5,7 @@
     "p": "Não se traduz",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Partícula indicadora do objeto direto definido; normalmente não se traduz. Distinguir da preposição אֵת (“com”), estudada na palavra 38.",
     "release": "base-70"
   },
   {
@@ -104,7 +104,7 @@
     "p": "E …",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Conjunção וְ + partícula indicadora do objeto direto; a partícula não tem tradução independente.",
     "release": "base-70"
   },
   {
@@ -311,7 +311,7 @@
     "p": "para eles",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Preposição לְ (“a, para”) + sufixo pronominal de 3ª pessoa masculina PLURAL (“eles”). O PDF do Vocabulário 7 (bloco inicial) registra “singular” nesta análise, mas לָהֶם é plural.",
     "release": "base-70"
   },
   {
@@ -329,7 +329,7 @@
     "p": "e todo",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Conjunção וְ (“e”) + כָּל (“todo, tudo”); forma de singular construto de כֹּל, não substantivo plural. A definição fornecida no PDF é “e todo”.",
     "release": "base-70"
   },
   {
@@ -338,7 +338,7 @@
     "p": "com",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Preposição אֵת (“com”), conforme o Vocabulário 8. A mesma grafia pode representar a partícula de objeto direto (palavra 1); a função é identificada pelo contexto.",
     "release": "base-70"
   },
   {
@@ -446,7 +446,7 @@
     "p": "para ti ou a ti",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Preposição לְ (“a, para”) + sufixo pronominal 2ª pessoa masculina singular (“tu”) = “a ti, para ti”. A forma aparece novamente no registro 70 do histórico do aplicativo; manter até confrontar o PDF desse bloco.",
     "release": "base-70"
   },
   {
@@ -626,7 +626,7 @@
     "p": "para ti",
     "occurrences": null,
     "example": "",
-    "analysis": "",
+    "analysis": "Registro herdado com a mesma forma hebraica da palavra 50 (לְךָ, “a ti”, masc. sing.). A questão I do simulado também traz לָךְ (“a ti”, fem. sing.), MAS isso não comprova a forma da palavra 70 no PDF original do bloco 4 (14). Requer conferência desse PDF antes de substituir.",
     "release": "base-70"
   },
   {
@@ -644,7 +644,7 @@
     "p": "nele, com ele",
     "occurrences": 365,
     "example": "Sl 127:1; Jr 20:14",
-    "analysis": "Prep. “em, no, com” + suf. pron. 3ª pes. com. sing. = “nele”, “com ele”.",
+    "analysis": "Preposição בְּ (“em, com”) + sufixo pronominal de 3ª pessoa masculina singular (“ele”) = “nele”, “com ele”.",
     "release": "vocab-15"
   },
   {
@@ -653,7 +653,7 @@
     "p": "o Deus",
     "occurrences": 365,
     "example": "Gn 5:22; Jó 1:6",
-    "analysis": "Artigo “o, a” + subs. (nome) próprio masc. pl. “Deus” = “o Deus”.",
+    "analysis": "Artigo הָ + אֱלֹהִים: forma morfologicamente plural, que pode designar o Deus de Israel em sentido singular; a tradução depende do contexto.",
     "release": "vocab-15"
   },
   {
@@ -668,10 +668,10 @@
   {
     "n": 75,
     "h": "אֵין",
-    "p": "nada, não, não há",
+    "p": "não há, não existe, nada, não",
     "occurrences": 360,
     "example": "Gn 11:30; 19:31; 20:11; Êx 9:14",
-    "analysis": "Part. adv. = “nada, não, não há”.",
+    "analysis": "Partícula de inexistência/negação (“não há”, “não existe”; em certos contextos, “nada”, “sem”). O PDF também registra “não”.",
     "release": "vocab-15"
   },
   {
@@ -718,5 +718,50 @@
     "example": "Gn 1:26; 3:21; 5:1",
     "analysis": "Substantivo comum masc. sing. absoluto = “homem, ser humano”, ou nome próprio = “Adão”.",
     "release": "vocab-16"
+  },
+  {
+    "n": 81,
+    "h": "הָיָה",
+    "p": "era, foi, aconteceu, havia",
+    "occurrences": 335,
+    "example": "Gn 3:1",
+    "analysis": "Qal, Qatal (perfeito/completo), 3ª pessoa masculina singular do verbo “ser/estar”. Em Gn 3:1: “era”. A forma הָיָה NÃO contém וְ (“e”); “e foi” é opção contextual de tradução, não parte da palavra isolada.",
+    "release": "vocab-17"
+  },
+  {
+    "n": 82,
+    "h": "מִי",
+    "p": "quem",
+    "occurrences": 335,
+    "example": "Gn 3:11",
+    "analysis": "Pronome interrogativo = “quem?”.",
+    "release": "vocab-17"
+  },
+  {
+    "n": 83,
+    "h": "וְאֶל",
+    "p": "e para, e a, e em direção a",
+    "occurrences": 331,
+    "example": "Gn 3:16, 19",
+    "analysis": "Conjunção וְ (“e”) + preposição אֶל (“para, a, em direção a”).",
+    "release": "vocab-17"
+  },
+  {
+    "n": 84,
+    "h": "אֱלֹהֶיךָ",
+    "p": "teu Deus, seu Deus",
+    "occurrences": 326,
+    "example": "Gn 27:30",
+    "analysis": "Forma אֱלֹהִים (“Deus”) com sufixo pronominal de 2ª pessoa masculina singular (“teu”). A tradução “seu Deus” é possível no português brasileiro quando “seu” se refere a você.",
+    "release": "vocab-17"
+  },
+  {
+    "n": 85,
+    "h": "בַּיּוֹם",
+    "p": "no dia, em um dia, o dia",
+    "occurrences": 322,
+    "example": "Gn 1:18; 2:2",
+    "analysis": "Preposição בְּ (“em”) + artigo definido הַ + substantivo יוֹם (“dia”); contração בַּיּוֹם = “no dia”. O PDF observa tradução contextual “o dia”.",
+    "release": "vocab-17"
   }
 ]
