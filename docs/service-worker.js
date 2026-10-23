@@ -1,6 +1,6 @@
-const CACHE='alef-v2.0.0-laboratorio-completo';
+const CACHE='alef-v2.1.0-fundamentos-interativos';
 const STATIC=[
-  './','./index.html','./styles.css','./app.js','./simulado.js','./v18-bootstrap.js','./p2.html','./p2.js','./course.html','./course.js','./course.css','./config.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./simulado.js','./v18-bootstrap.js','./p2.html','./p2.js','./course.html','./course.js','./course.css','./fundamentos-game.html','./fundamentos-game.js','./fundamentos-game.css','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
   './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/vocab-extra-v18.json','./content/course-v2.json','./content/version.json','./content/week.json'
 ];

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173e39">
+<title>Alef • Arena dos Fundamentos</title>
+<link rel="stylesheet" href="course.css">
+<link rel="stylesheet" href="fundamentos-game.css">
+</head>
+<body>
+<div class="game-shell">
+  <header class="course-top">
+    <div class="brand"><div class="alef">א</div><div><strong>Arena dos Fundamentos</strong><span>Alef • Laboratório visual e interativo</span></div></div>
+    <a class="btn ghost" href="course.html">← Curso</a>
+  </header>
+
+  <section class="hero game-hero">
+    <div class="kicker">ALEF v2.1 • FUNDAMENTOS INTERATIVOS</div>
+    <h1>Veja, toque e identifique</h1>
+    <p>Treine letras, formas finais, vogais, sheva, daguesh e guturais clicando diretamente nos sinais hebraicos. Cada acerto aumenta sua sequência e o domínio da sessão.</p>
+  </section>
+
+  <section class="score-strip" aria-live="polite">
+    <div><b id="xp">0</b><span>XP da sessão</span></div>
+    <div><b id="streak">0</b><span>sequência</span></div>
+    <div><b id="hits">0</b><span>acertos</span></div>
+    <div><b id="accuracy">0%</b><span>precisão</span></div>
+  </section>
+
+  <section class="card" style="margin-top:14px">
+    <div class="game-head">
+      <div><span class="status">ESCOLHA O DESAFIO</span><h2>O que deseja praticar?</h2></div>
+      <button class="btn ghost" id="resetSession">Zerar sessão</button>
+    </div>
+    <div class="mode-grid" id="modeGrid"></div>
+  </section>
+
+  <section class="card arena hidden" id="arena">
+    <div class="arena-top">
+      <div><span class="status" id="modeBadge">LETRAS</span><div class="round" id="roundText">Questão 1/10</div></div>
+      <div class="hearts" id="hearts" aria-label="vidas"></div>
+    </div>
+    <div id="questionArea"></div>
+    <div class="tip-box" id="tipBox"></div>
+    <div class="feedback-panel hidden" id="feedbackPanel"></div>
+    <div class="arena-actions"><button class="btn gold hidden" id="nextQuestion">Próxima →</button><button class="btn ghost" id="backModes">Trocar desafio</button></div>
+  </section>
+
+  <section class="card builder" id="builder">
+    <div class="game-head"><div><span class="status">LABORATÓRIO LIVRE</span><h2>🧪 Monte e observe</h2><p>Clique numa consoante e depois numa vogal. O Alef monta a combinação para você observar o sinal no lugar correto.</p></div></div>
+    <div class="build-result hebrew" id="buildResult">בַ</div>
+    <div class="builder-label">Consoante</div><div class="chip-grid" id="consonantChips"></div>
+    <div class="builder-label">Vogal / sinal</div><div class="chip-grid" id="vowelChips"></div>
+    <div class="callout" id="buildExplain"></div>
+  </section>
+
+  <section class="card" style="margin-top:14px">
+    <h2>🏅 Conquistas desta máquina</h2>
+    <div class="badge-grid" id="badgeGrid"></div>
+    <p class="source-note">As conquistas ficam salvas neste navegador. Elas são um recurso didático do ALEF e não substituem as notas oficiais da disciplina.</p>
+  </section>
+</div>
+<nav class="course-bottom"><div>
+  <a href="index.html"><span>⌂</span>Início</a>
+  <a href="course.html"><span>📖</span>Curso</a>
+  <a href="fundamentos-game.html"><span>🎮</span>Arena</a>
+  <a href="p2.html"><span>🎓</span>P2</a>
+</div></nav>
+<script src="fundamentos-game.js"></script>
+</body>
+</html>

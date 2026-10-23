@@ -1,8 +1,8 @@
 {
-  "appVersion": "2.0.0",
-  "contentVersion": "2026-10-23-laboratorio-completo",
+  "appVersion": "2.1.0",
+  "contentVersion": "2026-10-23-fundamentos-interativos",
   "wordsAvailable": 95,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v2.0: Laboratório Completo de Hebraico Bíblico, curso progressivo com 31 lições, trilhas para iniciantes/Hebraico I/Hebraico II, painel de domínio e revisão recomendada."
+  "message": "Alef v2.1: Arena gamificada de fundamentos com letras, formas finais, vogais, sheva, daguesh e guturais; XP, sequências, conquistas e laboratório de montagem visual."
 }
