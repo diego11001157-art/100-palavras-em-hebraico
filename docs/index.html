@@ -48,20 +48,21 @@
 <div class="update-banner hidden" id="updateBanner"><div><strong>✨ Conteúdo atualizado</strong><br><span id="updateText"></span></div><button id="dismissUpdate">Entendi</button></div>
 
 <section id="home" class="view active">
-  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, morfologia, verbos e um plano semanal de estudos. A v1.7.2 inclui 85 palavras, revisão de significados e um simulado para a prova de Hebraico Bíblico II.</p></div>
+  <div class="hero"><div class="kicker">Aprender • Reconhecer • Traduzir</div><h1>שלום! Vamos estudar?</h1><p>O Alef reúne vocabulário, morfologia, verbos e preparação para avaliações. A v1.8 amplia o vocabulário para 95 palavras e inicia a trilha de Preparação P2.</p></div>
   <div class="metric">
-    <div><b id="homeWords">85</b><span>palavras disponíveis</span></div>
+    <div><b id="homeWords">95</b><span>palavras disponíveis</span></div>
     <div><b>100</b><span>meta de vocabulário</span></div>
     <div><b id="homePoints">0</b><span>XP</span></div>
     <div><b id="homeAccuracy">0%</b><span>precisão</span></div>
   </div>
   <div class="grid">
     <article class="card action-card week-card"><div class="ico">📅</div><h2>Plano da Semana</h2><p>Vocabulário 05, numerais 1–10, verbos regulares e exercícios Kelley.</p><button class="btn gold" data-go="week">Abrir plano</button></article>
-    <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>85 palavras disponíveis, incluindo o Vocabulário 7 (17), palavras 81–85.</p><button class="btn" data-go="vocab">Estudar palavras</button></article>
-    <article class="card action-card exam-home"><div class="ico">📝</div><h2>Simulado da prova</h2><p>Responda as 7 partes do modelo do professor. Varie as 10 palavras e a raiz do quadro verbal, salve suas respostas e aprenda com explicações.</p><button class="btn gold" data-go="simulado">Abrir simulado</button></article>
+    <article class="card action-card"><div class="ico">📚</div><h2>Vocabulário</h2><p>95 palavras disponíveis. Os blocos novos são 86–90 e 91–95.</p><button class="btn" data-go="vocab">Estudar palavras</button></article>
+    <article class="card action-card p2-home"><div class="ico">🎓</div><h2>Preparação P2</h2><p>Kelley XVI–XXI: mapa oficial da ementa, vav, formas verbais e trilha de revisão.</p><a class="btn gold" href="p2.html">Abrir preparação P2</a></article>
+    <article class="card action-card exam-home"><div class="ico">📝</div><h2>Simulado da prova</h2><p>Treine o modelo de prova já existente, salve respostas e revise as explicações.</p><button class="btn gold" data-go="simulado">Abrir simulado</button></article>
     <article class="card action-card"><div class="ico">🔤</div><h2>Verbos</h2><p>Raízes, sete troncos e tabelas do perfeito, imperfeito e imperativo.</p><button class="btn" data-go="verbs">Abrir verbos</button></article>
     <article class="card action-card"><div class="ico">🧩</div><h2>Morfologia</h2><p>Monte terminações e identifique pessoa, gênero, número e estado nominal.</p><button class="btn gold" data-go="morphology">Treinar morfologia</button></article>
-    <article class="card action-card"><div class="ico">💡</div><h2>Dicas Kelley</h2><p>Resumo prático das Lições XII–XXI, com o algoritmo de análise usado nas provas.</p><button class="btn" data-go="kelley">Revisar Kelley</button></article>
+    <article class="card action-card"><div class="ico">💡</div><h2>Dicas Kelley</h2><p>Revisão morfológica e algoritmo de análise. A trilha P2 separa o que já está confirmado pela ementa.</p><button class="btn" data-go="kelley">Revisar Kelley</button></article>
     <article class="card action-card"><div class="ico">🔢</div><h2>Numerais</h2><p>Cardinais e ordinais, incluindo contraste masculino/feminino.</p><button class="btn" data-go="numbers">Treinar numerais</button></article>
     <article class="card action-card"><div class="ico">🏆</div><h2>Ranking</h2><p>Pontos compartilhados entre os jogadores conectados ao Firebase.</p><button class="btn gold" data-go="ranking">Ver ranking</button></article>
     <article class="card action-card social-card"><div class="ico">⚔️</div><h2>Duelos</h2><p>Veja colegas online, fique disponível e dispute 10 palavras em tempo real.</p><button class="btn gold" data-go="duels">Abrir duelos</button></article>
@@ -69,9 +70,10 @@
 </section>
 
 
+
 <section id="simulado" class="view">
-  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📝 Simulado da Prova</h2><div class="section-sub">Baseado na atividade de Hebraico Bíblico II enviada. Exercícios com correção e atividades abertas com revisão orientada.</div></div>
-  <div class="card sim-hero"><span class="badge">7 ETAPAS • TREINO INDIVIDUAL</span><h3>Pratique, confira e refaça</h3><p>Digite suas respostas antes de abrir o gabarito. As respostas ficam salvas somente neste navegador, por conta; não entram no ranking. As traduções e pesquisas bíblicas exigem autoavaliação, não uma nota automática.</p>
+  <div class="toolbar"><button class="back" data-go="home">← Início</button><h2 class="section-title">📝 Simulado da Prova</h2><div class="section-sub">Treino individual baseado no modelo de prova já usado no Alef.</div></div>
+  <div class="card sim-hero"><span class="badge">7 ETAPAS • TREINO INDIVIDUAL</span><h3>Pratique, confira e refaça</h3><p>Digite suas respostas antes de abrir o gabarito. As respostas ficam salvas somente neste navegador.</p>
     <div class="sim-progress"><div id="simProgressText" aria-live="polite">0 de 7 etapas revisadas</div><div class="progress"><div id="simProgressBar"></div></div></div>
     <div class="sim-steps" id="simSteps"></div>
     <div class="sim-actions"><button class="btn ghost" id="simReset">Recomeçar simulado</button><span id="simSaved" class="smallnote" aria-live="polite">Pronto para estudar.</span></div>
@@ -332,6 +334,7 @@
   </div>
 </div>
 
+<script src="v18-bootstrap.js"></script>
 <script src="simulado.js"></script>
 <script src="app.js"></script>
 </body>

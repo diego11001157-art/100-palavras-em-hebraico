@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173e39">
+<title>Alef • Preparação P2</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.p2-shell{max-width:1080px;margin:auto;padding:18px 14px 70px}.p2-top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}.p2-back{text-decoration:none}.p2-hero{background:linear-gradient(135deg,#173e39,#245a52);color:#fff;border-radius:24px;padding:24px;margin-bottom:14px}.p2-hero h1{margin:6px 0}.p2-hero p{opacity:.9}.p2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.p2-card{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:16px}.p2-card h3{margin:0 0 7px}.p2-card p{margin:0;color:var(--muted);line-height:1.45}.p2-badge{display:inline-block;padding:5px 8px;border-radius:999px;background:#f0dfb8;color:#173e39;font-size:10px;font-weight:900}.p2-status{margin-top:10px;font-size:10px;font-weight:800;color:var(--green)}.p2-study{display:grid;gap:8px;margin-top:10px}.p2-check{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--panel2)}.p2-check input{width:18px;height:18px;accent-color:var(--green)}.p2-quiz{margin-top:14px}.p2-q{font-weight:900;margin-bottom:9px}.p2-options{display:grid;gap:7px}.p2-options button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;text-align:left;font-weight:750}.p2-options button.ok{background:#eef8f2;border-color:#76a68e}.p2-options button.bad{background:#fff1ef;border-color:#c98c85}.p2-result{margin-top:10px;font-size:12px;font-weight:800}.p2-word-table{overflow:auto;margin-top:10px}.p2-word-table table{width:100%;border-collapse:collapse}.p2-word-table th,.p2-word-table td{padding:9px;border-bottom:1px solid var(--line);text-align:left}.p2-word-table .he{direction:rtl;font-size:24px;font-family:"Times New Roman",serif}.p2-alert{border-left:4px solid var(--gold);padding:10px 12px;background:#fff8e8;border-radius:10px;margin-top:12px}.p2-route{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.p2-route span{background:#173e39;color:#fff;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:850}@media(max-width:720px){.p2-grid{grid-template-columns:1fr}.p2-top{align-items:flex-start}.p2-hero{padding:18px}}
+</style>
+</head>
+<body>
+<div class="p2-shell">
+  <div class="p2-top"><a class="btn ghost p2-back" href="index.html">← Voltar ao Alef</a><span class="p2-badge">ALEF v1.8 • P2</span></div>
+  <section class="p2-hero"><div class="kicker">Hebraico Bíblico II</div><h1>🎓 Preparação P2</h1><p>Trilha baseada no conteúdo programático confirmado da disciplina. O detalhamento específico das Lições XVI–XXI do Page Kelley será acrescentado somente quando essas páginas forem enviadas.</p></section>
+
+  <div class="p2-grid">
+    <article class="p2-card"><span class="p2-badge">QAL AVANÇADO</span><h3>Volitivos, infinitivos e particípio</h3><p>Revisar jussivo, imperativo, coortativo, infinitivo construto, infinitivo absoluto e particípio segundo a nomenclatura usada no material da disciplina.</p><div class="p2-status">Confirmado pela ementa + resumo de troncos/conjugações.</div></article>
+    <article class="p2-card"><span class="p2-badge">VAV</span><h3>Conjuntivo × consecutivo</h3><p>Reconhecer quando o וְ apenas coordena e quando participa de uma forma narrativa. O vocabulário novo já oferece um caso real: וַיֹּאמְרוּ.</p><div class="p2-status">Confirmado pela ementa + Vocabulário 9 (19).</div></article>
+    <article class="p2-card"><span class="p2-badge">TRONCOS</span><h3>Nifal • Piel/Pual • Hifil/Hofal • Hitpael</h3><p>Comparar padrão, modo e voz sem transformar o valor típico do tronco em tradução automática.</p><div class="p2-status">Confirmado pela ementa e pelo resumo introdutório.</div></article>
+    <article class="p2-card"><span class="p2-badge">VERBOS FRACOS</span><h3>Área preparada</h3><p>A ementa prevê verbos fracos. As classes e paradigmas específicos não serão preenchidos até termos as páginas correspondentes das Lições XVI–XXI.</p><div class="p2-status">Estrutura pronta • conteúdo detalhado pendente.</div></article>
+  </div>
+
+  <section class="p2-card" style="margin-top:12px"><h3>🧠 Ordem de análise recomendada</h3><div class="p2-route"><span>FORMA</span><span>TRONCO</span><span>PGN</span><span>RAIZ</span><span>LÉXICO</span><span>SINTAXE</span><span>CONTEXTO</span></div><div class="p2-alert">Use essa sequência também no Laboratório Morfológico do Alef. O objetivo é evitar reconhecer apenas a raiz e pular a análise da forma.</div></section>
+
+  <section class="p2-card p2-quiz"><h3>⚡ Treino rápido P2</h3><div id="p2Quiz"></div></section>
+
+  <section class="p2-card" style="margin-top:12px"><h3>📚 Vocabulário novo desta versão</h3><p>Os dez itens abaixo também entram automaticamente nos jogos de vocabulário do Alef.</p><div id="p2Words" class="p2-word-table"></div></section>
+
+  <section class="p2-card" style="margin-top:12px"><h3>✅ Progresso da trilha</h3><div class="p2-study" id="p2Checklist"></div></section>
+</div>
+<script src="p2.js"></script>
+</body>
+</html>

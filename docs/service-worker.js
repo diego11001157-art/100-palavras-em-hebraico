@@ -1,8 +1,8 @@
-const CACHE='alef-v1.7.2-vocab85-revisao';
+const CACHE='alef-v1.8.0-p2-vocab95';
 const STATIC=[
-  './','./index.html','./styles.css','./app.js','./simulado.js','./config.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./simulado.js','./v18-bootstrap.js','./p2.html','./p2.js','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
-  './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/version.json','./content/week.json'
+  './content/core.json','./content/morphology.json','./content/kelley.json','./content/vocabulario.json','./content/vocab-extra-v18.json','./content/version.json','./content/week.json'
 ];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
@@ -10,7 +10,7 @@ self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const url=new URL(e.request.url);
   if(url.origin!==location.origin)return;
-  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||url.pathname.endsWith('/app.js')||url.pathname.endsWith('/simulado.js')||url.pathname.endsWith('/styles.css');
+  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||url.pathname.endsWith('/app.js')||url.pathname.endsWith('/simulado.js')||url.pathname.endsWith('/v18-bootstrap.js')||url.pathname.endsWith('/p2.html')||url.pathname.endsWith('/p2.js')||url.pathname.endsWith('/styles.css');
   if(isFresh){
     e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))));
   }else{

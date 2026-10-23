@@ -1,0 +1,92 @@
+[
+  {
+    "n": 86,
+    "h": "אוֹ",
+    "p": "ou",
+    "occurrences": 321,
+    "example": "Gn 24:49, 55",
+    "analysis": "Conjunção = ‘ou’. Fonte: Vocabulário 8 (18).",
+    "release": "vocab-18"
+  },
+  {
+    "n": 87,
+    "h": "אֵלֶּה",
+    "p": "estes, estas",
+    "occurrences": 320,
+    "example": "Gn 2:4; 6:9",
+    "analysis": "Pronome demonstrativo plural = ‘estes, estas’. Fonte: Vocabulário 8 (18).",
+    "release": "vocab-18"
+  },
+  {
+    "n": 88,
+    "h": "הַהוּא",
+    "p": "aquele, aquela; naquele, naquela",
+    "occurrences": 314,
+    "example": "Gn 15:18; 19:35; 21:32",
+    "analysis": "Artigo + pronome independente 3ms; o material observa que geralmente é traduzido como aquele(a) / naquele(a).",
+    "release": "vocab-18"
+  },
+  {
+    "n": 89,
+    "h": "זֶה",
+    "p": "este",
+    "occurrences": 314,
+    "example": "Gn 5:1, 29; 15:4",
+    "analysis": "Pronome demonstrativo masculino singular = ‘este’. Fonte: Vocabulário 8 (18).",
+    "release": "vocab-18"
+  },
+  {
+    "n": 90,
+    "h": "הָעִיר",
+    "p": "a cidade",
+    "occurrences": 312,
+    "example": "Gn 4:17; 10:12",
+    "analysis": "Artigo + substantivo feminino singular absoluto = ‘a cidade’. Fonte: Vocabulário 8 (18).",
+    "release": "vocab-18"
+  },
+  {
+    "n": 91,
+    "h": "מֵאוֹת",
+    "p": "cem, centenas",
+    "occurrences": 302,
+    "example": "Êx 12:37, 40, 41; 2Cr 17:11",
+    "analysis": "Numeral cardinal feminino plural construto: cem / centenas. Fonte: Vocabulário 9 (19).",
+    "release": "vocab-19"
+  },
+  {
+    "n": 92,
+    "h": "וַיֹּאמְרוּ",
+    "p": "então disseram eles, e disseram eles",
+    "occurrences": 301,
+    "example": "Gn 11:3; 18:5",
+    "analysis": "Qal - Wayyiqtol (imperfeito com Waw consecutivo), 3ª pessoa masculina plural, do verbo dizer. Fonte: Vocabulário 9 (19).",
+    "release": "vocab-19"
+  },
+  {
+    "n": 93,
+    "h": "אֶתְכֶם",
+    "p": "para vós",
+    "occurrences": 297,
+    "example": "Gn 47:23; 48:21",
+    "analysis": "I.O.D. + sufixo pronominal 2ª pessoa masculina plural = ‘para vós’, conforme o material enviado. Fonte: Vocabulário 9 (19).",
+    "release": "vocab-19"
+  },
+  {
+    "n": 94,
+    "h": "אָנֹכִי",
+    "p": "eu",
+    "occurrences": 293,
+    "example": "Gn 3:10; 4:9; 7:4",
+    "analysis": "Pronome independente 1ª pessoa comum singular = ‘eu’. Fonte: Vocabulário 9 (19).",
+    "release": "vocab-19"
+  },
+  {
+    "n": 95,
+    "h": "מְאֹד",
+    "p": "muito",
+    "occurrences": 291,
+    "example": "Gn 1:31; 4:5",
+    "analysis": "Partícula adverbial = ‘muito’. Fonte: Vocabulário 9 (19).",
+    "release": "vocab-19"
+  }
+]

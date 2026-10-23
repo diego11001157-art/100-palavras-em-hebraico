@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.7.2",
-  "contentVersion": "2026-09-24-vocab17-revisao-85",
-  "wordsAvailable": 85,
+  "appVersion": "1.8.0",
+  "contentVersion": "2026-10-22-p2-vocab95",
+  "wordsAvailable": 95,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.7.2: palavras 81–85 do Vocabulário 7 (17), revisão de análises anteriores e simulado com novas opções de treino para 85 palavras."
+  "message": "Alef v1.8: 95 palavras, Vocabulários 8 e 9, e nova trilha Preparação P2 baseada na ementa confirmada."
 }
