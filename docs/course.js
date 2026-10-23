@@ -1,0 +1,49 @@
+(()=>{
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let DATA=null, currentLesson=null;
+const stateKey='alef_v2_course_state';
+const trackKey='alef_v2_course_track';
+function state(){try{return JSON.parse(localStorage.getItem(stateKey)||'{}')}catch(_){return{}}}
+function saveState(s){localStorage.setItem(stateKey,JSON.stringify(s))}
+function track(){return localStorage.getItem(trackKey)||''}
+function setTrack(id){localStorage.setItem(trackKey,id);renderAll()}
+function scoreFor(n){return Number(state()[n]?.score||0)}
+function statusFor(n){const s=state()[n];if(!s)return'new';if((s.score||0)>=80)return'done';return'attempted'}
+function lesson(n){return DATA.lessons.find(x=>x.n===Number(n))}
+function levelLessons(id){return DATA.lessons.filter(l=>l.level===id)}
+function pctLevel(id){const arr=levelLessons(id);if(!arr.length)return 0;return Math.round(arr.reduce((a,l)=>a+scoreFor(l.n),0)/arr.length)}
+function nextLesson(){const t=DATA.tracks.find(x=>x.id===track())||DATA.tracks[0];const eligible=DATA.lessons.filter(l=>l.n>=t.startLesson);return eligible.find(l=>statusFor(l.n)!=='done')||eligible[eligible.length-1]||DATA.lessons[0]}
+function renderTracks(){
+  const chosen=track();$('#trackGrid').innerHTML=DATA.tracks.map(t=>`<article class="card track ${chosen===t.id?'active':''}" data-track="${t.id}"><h3>${esc(t.title)}</h3><p>${esc(t.description)}</p><span class="status">COMEÇA NA LIÇÃO ${t.startLesson}</span></article>`).join('');
+  $$('[data-track]').forEach(x=>x.onclick=()=>setTrack(x.dataset.track));
+  $('#onboarding').classList.toggle('hidden',!!chosen);$('#dashboard').classList.toggle('hidden',!chosen);
+}
+function renderDashboard(){if(!track())return;const s=state(),vals=Object.values(s),done=vals.filter(x=>Number(x.score)>=80).length,attempted=vals.length,avg=attempted?Math.round(vals.reduce((a,x)=>a+Number(x.score||0),0)/attempted):0;$('#completedCount').textContent=done;$('#attemptedCount').textContent=attempted;$('#averageScore').textContent=avg+'%';$('#courseProgress').style.width=Math.round(done/31*100)+'%';const n=nextLesson();$('#resumeTitle').textContent=`Lição ${n.roman} • ${n.title}`;$('#resumeSub').textContent=n.curriculum;$('#resumeBtn').onclick=()=>openLesson(n.n);
+  const weak=DATA.lessons.filter(l=>state()[l.n]&&scoreFor(l.n)<80).sort((a,b)=>scoreFor(a.n)-scoreFor(b.n))[0];const rec=weak||n;$('#recommendation').innerHTML=`<strong>${esc(rec.title)}</strong><p style="font-size:13px;color:var(--muted)">${weak?`Seu domínio atual é ${scoreFor(rec.n)}%. Refaça a avaliação.`:'Comece por esta lição para construir a sequência.'}</p><button class="btn gold" id="recBtn">Estudar agora</button>`;$('#recBtn').onclick=()=>openLesson(rec.n);$('#changeTrack').onclick=()=>{localStorage.removeItem(trackKey);renderAll()};
+}
+function renderLevels(){
+  $('#levelGrid').innerHTML=DATA.levels.map(l=>{const p=pctLevel(l.id),count=levelLessons(l.id).filter(x=>statusFor(x.n)==='done').length;return`<article class="card level-card"><div class="level-head"><div><span class="level-icon">${l.icon}</span><h3>${esc(l.title)}</h3></div><b>${p}%</b></div><p>${esc(l.description)}</p><div class="progress"><div style="width:${p}%"></div></div><small>${count}/${levelLessons(l.id).length} lições dominadas • ${l.range}</small></article>`}).join('');
+}
+function renderLabs(){
+  $('#labGrid').innerHTML=DATA.labs.map(l=>`<article class="card"><div class="level-head"><span class="level-icon">${l.icon}</span><span class="status">${l.lessons.length} AULAS</span></div><h3>${esc(l.title)}</h3><p>${esc(l.description)}</p><button class="btn ghost" data-lab="${l.id}">Ver aulas</button></article>`).join('');
+  $$('[data-lab]').forEach(b=>b.onclick=()=>{const lab=DATA.labs.find(x=>x.id===b.dataset.lab);document.querySelector(`[data-lesson="${lab.lessons[0]}"]`)?.scrollIntoView({behavior:'smooth',block:'center'})});
+}
+function validationLabel(v){if(v==='pending-kelley')return'<span class="status pending">KELLEY PENDENTE</span>';if(v==='kelley-partial')return'<span class="status">KELLEY DISPONÍVEL</span>';if(v==='project-source')return'<span class="status">CONTEÚDO DO PROJETO</span>';return'<span class="status">EMENTA</span>'}
+function renderLessons(){
+  const t=DATA.tracks.find(x=>x.id===track());$('#lessonList').innerHTML=DATA.lessons.map(l=>{const st=statusFor(l.n),score=scoreFor(l.n),before=t&&l.n<t.startLesson;return`<article class="lesson-row" data-lesson="${l.n}"><div class="lesson-no">${l.roman}</div><div><h4>${esc(l.title)}</h4><p>${esc(l.curriculum)}</p><div style="margin-top:6px">${validationLabel(l.validation)} ${st==='done'?`<span class="status">${score}% DOMINADO</span>`:st==='attempted'?`<span class="status pending">${score}% REVISAR</span>`:''}${before?'<span class="status">REVISÃO</span>':''}</div></div><button class="btn ${st==='done'?'ghost':''}" data-open="${l.n}">${st==='new'?'Estudar':st==='done'?'Rever':'Continuar'}</button></article>`}).join('');
+  $$('[data-open]').forEach(b=>b.onclick=()=>openLesson(b.dataset.open));
+}
+function tableBlock(l){if(l.alphabet)return`<div class="card"><h3>Alfabeto</h3><div style="overflow:auto"><table class="data-table"><thead><tr><th>Letra</th><th>Nome</th><th>Transliteração</th><th>Valor</th></tr></thead><tbody>${l.alphabet.map(x=>`<tr><td class="hebrew">${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td></tr>`).join('')}</tbody></table></div></div>`;if(l.vowels)return`<div class="card"><h3>Vogais</h3><div style="overflow:auto"><table class="data-table"><thead><tr><th>Sinal</th><th>Nome</th><th>Som aproximado</th></tr></thead><tbody>${l.vowels.map(x=>`<tr><td class="hebrew">ב${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td></tr>`).join('')}</tbody></table></div></div>`;if(l.examples)return`<div class="card"><h3>Exemplos</h3><div style="overflow:auto"><table class="data-table"><tbody>${l.examples.map(x=>`<tr><td class="hebrew">${x[0]}</td><td>${x.slice(1).map(esc).join(' → ')}</td></tr>`).join('')}</tbody></table></div></div>`;return''}
+function openLesson(n){const l=lesson(n);if(!l)return;currentLesson=l;const detail=$('#lessonDetail');detail.innerHTML=`<div class="card"><div class="level-head"><div><div class="kicker">LIÇÃO ${l.roman}</div><h2>${esc(l.title)}</h2><p>${esc(l.curriculum)}</p></div>${validationLabel(l.validation)}</div>${l.validation==='pending-kelley'?'<div class="callout"><strong>Fonte específica pendente.</strong> A trilha está criada, mas o Alef não atribui regras específicas desta lição ao Kelley sem as páginas correspondentes.</div>':''}<h3>Objetivos</h3><ul>${(l.objectives||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div><div class="theory-grid" style="margin-top:12px">${(l.theory||[]).map(x=>`<article class="theory"><h4>${esc(x.h)}</h4><p>${esc(x.p)}</p></article>`).join('')}</div>${tableBlock(l)}<div class="card quiz-box"><h3>🎯 Dominar a lição</h3><div id="quizArea"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn ghost" id="backLessons">← Todas as lições</button>${l.n<31?'<button class="btn gold" id="nextLessonBtn">Próxima lição →</button>':''}</div>`;detail.classList.add('active');detail.scrollIntoView({behavior:'smooth',block:'start'});renderQuiz(l);$('#backLessons').onclick=()=>{detail.classList.remove('active');$('#lessonList').scrollIntoView({behavior:'smooth'})};if($('#nextLessonBtn'))$('#nextLessonBtn').onclick=()=>openLesson(l.n+1);
+  const s=state();if(!s[l.n]){s[l.n]={score:0,attempts:0,opened:true};saveState(s);renderDashboard();renderLessons()}
+}
+function renderQuiz(l){const area=$('#quizArea');if(!l.quiz?.length){area.innerHTML='<div class="callout">A avaliação específica desta lição será ativada quando o conteúdo-fonte correspondente for validado. Você já pode usar a lição como roteiro de estudo.</div>';return}let answered=0,correct=0;area.innerHTML=l.quiz.map((q,i)=>`<div class="q" data-q="${i}"><strong>${i+1}. ${esc(q.q)}</strong><div class="opts">${q.opts.map((o,j)=>`<button class="opt" data-a="${j}">${esc(o)}</button>`).join('')}</div><div class="feedback"></div></div>`).join('')+'<div id="quizResult" style="margin-top:12px"></div>';
+  $$('.q',area).forEach((box,i)=>{box.querySelectorAll('.opt').forEach(btn=>btn.onclick=()=>{if(box.dataset.done)return;box.dataset.done='1';answered++;const j=Number(btn.dataset.a),q=l.quiz[i],ok=j===q.a;if(ok){correct++;btn.classList.add('correct')}else{btn.classList.add('wrong');box.querySelectorAll('.opt')[q.a].classList.add('correct')}box.querySelector('.feedback').textContent=q.why;if(answered===l.quiz.length)finishQuiz(l,correct,l.quiz.length)})})
+}
+function finishQuiz(l,c,total){const score=Math.round(c/total*100),s=state(),old=s[l.n]||{};s[l.n]={...old,score:Math.max(Number(old.score||0),score),attempts:Number(old.attempts||0)+1,last:new Date().toISOString()};saveState(s);$('#quizResult').innerHTML=`<div class="callout"><strong>Resultado: ${score}%</strong><br>${score>=80?'Lição dominada. Você pode avançar.':'Revise os cartões acima e tente novamente.'}</div>`;renderDashboard();renderLevels();renderLessons()}
+function renderAll(){renderTracks();renderDashboard();renderLevels();renderLabs();renderLessons();$('#sourceNote').textContent=DATA.sourceNote}
+async function start(){const r=await fetch('content/course-v2.json',{cache:'no-store'});DATA=await r.json();renderAll();const params=new URLSearchParams(location.search);if(params.get('lesson'))setTimeout(()=>openLesson(params.get('lesson')),100)}
+start().catch(err=>{document.body.innerHTML=`<div style="padding:30px;font-family:system-ui">Não foi possível carregar o curso. ${esc(err.message)}</div>`});
+})();

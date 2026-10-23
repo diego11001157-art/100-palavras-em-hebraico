@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173e39">
+<title>Alef • Curso Completo</title>
+<link rel="stylesheet" href="course.css">
+</head>
+<body>
+<div class="course-shell">
+  <header class="course-top">
+    <div class="brand"><div class="alef">א</div><div><strong>Alef</strong><span>Laboratório Completo de Hebraico Bíblico</span></div></div>
+    <a class="btn ghost" href="index.html">← Alef</a>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">ALEF v2.0 • CURSO COMPLETO</div>
+    <h1>Do alfabeto ao texto bíblico</h1>
+    <p>Uma trilha progressiva para quem começa do zero, acompanha Hebraico I ou II, ou deseja revisar livremente. Aprenda, reconheça, construa, analise e revise seus próprios erros.</p>
+  </section>
+
+  <section id="onboarding" class="card" style="margin-top:14px">
+    <h2>Como você deseja estudar?</h2>
+    <p>Escolha um percurso. Você poderá mudar depois.</p>
+    <div class="track-grid" id="trackGrid"></div>
+  </section>
+
+  <section id="dashboard" class="dashboard hidden">
+    <div class="card">
+      <div class="resume-box"><div><span class="status">CONTINUAR</span><h3 id="resumeTitle">Lição 1</h3><p id="resumeSub"></p></div><button class="btn gold" id="resumeBtn">Continuar</button></div>
+      <div class="progress" style="margin-top:14px"><div id="courseProgress"></div></div>
+      <div class="metrics" style="margin-top:10px">
+        <div class="metric"><b id="completedCount">0</b><span>lições dominadas</span></div>
+        <div class="metric"><b id="attemptedCount">0</b><span>lições iniciadas</span></div>
+        <div class="metric"><b id="averageScore">0%</b><span>domínio médio</span></div>
+        <div class="metric"><b>31</b><span>lições na trilha</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🎯 Revisão recomendada</h3>
+      <div id="recommendation"></div>
+      <button class="btn ghost" id="changeTrack" style="width:100%;margin-top:10px">Mudar percurso</button>
+    </div>
+  </section>
+
+  <h2 class="section-title">📚 Níveis do curso</h2>
+  <div class="level-grid" id="levelGrid"></div>
+
+  <h2 class="section-title">🧪 Laboratórios</h2>
+  <div class="lab-grid" id="labGrid"></div>
+
+  <h2 class="section-title">📖 Todas as lições</h2>
+  <div class="lesson-list" id="lessonList"></div>
+  <div id="lessonDetail" class="lesson-detail"></div>
+
+  <div class="callout source-note" id="sourceNote"></div>
+</div>
+
+<nav class="course-bottom"><div>
+  <a href="index.html"><span>⌂</span>Início</a>
+  <a href="course.html"><span>📖</span>Curso</a>
+  <a href="index.html?go=vocab"><span>🔤</span>Vocabulário</a>
+  <a href="p2.html"><span>🎓</span>P2</a>
+</div></nav>
+<script src="course.js"></script>
+</body>
+</html>

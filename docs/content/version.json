@@ -1,8 +1,8 @@
 {
-  "appVersion": "1.8.0",
-  "contentVersion": "2026-10-22-p2-vocab95",
+  "appVersion": "2.0.0",
+  "contentVersion": "2026-10-23-laboratorio-completo",
   "wordsAvailable": 95,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v1.8: 95 palavras, Vocabulários 8 e 9, e nova trilha Preparação P2 baseada na ementa confirmada."
+  "message": "Alef v2.0: Laboratório Completo de Hebraico Bíblico, curso progressivo com 31 lições, trilhas para iniciantes/Hebraico I/Hebraico II, painel de domínio e revisão recomendada."
 }

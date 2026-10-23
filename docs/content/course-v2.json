@@ -1,0 +1,194 @@
+{
+  "version": "2.0.0",
+  "title": "ALEF — Laboratório Completo de Hebraico Bíblico",
+  "subtitle": "Do alfabeto à análise do texto bíblico",
+  "sourceNote": "Estrutura curricular construída a partir das ementas de Hebraico Bíblico I e II do curso e dos materiais Kelley já disponíveis no projeto. Quando o texto integral de uma lição do Kelley não está disponível, o aplicativo marca a validação como pendente em vez de atribuir conteúdo não verificado ao livro.",
+  "tracks": [
+    {"id":"zero","title":"Começar do zero","description":"Nunca estudei hebraico. Começar por alfabeto, vogais e leitura.","startLesson":1},
+    {"id":"hb1","title":"Acompanhar Hebraico I","description":"Percurso alinhado ao conteúdo programático de Hebraico Bíblico I.","startLesson":1},
+    {"id":"hb2","title":"Acompanhar Hebraico II","description":"Revisão nominal e avanço pelo sistema verbal e tradução.","startLesson":12},
+    {"id":"free","title":"Revisão livre","description":"Escolher qualquer assunto sem ordem obrigatória.","startLesson":1}
+  ],
+  "levels": [
+    {"id":"fundamentos","title":"Fundamentos da língua","icon":"🔤","range":"1–6","description":"Introdução, alfabeto, consoantes, vogais, sinais, sílabas, guturais, artigo, preposições e vav."},
+    {"id":"nominal","title":"Estrutura nominal","icon":"🧩","range":"7–11","description":"Substantivos, adjetivos, pronomes, construto/absoluto, sufixos e ponte para os verbos."},
+    {"id":"verbal","title":"Sistema verbal forte","icon":"🔠","range":"12–15","description":"Qal, perfeito, imperfeito, numerais e volitivos."},
+    {"id":"verbal2","title":"Sistema verbal avançado","icon":"⚙️","range":"16–21","description":"Demais troncos, Wayyiqtol, sufixos verbais, imperativos, infinitivos, particípios e sequências verbais."},
+    {"id":"fracos","title":"Verbos fracos","icon":"🧬","range":"22–31","description":"Trilha reservada às classes de verbos fracos. A correspondência exata com cada capítulo do Kelley será preenchida após validação das páginas."}
+  ],
+  "lessons": [
+    {
+      "n":1,"roman":"I","level":"fundamentos","title":"Introdução ao Hebraico Bíblico","curriculum":"Hebraico I — introdução ao estudo; história, características e uso.","validation":"curriculum",
+      "objectives":["Entender por que o hebraico bíblico é estudado instrumentalmente.","Reconhecer a direção da escrita e a organização básica do sistema gráfico.","Relacionar língua, leitura e interpretação do Antigo Testamento."],
+      "theory":[
+        {"h":"Direção da escrita","p":"O hebraico é lido e escrito da direita para a esquerda. O treino visual deve começar por essa orientação."},
+        {"h":"Escrita consonantal","p":"As letras representam principalmente consoantes; os sinais vocálicos foram acrescentados ao texto consonantal para registrar a tradição de leitura."},
+        {"h":"Estudo instrumental","p":"O objetivo do curso é reconhecer formas, consultar ferramentas e avançar da leitura para a análise e tradução."}
+      ],
+      "quiz":[
+        {"q":"Em que direção o hebraico é lido?","opts":["Da esquerda para a direita","Da direita para a esquerda","De cima para baixo","Depende da palavra"],"a":1,"why":"O hebraico é escrito da direita para a esquerda."},
+        {"q":"Qual é uma finalidade central do estudo instrumental do hebraico bíblico?","opts":["Substituir todas as traduções","Apoiar leitura, análise e interpretação","Memorizar apenas nomes de letras","Aprender hebraico moderno conversacional"],"a":1,"why":"As ementas enfatizam leitura, análise, tradução e uso de ferramentas."}
+      ]
+    },
+    {
+      "n":2,"roman":"II","level":"fundamentos","title":"Alfabeto, consoantes e formas finais","curriculum":"Hebraico I — alfabeto; consoantes, formas finais, valores fonéticos, transliteração e valores numéricos.","validation":"curriculum",
+      "objectives":["Reconhecer as 22 consoantes.","Identificar as cinco formas finais.","Associar letra, nome e transliteração básica."],
+      "alphabet":[
+        ["א","Alef","ʾ","1"],["ב","Bet","b/v","2"],["ג","Gimel","g","3"],["ד","Dalet","d","4"],["ה","He","h","5"],["ו","Vav","w/v","6"],["ז","Zayin","z","7"],["ח","Het","ḥ","8"],["ט","Tet","ṭ","9"],["י","Yod","y","10"],["כ ך","Kaf","k/kh","20"],["ל","Lamed","l","30"],["מ ם","Mem","m","40"],["נ ן","Nun","n","50"],["ס","Samekh","s","60"],["ע","Ayin","ʿ","70"],["פ ף","Pe","p/f","80"],["צ ץ","Tsade","ṣ","90"],["ק","Qof","q","100"],["ר","Resh","r","200"],["ש","Shin/Sin","š/ś","300"],["ת","Tav","t","400"]
+      ],
+      "theory":[
+        {"h":"Formas finais","p":"Cinco letras possuem forma especial no fim da palavra: ך ם ן ף ץ."},
+        {"h":"Transliteração","p":"A transliteração ajuda a registrar o valor das letras em caracteres latinos, mas não substitui a leitura do hebraico."},
+        {"h":"Valores numéricos","p":"As letras também podem representar valores numéricos; a ementa inclui esse reconhecimento entre os fundamentos."}
+      ],
+      "quiz":[
+        {"q":"Qual conjunto contém apenas formas finais?","opts":["ך ם ן ף ץ","כ מ נ פ צ","א ה ח ע ר","ב ג ד כ פ"],"a":0,"why":"ך ם ן ף ץ são as cinco formas finais."},
+        {"q":"Qual é a forma final de מ?","opts":["ן","ם","ך","ץ"],"a":1,"why":"Mem final é ם."},
+        {"q":"Qual letra vem associada ao nome Alef?","opts":["א","ע","ה","ח"],"a":0,"why":"א é Alef."}
+      ]
+    },
+    {
+      "n":3,"roman":"III","level":"fundamentos","title":"Vogais e leitura das sílabas","curriculum":"Hebraico I — vogais breves e longas; valores fonéticos e transliteração.","validation":"curriculum",
+      "objectives":["Reconhecer sinais vocálicos frequentes.","Ler combinações simples de consoante + vogal.","Distinguir o sinal vocálico da consoante que o recebe."],
+      "vowels":[["ַ","patah","a"],["ָ","qamats","a/ā"],["ֶ","segol","e"],["ֵ","tsere","e/ē"],["ִ","hireq","i"],["ֹ","holem","o"],["ֻ","qibbuts","u"],["ְ","sheva","ə/zero conforme a função"]],
+      "theory":[
+        {"h":"Pontos massoréticos","p":"Os sinais vocálicos aparecem ao redor das consoantes e orientam a leitura tradicional do texto."},
+        {"h":"Leia a unidade","p":"Em vez de decorar um sinal isolado, treine combinações como בַּ, בֶּ, בִּ e depois palavras completas."},
+        {"h":"Sheva","p":"O sheva exige atenção porque sua função depende da forma e do ambiente fonológico. Nesta primeira etapa, reconheça o sinal; a classificação detalhada é trabalhada depois."}
+      ],
+      "quiz":[
+        {"q":"Qual sinal abaixo representa patah?","opts":["ַ","ֵ","ִ","ֻ"],"a":0,"why":"Patah é o pequeno traço horizontal sob a consoante."},
+        {"q":"Qual sinal está associado a um som de i?","opts":["ֶ","ִ","ָ","ֹ"],"a":1,"why":"Hireq é o ponto sob a consoante associado ao som i."},
+        {"q":"O que deve ser treinado junto com as vogais?","opts":["Somente valores numéricos","Combinações de consoante + vogal","Apenas tradução","Somente nomes próprios"],"a":1,"why":"A leitura melhora quando o sinal é reconhecido dentro da sílaba."}
+      ]
+    },
+    {
+      "n":4,"roman":"IV","level":"fundamentos","title":"Daguesh, sheva e estrutura da sílaba","curriculum":"Hebraico I — pontuação (daguesh lene e forte) e sílaba.","validation":"curriculum",
+      "objectives":["Reconhecer visualmente o daguesh.","Entender que o ponto interno pode ter funções diferentes.","Começar a segmentar palavras em unidades de leitura."],
+      "theory":[
+        {"h":"Daguesh","p":"O ponto dentro de certas consoantes precisa ser analisado no contexto: a ementa distingue daguesh lene e forte."},
+        {"h":"Sílabas","p":"A leitura deixa de ser letra por letra e passa a reconhecer blocos consonante-vogal. A segmentação ajuda a perceber padrões morfológicos."},
+        {"h":"Não decorar só a aparência","p":"A mesma letra pode aparecer com ou sem daguesh; a função deve ser entendida dentro da palavra."}
+      ],
+      "quiz":[
+        {"q":"Onde aparece visualmente o daguesh?","opts":["Como um ponto dentro da consoante","Como um traço acima da palavra","Como uma letra final","Como um acento latino"],"a":0,"why":"O daguesh é um ponto escrito dentro da consoante."},
+        {"q":"A ementa de Hebraico I distingue quais tipos de daguesh?","opts":["Curto e longo","Lene e forte","Ativo e passivo","Singular e plural"],"a":1,"why":"A ementa cita explicitamente daguesh lene e forte."}
+      ]
+    },
+    {
+      "n":5,"roman":"V","level":"fundamentos","title":"Guturais, não guturais e artigo","curriculum":"Hebraico I — artigo; aprofundamento didático das peculiaridades gráficas necessárias à leitura.","validation":"curriculum+didactic",
+      "objectives":["Reconhecer as principais consoantes guturais.","Distinguir guturais das demais consoantes para análise de padrões.","Reconhecer o artigo prefixado e observar alterações diante de certas consoantes."],
+      "theory":[
+        {"h":"Guturais","p":"א ה ח ע são tradicionalmente agrupadas como guturais. ר não é gutural em sentido estrito, mas compartilha alguns comportamentos e merece atenção."},
+        {"h":"Por que isso importa?","p":"Guturais afetam padrões de vocalização e de duplicação. O aluno deve primeiro reconhecê-las visualmente antes de estudar as exceções detalhadas."},
+        {"h":"Artigo","p":"O artigo definido é prefixado ao substantivo. Seu comportamento fonológico diante de certas consoantes será aprofundado quando as páginas correspondentes do Kelley forem incorporadas."}
+      ],
+      "quiz":[
+        {"q":"Qual grupo contém as quatro principais guturais?","opts":["א ה ח ע","ב ג ד כ","מ נ ס פ","ק ר ש ת"],"a":0,"why":"א ה ח ע são as principais guturais."},
+        {"q":"Por que reconhecer guturais é útil?","opts":["Porque elas nunca aparecem em verbos","Porque podem influenciar padrões de vocalização e duplicação","Porque substituem as vogais","Porque existem apenas no final da palavra"],"a":1,"why":"O comportamento fonológico das guturais interfere em vários padrões morfológicos."},
+        {"q":"O artigo hebraico normalmente aparece como...","opts":["uma palavra sempre separada","um prefixo ligado ao nome","um sufixo verbal","uma forma final"],"a":1,"why":"O artigo é prefixado ao nome."}
+      ]
+    },
+    {
+      "n":6,"roman":"VI","level":"fundamentos","title":"Preposições e conjunção vav","curriculum":"Hebraico I — preposições e conjunções; Hebraico II retoma preposições e vav na revisão.","validation":"curriculum",
+      "objectives":["Reconhecer preposições inseparáveis frequentes.","Reconhecer a conjunção וְ.","Separar elementos prefixados antes de analisar a palavra-base."],
+      "theory":[
+        {"h":"Preposições inseparáveis","p":"בְּ, לְ e כְּ aparecem frequentemente prefixadas à palavra seguinte. Separá-las mentalmente ajuda na análise."},
+        {"h":"Conjunção vav","p":"וְ geralmente conecta palavras ou orações. Mais adiante o curso distingue o vav conjuntivo de formas verbais sequenciais."},
+        {"h":"Método","p":"Antes de procurar uma palavra no léxico, pergunte se há artigo, preposição ou conjunção anexada."}
+      ],
+      "quiz":[
+        {"q":"Qual letra é usada como conjunção vav?","opts":["ו","י","נ","ל"],"a":0,"why":"וְ é a conjunção vav."},
+        {"q":"Qual grupo apresenta preposições inseparáveis frequentes?","opts":["בְּ לְ כְּ","א ה ח","ם ן ץ","ש ת ק"],"a":0,"why":"בְּ, לְ e כְּ são preposições prefixadas muito frequentes."}
+      ]
+    },
+    {
+      "n":7,"roman":"VII","level":"nominal","title":"Substantivos: derivação, gênero e número","curriculum":"Hebraico I — substantivo e adjetivo. Material Kelley VII disponível no projeto.","validation":"kelley-partial",
+      "objectives":["Identificar gênero e número.","Reconhecer terminações frequentes sem tratá-las como regras absolutas.","Comparar singular, plural e dual quando aparecerem."],
+      "theory":[
+        {"h":"Três perguntas","p":"Ao analisar um substantivo, pergunte: qual o gênero? qual o número? qual o estado?"},
+        {"h":"Forma e léxico","p":"A terminação ajuda, mas o gênero lexical precisa ser confirmado quando a forma não for conclusiva."},
+        {"h":"Vocabulário aplicado","p":"As palavras do banco do Alef passam a funcionar também como exemplos nominais."}
+      ],
+      "quiz":[
+        {"q":"Quais três eixos ajudam a classificar um substantivo?","opts":["Pessoa, tempo, modo","Gênero, número, estado","Tronco, raiz, voz","Artigo, verbo, oração"],"a":1,"why":"Gênero, número e estado são eixos centrais da análise nominal."}
+      ]
+    },
+    {
+      "n":8,"roman":"VIII","level":"nominal","title":"Adjetivos e concordância","curriculum":"Hebraico I — substantivo e adjetivo. Material Kelley VIII disponível no projeto.","validation":"kelley-partial",
+      "objectives":["Reconhecer gênero e número do adjetivo.","Comparar uso atributivo e predicativo.","Observar concordância com o substantivo."],
+      "theory":[
+        {"h":"Concordância","p":"O adjetivo deve ser analisado em relação ao substantivo: gênero e número são pistas decisivas."},
+        {"h":"Atributivo × predicativo","p":"A função do adjetivo depende da estrutura da frase, não apenas da forma isolada."},
+        {"h":"Contexto","p":"Artigo e posição ajudam a identificar a relação sintática entre substantivo e adjetivo."}
+      ],
+      "quiz":[
+        {"q":"Na análise de um adjetivo, o que deve ser comparado com o substantivo?","opts":["Somente a primeira letra","Gênero e número","Apenas o valor numérico","Somente a raiz verbal"],"a":1,"why":"Gênero e número são fundamentais para a concordância."}
+      ]
+    },
+    {
+      "n":9,"roman":"IX","level":"nominal","title":"Pronomes pessoais e demonstrativos","curriculum":"Hebraico I — pronomes; Hebraico II revisa pronomes pessoais e demonstrativos.","validation":"curriculum",
+      "objectives":["Reconhecer pronomes independentes.","Reconhecer demonstrativos frequentes.","Distinguir pessoa, gênero e número quando aplicável."],
+      "examples":[["אֲנִי","eu"],["אָנֹכִי","eu"],["הוּא","ele"],["זֶה","este"],["אֵלֶּה","estes/estas"],["הַהוּא","aquele"]],
+      "theory":[
+        {"h":"Independentes","p":"Alguns pronomes aparecem como palavras independentes e ajudam a explicitar sujeito ou ênfase."},
+        {"h":"Demonstrativos","p":"Formas como זֶה, אֵלֶּה e הַהוּא já aparecem no vocabulário do Alef e agora também alimentam o curso gramatical."}
+      ],
+      "quiz":[
+        {"q":"Qual forma significa “este” no vocabulário atual?","opts":["זֶה","אֵלֶּה","אָנֹכִי","אוֹ"],"a":0,"why":"זֶה é demonstrativo masculino singular: “este”."},
+        {"q":"Qual forma é pronome independente de 1ª pessoa comum singular?","opts":["הוּא","אָנֹכִי","אֵלֶּה","מְאֹד"],"a":1,"why":"אָנֹכִי significa “eu”."}
+      ]
+    },
+    {
+      "n":10,"roman":"X","level":"nominal","title":"Estado absoluto e construto","curriculum":"Hebraico I — casos constructo e absoluto.","validation":"curriculum",
+      "objectives":["Distinguir absoluto de construto.","Reconhecer cadeias nominais.","Evitar traduzir cada palavra isoladamente quando há relação de dependência."],
+      "theory":[
+        {"h":"Estado absoluto","p":"É a forma independente do substantivo dentro da estrutura nominal."},
+        {"h":"Estado construto","p":"O substantivo em construto se liga ao termo seguinte para formar uma unidade de relação, frequentemente traduzida com “de”."},
+        {"h":"Leia a cadeia","p":"Em vez de traduzir cada item isoladamente, identifique primeiro a relação entre os nomes."}
+      ],
+      "quiz":[
+        {"q":"Qual tradução frequentemente expressa a relação de uma cadeia construta em português?","opts":["com","de","se","porque"],"a":1,"why":"A relação de construto frequentemente é representada por “de” em português."}
+      ]
+    },
+    {
+      "n":11,"roman":"XI","level":"nominal","title":"Sufixos pronominais e ponte para os verbos","curriculum":"Hebraico I — pronomes, prefixos/sufixos e introdução aos verbos; Hebraico II revisa sufixos pronominais em preposições.","validation":"curriculum",
+      "objectives":["Separar preposição/base/sufixo.","Reconhecer que um sufixo pode codificar pessoa, gênero e número.","Preparar a passagem da análise nominal para a verbal."],
+      "examples":[["בּוֹ","בְּ + וֹ","nele/com ele"],["אֵלַי","אֶל + ַי","a mim/para mim"],["לָכֶם","לְ + כֶם","para vós"]],
+      "theory":[
+        {"h":"Análise em camadas","p":"Separe primeiro os elementos anexados. Depois classifique a base e o pronome representado pelo sufixo."},
+        {"h":"Ponte para verbos","p":"A mesma disciplina de análise por partes será usada nas formas verbais: prefixos, raiz e terminações."}
+      ],
+      "quiz":[
+        {"q":"Em בּוֹ, qual é a estratégia inicial mais útil?","opts":["Tratar tudo como raiz verbal","Separar a preposição do sufixo","Ignorar o sufixo","Procurar um artigo"],"a":1,"why":"A forma pode ser analisada em camadas: preposição + sufixo pronominal."}
+      ]
+    },
+    {"n":12,"roman":"XII","level":"verbal","title":"Entrando no sistema verbal","curriculum":"Hebraico II P1 — Kelley XII; conteúdo já resumido no Alef.","validation":"project-source","objectives":["Reconhecer raiz e forma verbal.","Identificar o Qal perfeito.","Usar terminações como pistas de PGN."],"theory":[{"h":"Raiz","p":"A raiz funciona como esqueleto lexical; a forma conjugada acrescenta informação gramatical."},{"h":"Perfeito/Qatal","p":"No paradigma introdutório, as terminações são pistas importantes de pessoa, gênero e número."},{"h":"Contexto","p":"Ação completa não deve ser convertida mecanicamente em “passado”; a tradução depende do contexto."}],"quiz":[{"q":"No perfeito Qal, qual elemento é uma pista importante para PGN?","opts":["Apenas o primeiro radical","As terminações","Somente o artigo","O valor numérico"],"a":1,"why":"No perfeito, as terminações são marcadores importantes de PGN."}]},
+    {"n":13,"roman":"XIII","level":"verbal","title":"Interrogativas e numerais","curriculum":"Hebraico II P1 — Kelley XIII; conteúdo já resumido no Alef.","validation":"project-source","objectives":["Reconhecer marcas interrogativas.","Revisar numerais e gênero.","Aplicar numerais dentro da leitura."],"theory":[{"h":"Perguntas","p":"A forma interrogativa deve ser reconhecida dentro da oração."},{"h":"Numerais","p":"O Alef mantém um laboratório próprio para cardinais e ordinais e agora o conecta à trilha do curso."}],"quiz":[{"q":"Onde treinar cardinais e ordinais no Alef?","opts":["Somente no ranking","No laboratório de numerais","Somente no perfil","Apenas no duelo"],"a":1,"why":"O módulo de Numerais é integrado à trilha."}]},
+    {"n":14,"roman":"XIV","level":"verbal","title":"Sete troncos e perfeitos","curriculum":"Hebraico II P1 — Kelley XIV; conteúdo já resumido no Alef.","validation":"project-source","objectives":["Reconhecer Qal, Nifal, Piel, Pual, Hifil, Hofal e Hitpael.","Usar prefixos, vocalização e daguesh como pistas.","Evitar traduzir o valor típico do tronco mecanicamente."],"theory":[{"h":"Padrão morfológico","p":"O tronco é reconhecido por um conjunto de marcas, não por uma única letra isolada."},{"h":"Valor típico","p":"Ativo, passivo, intensivo, causativo e reflexivo são descrições didáticas; o léxico e o contexto confirmam o sentido real."}],"quiz":[{"q":"Qual princípio é mais seguro ao identificar um tronco?","opts":["Usar uma única vogal","Combinar várias pistas morfológicas","Traduzir antes de analisar","Ignorar o contexto"],"a":1,"why":"Prefixos, vocalização, daguesh e forma global precisam ser considerados juntos."}]},
+    {"n":15,"roman":"XV","level":"verbal","title":"Imperfeito Qal e formas volitivas","curriculum":"Hebraico II P1 — Kelley XV; conteúdo já resumido no Alef.","validation":"project-source","objectives":["Reconhecer os preformativos do imperfeito.","Identificar ambiguidades de PGN.","Distinguir imperativo, jussivo e coortativo em nível introdutório."],"theory":[{"h":"Preformativos","p":"א נ י ת são marcadores centrais do sistema prefixado."},{"h":"Ambiguidade","p":"Algumas formas podem representar mais de um PGN; o contexto resolve."},{"h":"Volitivos","p":"Imperativo, jussivo e coortativo expressam valores de vontade, comando ou desejo e serão treinados em contexto."}],"quiz":[{"q":"Quais letras funcionam como preformativos centrais do imperfeito?","opts":["א נ י ת","ב ג ד כ","מ ס פ צ","ה ו ז ח"],"a":0,"why":"א, נ, י e ת são os preformativos básicos do imperfeito."}]},
+    {"n":16,"roman":"XVI","level":"verbal2","title":"Imperfeitos dos demais troncos e vav consecutivo","curriculum":"Hebraico II P2 — Kelley XVI; resumo já existente no projeto.","validation":"project-source","objectives":["Comparar os sete troncos no imperfeito.","Distinguir vav conjuntivo de sequência verbal.","Analisar formas como וַיֹּאמְרוּ."],"theory":[{"h":"Wayyiqtol","p":"A análise deve separar a sequência narrativa, reconhecer a forma verbal e então reconstruir a raiz."},{"h":"Comparação de troncos","p":"As marcas pessoais continuam úteis enquanto o padrão interno do tronco muda."}],"quiz":[{"q":"וַיֹּאמְרוּ pertence, no vocabulário atual, a qual análise?","opts":["Qal Wayyiqtol 3mp","Piel perfeito 1cs","Nifal particípio","Hifil infinitivo"],"a":0,"why":"O Vocabulário 9 classifica וַיֹּאמְרוּ como Qal Wayyiqtol 3mp do verbo dizer."}]},
+    {"n":17,"roman":"XVII","level":"verbal2","title":"Sufixos pronominais em formas verbais","curriculum":"Hebraico II P2 — Kelley XVII; resumo já existente no projeto.","validation":"project-source","objectives":["Separar sujeito da conjugação e objeto sufixado.","Reconhecer mudanças causadas por sufixos.","Analisar a palavra em camadas."],"theory":[{"h":"Sujeito × objeto","p":"A conjugação codifica o sujeito; o sufixo pronominal pode representar o objeto. Não confunda as duas funções."}],"quiz":[{"q":"Ao analisar um verbo com sufixo pronominal, o sufixo deve ser confundido com...","opts":["o objeto","o sujeito codificado pela conjugação","a raiz","o léxico"],"a":1,"why":"O sujeito e o objeto são informações diferentes na forma."}]},
+    {"n":18,"roman":"XVIII","level":"verbal2","title":"Imperativos, נא e proibições","curriculum":"Hebraico II P2 — Kelley XVIII; resumo já existente no projeto.","validation":"project-source","objectives":["Reconhecer o imperativo de 2ª pessoa.","Observar o valor de נא em contexto.","Comparar construções negativas."],"theory":[{"h":"Imperativo","p":"No paradigma introdutório, o imperativo é associado à 2ª pessoa."},{"h":"Proibição","p":"Construções negativas precisam ser classificadas pela forma e pelo contexto, não apenas pela tradução portuguesa."}],"quiz":[{"q":"O imperativo regular básico é associado a qual pessoa?","opts":["1ª","2ª","3ª","não marca pessoa"],"a":1,"why":"O imperativo básico ocorre na 2ª pessoa."}]},
+    {"n":19,"roman":"XIX","level":"verbal2","title":"Infinitivo construto e absoluto","curriculum":"Hebraico II P2 — Kelley XIX; resumo já existente no projeto.","validation":"project-source","objectives":["Distinguir infinitivo construto e absoluto.","Reconhecer preposições/sufixos no construto.","Reconhecer função enfática frequente do absoluto."],"theory":[{"h":"Construto","p":"Pode ocorrer com preposições e sufixos e desempenha diferentes funções sintáticas."},{"h":"Absoluto","p":"Pode reforçar uma forma finita da mesma raiz; a função precisa ser lida no contexto."}],"quiz":[{"q":"Qual infinitivo costuma aceitar preposição e sufixo?","opts":["Construto","Absoluto","Particípio","Wayyiqtol"],"a":0,"why":"O infinitivo construto pode ocorrer com preposições e sufixos."}]},
+    {"n":20,"roman":"XX","level":"verbal2","title":"Particípios e sinopse do verbo forte","curriculum":"Hebraico II P2 — Kelley XX; resumo já existente no projeto.","validation":"project-source","objectives":["Reconhecer particípios.","Classificar gênero e número.","Distinguir usos verbal, adjetival e nominal."],"theory":[{"h":"Particípio","p":"O particípio pode funcionar como verbo, adjetivo ou substantivo conforme a sintaxe."},{"h":"Morfologia","p":"Gênero e número são relevantes; pessoa não é codificada como numa forma verbal finita."}],"quiz":[{"q":"Um particípio pode funcionar como...","opts":["apenas verbo","apenas substantivo","verbo, adjetivo ou substantivo","somente preposição"],"a":2,"why":"A função do particípio depende do contexto sintático."}]},
+    {"n":21,"roman":"XXI","level":"verbal2","title":"Vav e sequências verbais","curriculum":"Hebraico II P2 — Kelley XXI; resumo já existente no projeto.","validation":"project-source","objectives":["Analisar verbos em sequência.","Distinguir coordenação simples de sequência discursiva.","Traduzir após compreender a relação sintática."],"theory":[{"h":"Sequência","p":"Não traduza o segundo verbo isoladamente antes de entender sua relação com o primeiro."},{"h":"Discurso","p":"Narrativa, coordenação e contexto sintático influenciam o valor das formas."}],"quiz":[{"q":"Antes de traduzir o segundo verbo de uma sequência, qual passo é prioritário?","opts":["Ignorar o primeiro verbo","Identificar a relação entre as formas","Trocar o tronco","Eliminar todas as vogais"],"a":1,"why":"A relação sintática e discursiva orienta a tradução."}]},
+    {"n":22,"roman":"XXII","level":"fracos","title":"Verbos fracos — etapa 1","curriculum":"Hebraico II inclui verbos fracos; correspondência exata da Lição XXII aguarda páginas do Kelley.","validation":"pending-kelley","objectives":["Introduzir a lógica dos verbos fracos.","Comparar a raiz esperada com a forma observada."],"theory":[{"h":"Princípio do laboratório","p":"Verbos fracos serão aprendidos pela pergunta: qual radical mudou, desapareceu ou afetou o padrão? A classe específica desta lição será preenchida após validação do Kelley."}],"quiz":[]},
+    {"n":23,"roman":"XXIII","level":"fracos","title":"Verbos fracos — etapa 2","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Reconstruir raízes a partir de formas alteradas."],"theory":[{"h":"Fonte pendente","p":"A estrutura da aula está pronta, mas a classe e as regras específicas não serão atribuídas ao Kelley sem as páginas da edição usada no curso."}],"quiz":[]},
+    {"n":24,"roman":"XXIV","level":"fracos","title":"Verbos fracos — etapa 3","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Comparar padrões fortes e fracos."],"theory":[{"h":"Comparação","p":"O treino futuro mostrará lado a lado o paradigma forte e a forma fraca para destacar a mudança."}],"quiz":[]},
+    {"n":25,"roman":"XXV","level":"fracos","title":"Verbos fracos — etapa 4","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Aplicar análise por raiz e afixos."],"theory":[{"h":"Método","p":"FORMA → afixos → padrão → raiz → léxico → contexto."}],"quiz":[]},
+    {"n":26,"roman":"XXVI","level":"fracos","title":"Verbos fracos — etapa 5","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Reconhecer alterações recorrentes."],"theory":[{"h":"Padrões","p":"O aplicativo reservará comparações e exercícios específicos assim que a fonte da lição for validada."}],"quiz":[]},
+    {"n":27,"roman":"XXVII","level":"fracos","title":"Verbos fracos — etapa 6","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Reforçar reconstrução de raiz."],"theory":[{"h":"Raiz","p":"A reconstrução da raiz é o centro do laboratório de verbos fracos."}],"quiz":[]},
+    {"n":28,"roman":"XXVIII","level":"fracos","title":"Verbos fracos — etapa 7","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Reconhecer padrões em formas reais."],"theory":[{"h":"Formas reais","p":"Quando validada, a lição usará exemplos bíblicos e não apenas paradigmas artificiais."}],"quiz":[]},
+    {"n":29,"roman":"XXIX","level":"fracos","title":"Verbos fracos — etapa 8","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Integrar morfologia e contexto."],"theory":[{"h":"Contexto","p":"A forma morfológica deve ser confirmada na oração e no léxico."}],"quiz":[]},
+    {"n":30,"roman":"XXX","level":"fracos","title":"Verbos fracos — etapa 9","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Revisar classes já estudadas."],"theory":[{"h":"Revisão","p":"A futura revisão misturará classes de verbos fracos para treinar diagnóstico, não memorização de ordem."}],"quiz":[]},
+    {"n":31,"roman":"XXXI","level":"fracos","title":"Verbos fracos — síntese","curriculum":"Conteúdo avançado; fonte Kelley pendente.","validation":"pending-kelley","objectives":["Integrar o sistema verbal forte e fraco.","Preparar análise bíblica avançada."],"theory":[{"h":"Síntese","p":"Esta aula encerrará a trilha morfológica e encaminhará o aluno ao laboratório de BHS, léxico, sintaxe e tradução."}],"quiz":[]}
+  ],
+  "labs": [
+    {"id":"alphabet","icon":"🔤","title":"Alfabeto e leitura","description":"Letras, finais, vogais, daguesh e sílabas.","lessons":[1,2,3,4,5]},
+    {"id":"nominal","icon":"🧩","title":"Morfologia nominal","description":"Artigo, preposições, substantivos, adjetivos, construto e pronomes.","lessons":[5,6,7,8,9,10,11]},
+    {"id":"verbs","icon":"🔠","title":"Verbos","description":"Qal, troncos, perfeito, imperfeito, volitivos, infinitivos e particípios.","lessons":[12,14,15,16,17,18,19,20,21]},
+    {"id":"bhs","icon":"📜","title":"BHS e análise bíblica","description":"FORMA → TRONCO → PGN → RAIZ → LÉXICO → SINTAXE → CONTEXTO.","lessons":[16,17,18,19,20,21]},
+    {"id":"weak","icon":"🧬","title":"Verbos fracos","description":"Trilha avançada pronta para receber as classes do Kelley quando as páginas forem validadas.","lessons":[22,23,24,25,26,27,28,29,30,31]}
+  ]
+}
