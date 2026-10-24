@@ -1,4 +1,4 @@
-const CACHE='alef-v2.1.0-fundamentos-interativos';
+const CACHE='alef-v2.2.0-fundamentos-gamificados';
 const STATIC=[
   './','./index.html','./styles.css','./app.js','./simulado.js','./v18-bootstrap.js','./p2.html','./p2.js','./course.html','./course.js','./course.css','./fundamentos-game.html','./fundamentos-game.js','./fundamentos-game.css','./config.js','./manifest.webmanifest',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png',
@@ -9,7 +9,7 @@ self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promis
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const url=new URL(e.request.url);if(url.origin!==location.origin)return;
-  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||/\/(app|simulado|v18-bootstrap|p2|course)\.js$/.test(url.pathname)||/\/(styles|course)\.css$/.test(url.pathname)||url.pathname.endsWith('/p2.html')||url.pathname.endsWith('/course.html');
+  const isFresh=url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')||url.pathname.includes('/content/')||/\/(app|simulado|v18-bootstrap|p2|course|fundamentos-game)\.js$/.test(url.pathname)||/\/(styles|course|fundamentos-game)\.css$/.test(url.pathname)||url.pathname.endsWith('/p2.html')||url.pathname.endsWith('/course.html')||url.pathname.endsWith('/fundamentos-game.html');
   if(isFresh){e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))))}
   else{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return resp})))}
 });

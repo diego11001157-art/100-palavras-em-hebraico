@@ -1,8 +1,8 @@
 {
-  "appVersion": "2.1.0",
-  "contentVersion": "2026-10-23-fundamentos-interativos",
+  "appVersion": "2.2.0",
+  "contentVersion": "2026-10-23-fundamentos-gamificados-v22",
   "wordsAvailable": 95,
   "targetWords": 100,
   "weeklyBlockSize": 5,
-  "message": "Alef v2.1: Arena gamificada de fundamentos com letras, formas finais, vogais, sheva, daguesh e guturais; XP, sequências, conquistas e laboratório de montagem visual."
+  "message": "Alef v2.2: grade interativa das 22 consoantes, teclado hebraico, flashcards e jogos sequenciais de vogais, sheva, daguesh, guturais e artigo."
 }

@@ -4,21 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#173e39">
-<title>Alef • Arena dos Fundamentos</title>
+<title>Alef • Fundamentos Gamificados</title>
 <link rel="stylesheet" href="course.css">
 <link rel="stylesheet" href="fundamentos-game.css">
 </head>
 <body>
 <div class="game-shell">
   <header class="course-top">
-    <div class="brand"><div class="alef">א</div><div><strong>Arena dos Fundamentos</strong><span>Alef • Laboratório visual e interativo</span></div></div>
+    <div class="brand"><div class="alef">א</div><div><strong>Fundamentos Gamificados</strong><span>Alef • Hebraico do zero</span></div></div>
     <a class="btn ghost" href="course.html">← Curso</a>
   </header>
 
   <section class="hero game-hero">
-    <div class="kicker">ALEF v2.1 • FUNDAMENTOS INTERATIVOS</div>
-    <h1>Veja, toque e identifique</h1>
-    <p>Treine letras, formas finais, vogais, sheva, daguesh e guturais clicando diretamente nos sinais hebraicos. Cada acerto aumenta sua sequência e o domínio da sessão.</p>
+    <div class="kicker">ALEF v2.2 • APRENDER BRINCANDO</div>
+    <h1>Toque, monte, arraste e descubra</h1>
+    <p>Uma sequência visual para memorizar alfabeto, vogais, sheva, daguesh, guturais e artigo. Cada atividade ensina uma ideia por vez e depois transforma a regra em jogo.</p>
   </section>
 
   <section class="score-strip" aria-live="polite">
@@ -28,9 +28,63 @@
     <div><b id="accuracy">0%</b><span>precisão</span></div>
   </section>
 
-  <section class="card" style="margin-top:14px">
+  <section class="card journey" id="journey">
+    <div class="game-head"><div><span class="status">ORDEM DE ESTUDO</span><h2>🌱 Jornada dos fundamentos</h2><p>Comece pelo alfabeto e avance somente depois que reconhecer os sinais.</p></div></div>
+    <div class="journey-grid" id="journeyGrid"></div>
+  </section>
+
+  <section class="card" id="alphabet-order">
     <div class="game-head">
-      <div><span class="status">ESCOLHA O DESAFIO</span><h2>O que deseja praticar?</h2></div>
+      <div><span class="status">LIÇÃO II • ALFABETO</span><h2>🔤 Coloque as 22 consoantes em ordem</h2><p>Do Alef ao Tav. Clique numa letra para ocupar o próximo quadrado vazio. Também é possível arrastar.</p></div>
+      <div class="mini-actions"><button class="btn ghost" id="alphabetHint">Dica</button><button class="btn ghost" id="alphabetReset">Recomeçar</button></div>
+    </div>
+    <div class="alef-tip"><strong>🧠 Dica do laboratório</strong><span>Memorize em pequenos grupos: א–ה, ו–י, כ–ס, ע–ק, ר–ת. Depois una os grupos.</span></div>
+    <div class="alef-tip pending"><strong>📖 Dica Kelley</strong><span>Será adicionada aqui quando as páginas da Lição II da edição usada em sala forem enviadas.</span></div>
+    <div class="alphabet-board" id="alphabetBoard" aria-label="22 posições do alfabeto"></div>
+    <h3 class="subhead">Banco de letras</h3>
+    <div class="letter-bank" id="letterBank"></div>
+    <div class="board-actions">
+      <button class="btn gold" id="alphabetCheck">Conferir ordem</button>
+      <button class="btn ghost" id="alphabetShuffle">Embaralhar banco</button>
+    </div>
+    <div id="alphabetFeedback" class="feedback-panel hidden"></div>
+  </section>
+
+  <section class="card" id="keyboard">
+    <div class="game-head"><div><span class="status">LABORATÓRIO LIVRE</span><h2>⌨️ Teclado hebraico do ALEF</h2><p>Monte letras, sílabas e palavras usando consoantes, formas finais, vogais e sinais.</p></div></div>
+    <div class="keyboard-output hebrew" id="keyboardOutput" dir="rtl">בַ</div>
+    <div class="keyboard-tools"><button class="btn ghost" data-key-action="back">⌫ Apagar</button><button class="btn ghost" data-key-action="space">Espaço</button><button class="btn ghost" data-key-action="clear">Limpar</button></div>
+    <div class="keyboard-section"><b>Consoantes</b><div class="hebrew-keyboard" id="kbdConsonants"></div></div>
+    <div class="keyboard-section"><b>Formas finais</b><div class="hebrew-keyboard compact" id="kbdFinals"></div></div>
+    <div class="keyboard-section"><b>Vogais e sinais</b><div class="hebrew-keyboard compact" id="kbdMarks"></div></div>
+    <div class="callout" id="keyboardExplain">Toque primeiro numa consoante e depois numa vogal. Os sinais vocálicos são combinados com a letra anterior.</div>
+  </section>
+
+  <section class="card" id="flashcards">
+    <div class="game-head"><div><span class="status">MEMORIZAÇÃO</span><h2>🗂️ Flashcards dos fundamentos</h2><p>Treine de frente para trás e depois inverta mentalmente a pergunta.</p></div></div>
+    <div class="flash-controls">
+      <select id="flashCategory" aria-label="Categoria de flashcards">
+        <option value="alphabet">Alfabeto</option>
+        <option value="finals">Formas finais</option>
+        <option value="vowels">Vogais</option>
+        <option value="sheva">Sheva</option>
+        <option value="dagesh">Daguesh</option>
+        <option value="gutturals">Guturais</option>
+        <option value="article">Artigo</option>
+      </select>
+      <button class="btn ghost" id="flashShuffle">Embaralhar</button>
+    </div>
+    <button class="flashcard" id="flashcard" type="button" aria-label="Virar flashcard">
+      <span class="flash-label" id="flashLabel">TOQUE PARA VIRAR</span>
+      <span class="flash-main" id="flashMain"></span>
+      <span class="flash-sub" id="flashSub"></span>
+    </button>
+    <div class="flash-nav"><button class="btn ghost" id="flashPrev">←</button><span id="flashCounter"></span><button class="btn gold" id="flashNext">Próximo →</button></div>
+  </section>
+
+  <section class="card" id="games">
+    <div class="game-head">
+      <div><span class="status">JOGOS</span><h2>🎮 Desafios por habilidade</h2><p>Escolha um assunto ou use o modo misturado.</p></div>
       <button class="btn ghost" id="resetSession">Zerar sessão</button>
     </div>
     <div class="mode-grid" id="modeGrid"></div>
@@ -47,24 +101,17 @@
     <div class="arena-actions"><button class="btn gold hidden" id="nextQuestion">Próxima →</button><button class="btn ghost" id="backModes">Trocar desafio</button></div>
   </section>
 
-  <section class="card builder" id="builder">
-    <div class="game-head"><div><span class="status">LABORATÓRIO LIVRE</span><h2>🧪 Monte e observe</h2><p>Clique numa consoante e depois numa vogal. O Alef monta a combinação para você observar o sinal no lugar correto.</p></div></div>
-    <div class="build-result hebrew" id="buildResult">בַ</div>
-    <div class="builder-label">Consoante</div><div class="chip-grid" id="consonantChips"></div>
-    <div class="builder-label">Vogal / sinal</div><div class="chip-grid" id="vowelChips"></div>
-    <div class="callout" id="buildExplain"></div>
-  </section>
-
-  <section class="card" style="margin-top:14px">
+  <section class="card" id="achievements">
     <h2>🏅 Conquistas desta máquina</h2>
     <div class="badge-grid" id="badgeGrid"></div>
-    <p class="source-note">As conquistas ficam salvas neste navegador. Elas são um recurso didático do ALEF e não substituem as notas oficiais da disciplina.</p>
+    <p class="source-note">XP, vidas e medalhas são recursos didáticos do ALEF. Não correspondem às notas oficiais da disciplina.</p>
   </section>
 </div>
+
 <nav class="course-bottom"><div>
   <a href="index.html"><span>⌂</span>Início</a>
   <a href="course.html"><span>📖</span>Curso</a>
-  <a href="fundamentos-game.html"><span>🎮</span>Arena</a>
+  <a href="fundamentos-game.html"><span>🎮</span>Fundamentos</a>
   <a href="p2.html"><span>🎓</span>P2</a>
 </div></nav>
 <script src="fundamentos-game.js"></script>

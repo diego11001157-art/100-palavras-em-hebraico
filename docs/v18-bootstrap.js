@@ -26,7 +26,7 @@
     if(grid&&!document.querySelector('.course-v2-home')){
       const card=document.createElement('article');
       card.className='card action-card course-v2-home';
-      card.innerHTML='<div class="ico">📖</div><h2>Curso Completo</h2><p>Hebraico do zero ao texto bíblico: 31 lições, progresso, laboratório e revisão inteligente.</p><a class="btn gold" href="course.html">Abrir curso v2.0</a>';
+      card.innerHTML='<div class="ico">📖</div><h2>Curso Completo</h2><p>Hebraico do zero ao texto bíblico: 31 lições, progresso, laboratório e revisão inteligente.</p><a class="btn gold" href="course.html">Abrir curso v2.2</a>';
       grid.prepend(card);
     }
     const hero=document.querySelector('#home .hero p');
