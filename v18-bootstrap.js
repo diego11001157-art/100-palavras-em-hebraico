@@ -1,0 +1,102 @@
+(()=>{
+'use strict';
+const EXTRA86=[{"n": 86, "h": "אוֹ", "p": "ou", "occurrences": 321, "example": "Gn 24:49, 55", "analysis": "Conjunção = ‘ou’. Fonte: Vocabulário 8 (18).", "release": "vocab-18"}, {"n": 87, "h": "אֵלֶּה", "p": "estes, estas", "occurrences": 320, "example": "Gn 2:4; 6:9", "analysis": "Pronome demonstrativo plural = ‘estes, estas’. Fonte: Vocabulário 8 (18).", "release": "vocab-18"}, {"n": 88, "h": "הַהוּא", "p": "aquele, aquela; naquele, naquela", "occurrences": 314, "example": "Gn 15:18; 19:35; 21:32", "analysis": "Artigo + pronome independente 3ms; o material observa que geralmente é traduzido como aquele(a) / naquele(a).", "release": "vocab-18"}, {"n": 89, "h": "זֶה", "p": "este", "occurrences": 314, "example": "Gn 5:1, 29; 15:4", "analysis": "Pronome demonstrativo masculino singular = ‘este’. Fonte: Vocabulário 8 (18).", "release": "vocab-18"}, {"n": 90, "h": "הָעִיר", "p": "a cidade", "occurrences": 312, "example": "Gn 4:17; 10:12", "analysis": "Artigo + substantivo feminino singular absoluto = ‘a cidade’. Fonte: Vocabulário 8 (18).", "release": "vocab-18"}, {"n": 91, "h": "מֵאוֹת", "p": "cem, centenas", "occurrences": 302, "example": "Êx 12:37, 40, 41; 2Cr 17:11", "analysis": "Numeral cardinal feminino plural construto: cem / centenas. Fonte: Vocabulário 9 (19).", "release": "vocab-19"}, {"n": 92, "h": "וַיֹּאמְרוּ", "p": "então disseram eles, e disseram eles", "occurrences": 301, "example": "Gn 11:3; 18:5", "analysis": "Qal - Wayyiqtol (imperfeito com Waw consecutivo), 3ª pessoa masculina plural, do verbo dizer. Fonte: Vocabulário 9 (19).", "release": "vocab-19"}, {"n": 93, "h": "אֶתְכֶם", "p": "para vós", "occurrences": 297, "example": "Gn 47:23; 48:21", "analysis": "I.O.D. + sufixo pronominal 2ª pessoa masculina plural = ‘para vós’, conforme o material enviado. Fonte: Vocabulário 9 (19).", "release": "vocab-19"}, {"n": 94, "h": "אָנֹכִי", "p": "eu", "occurrences": 293, "example": "Gn 3:10; 4:9; 7:4", "analysis": "Pronome independente 1ª pessoa comum singular = ‘eu’. Fonte: Vocabulário 9 (19).", "release": "vocab-19"}, {"n": 95, "h": "מְאֹד", "p": "muito", "occurrences": 291, "example": "Gn 1:31; 4:5", "analysis": "Partícula adverbial = ‘muito’. Fonte: Vocabulário 9 (19).", "release": "vocab-19"}];
+const EXTRA96=[{"n": 96, "h": "טוֹב", "p": "bom, agradável", "occurrences": 290, "example": "Gn 1:4, 10", "analysis": "Adjetivo masculino singular absoluto = “bom”, “agradável”. Fonte: Vocabulário 10 (20).", "release": "vocab-20"}, {"n": 97, "h": "מִצְרַיִם", "p": "Egito, Mizraim", "occurrences": 289, "example": "Gn 10:6; 21:21; 25:18", "analysis": "Substantivo próprio = “Egito”, “Mizraim”. Fonte: Vocabulário 10 (20).", "release": "vocab-20"}, {"n": 98, "h": "אֹתָם", "p": "a eles", "occurrences": 284, "example": "Gn 35:4; Nm 31:6 (2x)", "analysis": "I.O.D. + sufixo pronominal 3ª pessoa masculina plural = “a eles”, conforme o material enviado. Fonte: Vocabulário 10 (20).", "release": "vocab-20"}, {"n": 99, "h": "צְבָאוֹת", "p": "exércitos", "occurrences": 283, "example": "2Sm 5:10; 6:2, 18", "analysis": "Substantivo comum plural absoluto = “exércitos”. Fonte: Vocabulário 10 (20).", "release": "vocab-20"}, {"n": 100, "h": "וְאִם", "p": "e se", "occurrences": 279, "example": "Gn 4:7; 13:9", "analysis": "Waw conjuntivo + conjunção “se” = “e se”. Fonte: Vocabulário 10 (20).", "release": "vocab-20"}];
+const VERSION={"appVersion": "3.2.2", "contentVersion": "2026-11-11-home-semestres-fixos-v322", "wordsAvailable": 100, "targetWords": 100, "weeklyBlockSize": 5, "firstSemesterVocabStart": "2027-02-01", "message": "Alef v3.2.2: acessos fixos ao 1º e 2º semestre na tela inicial, mantendo os módulos antigos."};
+const originalFetch=window.fetch.bind(window);
+
+window.fetch=async function(input,init){
+ const url=typeof input==='string'?input:(input&&input.url)||'';
+ const response=await originalFetch(input,init);
+ if(/content\/vocabulario\.json(?:\?|$)/.test(url)&&response.ok){
+   try{
+     const base=await response.clone().json(),map=new Map();
+     [...base,...EXTRA86,...EXTRA96].forEach(x=>map.set(Number(x.n),x));
+     const merged=[...map.values()].sort((a,b)=>a.n-b.n);
+     return new Response(JSON.stringify(merged),{status:200,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
+   }catch(_){}
+ }
+ if(/content\/version\.json(?:\?|$)/.test(url)){
+   return new Response(JSON.stringify(VERSION),{status:200,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
+ }
+ return response;
+};
+
+function addStyles(){
+ if(document.querySelector('#semesterGatewayStyles'))return;
+ const st=document.createElement('style');st.id='semesterGatewayStyles';st.textContent=`
+ .semester-gateway{margin:16px 0 18px}
+ .semester-gateway-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:10px}
+ .semester-gateway-head h2,.semester-gateway-head p{margin:0}.semester-gateway-head p{font-size:12px;color:var(--muted)}
+ .semester-gateway-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ .semester-entry{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:22px;padding:19px;background:var(--panel);box-shadow:var(--shadow);transition:.16s transform,.16s box-shadow}
+ .semester-entry:hover{transform:translateY(-2px);border-color:var(--gold)}
+ .semester-entry.sem1{background:linear-gradient(145deg,#fff,#edf7f3)}
+ .semester-entry.sem2{background:linear-gradient(145deg,#fff,#f4effa)}
+ .semester-entry .sem-icon{font-size:32px}.semester-entry h2{margin:8px 0 4px;color:var(--green)}
+ .semester-entry p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
+ .semester-entry .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+ .semester-entry .chip{background:#ffffffaa;border:1px solid var(--line);border-radius:999px;padding:4px 7px;font-size:9px;font-weight:800}
+ .semester-entry .open-sem{display:inline-flex;margin-top:12px;background:var(--green);color:white;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900}
+ 
+ .alef-about-footer{margin:18px 0 8px;padding:13px 6px;border-top:1px solid var(--line);display:flex;gap:7px;justify-content:center;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:10px}
+ .alef-about-footer a{color:var(--green);font-weight:900;text-decoration:none}
+ .alef-about-footer a:hover{text-decoration:underline}
+
+ @media(max-width:720px){.semester-gateway-grid{grid-template-columns:1fr}}
+ `;
+ document.head.appendChild(st);
+}
+function addGateway(){
+ const home=document.querySelector('#home');if(!home||document.querySelector('#semesterGateway'))return false;
+ const hero=home.querySelector('.hero');
+ const gateway=document.createElement('section');gateway.id='semesterGateway';gateway.className='semester-gateway';
+ gateway.innerHTML=`
+   <div class="semester-gateway-head"><div><h2>📚 Escolha seu semestre</h2><p>Estude pela sequência do curso ou continue usando os módulos gerais abaixo.</p></div></div>
+   <div class="semester-gateway-grid">
+     <a class="semester-entry sem1" href="semestre1.html">
+       <div class="sem-icon">🌱</div><h2>1º Semestre • Hebraico Bíblico I</h2>
+       <p>Para novos ingressantes: alfabeto, vogais, sinais, artigo, estrutura nominal e palavras 1–50.</p>
+       <div class="chips"><span class="chip">22 letras</span><span class="chip">Vogais</span><span class="chip">Sheva/Daguesh</span><span class="chip">1–50</span></div>
+       <span class="open-sem">Abrir 1º semestre →</span>
+     </a>
+     <a class="semester-entry sem2" href="semestre2.html">
+       <div class="sem-icon">📜</div><h2>2º Semestre • Hebraico Bíblico II</h2>
+       <p>Sistema verbal, morfologia, BHS, preparação P2 e palavras 51–100.</p>
+       <div class="chips"><span class="chip">51–100</span><span class="chip">Qal</span><span class="chip">7 troncos</span><span class="chip">Morfologia</span></div>
+       <span class="open-sem">Abrir 2º semestre →</span>
+     </a>
+   </div>`;
+ if(hero)hero.insertAdjacentElement('afterend',gateway);else home.prepend(gateway);
+ // Atualiza o texto antigo da hero sem remover a interface existente
+ if(hero){
+   const p=hero.querySelector('p');
+   if(p)p.textContent='O Alef agora organiza o aprendizado em dois semestres, preservando vocabulário, morfologia, verbos, simulados, duelos e ranking.';
+ }
+ return true;
+}
+
+function addAboutFooter(){
+ const home=document.querySelector('#home');
+ if(!home||document.querySelector('#alefAboutFooter'))return false;
+ const f=document.createElement('footer');
+ f.id='alefAboutFooter';
+ f.className='alef-about-footer';
+ f.innerHTML=`<span>ALEF v3.2.5</span><span>•</span><span>Criado por Diego Sousa</span><span>•</span><span>17ª Turma SALT-FAAMA</span><span>•</span><a href="sobre-alef.html">Sobre o ALEF</a>`;
+ home.appendChild(f);
+ return true;
+}
+
+function setup(){
+ addStyles();
+ const auth=document.querySelector('#authView .kicker');if(auth)auth.textContent='Hebraico Bíblico I & II';
+ let n=0;const t=setInterval(()=>{n++;addGateway();addAboutFooter();if((document.querySelector('#semesterGateway')&&document.querySelector('#alefAboutFooter'))||n>150)clearInterval(t)},100);
+ // Mantém o patch visual dos blocos de 5
+ if(!document.querySelector('script[data-v32-vocab]')){
+   const s=document.createElement('script');s.src='vocab-groups-v32.js?v=322';s.dataset.v32Vocab='1';document.body.appendChild(s);
+ }
+ const go=new URLSearchParams(location.search).get('go');
+ if(go){let k=0;const g=setInterval(()=>{k++;const app=document.querySelector('#appView'),btn=document.querySelector(`[data-go="${CSS.escape(go)}"]`);if(app&&!app.classList.contains('hidden')&&btn){btn.click();clearInterval(g);history.replaceState({},'',location.pathname)}if(k>120)clearInterval(g)},120)}
+}
+document.addEventListener('DOMContentLoaded',setup);
+})();
