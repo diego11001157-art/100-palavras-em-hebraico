@@ -1,82 +1,45 @@
 (()=>{
 'use strict';
-const $=s=>document.querySelector(s);const term=Number(document.body.dataset.term||1);let PLAN=null,VOCAB=[],activeBlock=null,review=false,quizState=null;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const FALLBACK1={"id": "hb1", "title": "Hebraico Bíblico I", "vocabStart": "2027-02-01", "vocabBlocks": [{"week": 1, "range": "1–5", "start": 1, "end": 5, "releaseDate": "2027-02-01"}, {"week": 2, "range": "6–10", "start": 6, "end": 10, "releaseDate": "2027-02-08"}, {"week": 3, "range": "11–15", "start": 11, "end": 15, "releaseDate": "2027-02-15"}, {"week": 4, "range": "16–20", "start": 16, "end": 20, "releaseDate": "2027-02-22"}, {"week": 5, "range": "21–25", "start": 21, "end": 25, "releaseDate": "2027-03-01"}, {"week": 6, "range": "26–30", "start": 26, "end": 30, "releaseDate": "2027-03-08"}, {"week": 7, "range": "31–35", "start": 31, "end": 35, "releaseDate": "2027-03-15"}, {"week": 8, "range": "36–40", "start": 36, "end": 40, "releaseDate": "2027-03-22"}, {"week": 9, "range": "41–45", "start": 41, "end": 45, "releaseDate": "2027-03-29"}, {"week": 10, "range": "46–50", "start": 46, "end": 50, "releaseDate": "2027-04-05"}], "examMap": {"T1": "Testes semanais de conteúdo e vocabulário", "P1": "Kelley I–VI", "P2": "Kelley VII–XI"}, "lessons": [{"n": 1, "title": "Introdução ao Hebraico Bíblico", "source": "Ementa HB I", "goals": ["história do idioma hebraico", "características e uso"], "activities": ["orientação direita → esquerda", "quiz de conceitos introdutórios"]}, {"n": 2, "title": "Alfabeto hebraico", "source": "Ementa HB I", "goals": ["22 consoantes", "daguesh lene e forte", "formas finais", "valores fonéticos", "transliteração", "valores numéricos"], "activities": ["22 cards letra por letra", "flashcards", "nome → letra", "letra → nome", "ordem Alef → Tav", "formas finais", "guturais", "BeGaDKeFaT"]}, {"n": 3, "title": "Vogais", "source": "Ementa HB I", "goals": ["vogais breves", "vogais longas", "valores fonéticos", "transliteração"], "activities": ["cards de vogais", "sinal → nome", "nome → sinal", "consoante + vogal", "jogo de reconhecimento"]}, {"n": 4, "title": "A sílaba", "source": "Ementa HB I", "goals": ["reconhecimento e leitura de sílabas"], "activities": ["montar sílabas", "separação visual", "leitura progressiva", "regras detalhadas a completar com Kelley/caderno"]}, {"n": 5, "title": "O artigo", "source": "Ementa HB I", "goals": ["reconhecer o artigo em palavras"], "activities": ["tem artigo / não tem artigo", "retirar artigo e encontrar a forma-base", "comparar palavras"]}, {"n": 6, "title": "Preposições", "source": "Ementa HB I", "goals": ["reconhecer preposições"], "activities": ["caça à preposição", "associação forma → sentido", "identificação no vocabulário"]}, {"n": 7, "title": "Conjunções", "source": "Ementa HB I", "goals": ["reconhecer conjunções"], "activities": ["identificar וְ", "separar conjunção + palavra", "quiz"]}, {"n": 8, "title": "Substantivo e adjetivo", "source": "Ementa HB I", "goals": ["reconhecer substantivo e adjetivo"], "activities": ["classificação por categoria", "gênero/número quando o material fornecer", "usar palavras reais"]}, {"n": 9, "title": "Estados construto e absoluto", "source": "Ementa HB I", "goals": ["reconhecer construto e absoluto"], "activities": ["comparar pares", "associação de cadeias", "aprofundar com Kelley/caderno"]}, {"n": 10, "title": "Pronomes", "source": "Ementa HB I", "goals": ["reconhecer pronomes"], "activities": ["pronome → pessoa", "pessoa → pronome", "caça a pronomes no vocabulário"]}, {"n": 11, "title": "Introdução aos verbos e seus tempos", "source": "Ementa HB I", "goals": ["introdução aos verbos", "formas verbais", "leitura e vocabulário básico"], "activities": ["raiz visual", "verbo ou não verbo", "primeiro contato com formas", "revisão acumulativa"]}]}, FALLBACK2={"id": "hb2", "title": "Hebraico Bíblico II", "vocabBlocks": [{"block": 1, "start": 51, "end": 55, "range": "51–55"}, {"block": 2, "start": 56, "end": 60, "range": "56–60"}, {"block": 3, "start": 61, "end": 65, "range": "61–65"}, {"block": 4, "start": 66, "end": 70, "range": "66–70"}, {"block": 5, "start": 71, "end": 75, "range": "71–75"}, {"block": 6, "start": 76, "end": 80, "range": "76–80"}, {"block": 7, "start": 81, "end": 85, "range": "81–85"}, {"block": 8, "start": 86, "end": 90, "range": "86–90"}, {"block": 9, "start": 91, "end": 95, "range": "91–95"}, {"block": 10, "start": 96, "end": 100, "range": "96–100"}], "examMap": {"T1": "Testes semanais de conteúdo, vocabulário e tradução", "P1": "Kelley XII–XV", "P2": "Kelley XVI–XXI"}, "lessons": [{"n": 1, "title": "Revisão de Hebraico I"}, {"n": 2, "title": "Introdução à BHS"}, {"n": 3, "title": "Introdução aos verbos hebraicos"}, {"n": 4, "title": "Qal perfeito"}, {"n": 5, "title": "Qal imperfeito e negações"}, {"n": 6, "title": "Qal volitivos"}, {"n": 7, "title": "Qal infinitivo; vav consecutivo e conjuntivo"}, {"n": 8, "title": "Qal particípio"}, {"n": 9, "title": "Nifal"}, {"n": 10, "title": "Piel e Pual"}, {"n": 11, "title": "Hifil e Hofal"}, {"n": 12, "title": "Hitpael"}, {"n": 13, "title": "Verbos fracos"}, {"n": 14, "title": "Leitura, tradução, léxicos e ferramentas exegéticas"}]};
+const term=Number(document.body.dataset.term||1);
+let CFG=term===1?FALLBACK1:FALLBACK2,VOCAB=[],review=localStorage.getItem('alef_v31_review')==='1';
 const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
-async function load(){
- const [planR,baseR,e18R,e30R]=await Promise.all([
-  fetch('content/semester-plan.json',{cache:'no-store'}),fetch('content/vocabulario.json',{cache:'no-store'}),
-  fetch('content/vocab-extra-v18.json',{cache:'no-store'}),fetch('content/vocab-extra-v30.json',{cache:'no-store'})
- ]);
- PLAN=await planR.json();const all=[...await baseR.json(),...await e18R.json(),...await e30R.json()];
- const map=new Map();all.forEach(x=>map.set(Number(x.n),x));VOCAB=[...map.values()].sort((a,b)=>a.n-b.n);
- review=localStorage.getItem('alef_v3_review')==='1';render();
-}
-function proxy(target){location.href=`index.html?go=${encodeURIComponent(target)}`}
-function releaseInfo(block){
- if(term===2)return {open:true,current:false,label:'Disponível'};
- if(review)return {open:true,current:false,label:'Revisão livre'};
- const now=new Date(),rel=new Date(block.releaseDate+'T00:00:00');const next=new Date(rel.getTime()+7*86400000);
- return {open:now>=rel,current:now>=rel&&now<next,label:now>=rel?'Liberado':new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit'}).format(rel)};
-}
-function currentWeek(){
- const start=new Date('2027-02-01T00:00:00'),now=new Date(),d=Math.floor((now-start)/86400000);
- if(d<0)return 0;return Math.min(10,Math.floor(d/7)+1);
-}
+async function safeJson(path,fallback){try{const r=await fetch(path,{cache:'no-store'});if(!r.ok)throw new Error(r.status);const txt=await r.text();if(txt.trim().startsWith('<'))throw new Error('HTML recebido');return JSON.parse(txt)}catch(e){console.warn(path,e);return fallback}}
+async function load(){CFG=await safeJson(term===1?'content/semester1.json':'content/semester2.json',CFG);VOCAB=await safeJson('content/vocabulario.json',[]);render()}
+function blocks(){return term===1?CFG.vocabBlocks:CFG.vocabBlocks.map(x=>({...x,week:x.block}))}
+function release(b){if(term===2||review)return{open:true,current:false,label:term===2?'Disponível':'Revisão livre'};const now=new Date(),d=new Date(b.releaseDate+'T00:00:00'),n=new Date(d.getTime()+7*86400000);return{open:now>=d,current:now>=d&&now<n,label:now>=d?'Liberado':new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit'}).format(d)}}
 function render(){
- const cfg=term===1?PLAN.firstSemester:PLAN.secondSemester;const blocks=cfg.blocks;
- const content=$('#semesterContent');
- const actions=term===1?[
-  ['א','Alfabeto card por card','22 letras: forma, som, transliteração, grupos e usos.','alfabeto-cards.html'],
-  ['🎮','Fundamentos interativos','Ordenar letras, vogais, sheva, daguesh, guturais e artigo.','fundamentos-game.html'],
-  ['📖','Curso Kelley I–XI','Trilha do primeiro semestre alinhada à ementa.','course.html'],
-  ['🔤','Vocabulário 1–50','5 palavras por semana, em 10 blocos.','#vocabulary'],
-  ['🧠','Revisão e domínio','Veja o que já foi liberado e revise erros.','#mastery'],
-  ['📝','Avaliações','P1: Kelley I–VI • P2: Kelley VII–XI.','#assessments']
+ const acts=term===1?[
+ ['א','Alfabeto interativo','22 cards, flashcards, reconhecimento e grupos.','alfabeto-cards.html'],
+ ['🎮','Fundamentos em jogos','Ordem das letras, vogais, sheva, daguesh, guturais e artigo.','fundamentos-game.html'],
+ ['📚','Palavras 1–50','10 blocos de 5 palavras com liberação semanal.','#vocab'],
+ ['📖','Lições do semestre','Conteúdo organizado pela ementa.','#lessons'],
+ ['📝','Avaliações','P1 Kelley I–VI • P2 Kelley VII–XI.','#assess'],
+ ['🧭','Curso completo','Trilha geral.','course.html']
  ]:[
-  ['📚','Vocabulário 51–100','50 palavras em blocos de 5 para revisão e prática.','#vocabulary'],
-  ['🔤','Verbos','Qal, raízes, sete troncos e paradigmas.','index.html?go=verbs'],
-  ['🧩','Morfologia','Forma → tronco → PGN → raiz → contexto.','index.html?go=morphology'],
-  ['🎓','Kelley XVI–XXI','Preparação específica para P2.','p2.html'],
-  ['📖','Curso completo','Kelley XII–XXI + continuidade.','course.html'],
-  ['⚔️','Duelos e ranking','Prática social com os módulos atuais.','index.html?go=duels']
+ ['📚','Palavras 51–100','10 blocos de 5 palavras.','#vocab'],
+ ['🔤','Verbos','Qal e paradigmas.','index.html?go=verbs'],
+ ['🧩','Morfologia','Forma, tronco, PGN e raiz.','index.html?go=morphology'],
+ ['🎓','Preparação P2','Kelley XVI–XXI.','p2.html'],
+ ['📖','Curso completo','Kelley XII–XXI e continuidade.','course.html'],
+ ['⚔️','Duelos','Treino social.','index.html?go=duels']
  ];
- const wk=currentWeek();
- content.innerHTML=`
-  <h2 class="section-title">${term===1?'🌱 Comece por aqui':'📜 Continue daqui'}</h2>
-  <section class="grid">${actions.map(a=>`<a class="card action" href="${a[3]}"><div class="ico">${a[0]}</div><h3>${a[1]}</h3><p>${a[2]}</p></a>`).join('')}</section>
-  <h2 class="section-title" id="vocabulary">${term===1?'📅 Vocabulário semanal 1–50':'📚 Vocabulário 51–100'}</h2>
-  <section class="card">
-   <div class="week-status"><div><h3 style="margin:0">${term===1?(wk?`Semana curricular ${wk}`:'Liberação começa em fevereiro de 2027'):'10 blocos de revisão'}</h3><p class="note">${term===1?'Cada bloco contém 5 palavras e é liberado a cada 7 dias a partir de 01/02/2027.':'O 2º semestre está disponível integralmente para quem já concluiu a base.'}</p></div>
-   ${term===1?`<label class="switch"><input id="reviewMode" type="checkbox" ${review?'checked':''}> Modo veterano/revisão</label>`:''}</div>
-   <div class="vocab-blocks" id="vocabBlocks">${blocks.map(b=>{const r=releaseInfo(b);return `<button class="vblock ${r.open?'open':'locked'} ${r.current?'current':''}" data-start="${b.start}" data-end="${b.end}" ${r.open?'':'disabled'}><b>${term===1?b.label:`Bloco ${b.block}`}</b><strong>${b.range}</strong><span>${r.label}</span></button>`}).join('')}</div>
-   <div id="studyPanel" class="study-panel"></div>
-  </section>
-  <h2 class="section-title" id="mastery">🧭 Mapa de aprendizagem</h2>
-  <section class="mastery">${(term===1?[
-   ['Alfabeto',20],['Vogais',15],['Sheva/Daguesh',10],['Artigo',10],['Nominais',5],['Vocabulário',wk*10],['Leitura',5],['Kelley I–XI',5]
-  ]:[
-   ['Revisão HB I',70],['Vocabulário',100],['Qal',65],['Troncos',50],['Morfologia',55],['Wayyiqtol',45],['Kelley XII–XXI',60],['Tradução',35]
-  ]).map(x=>`<div><b>${x[0]}</b><small>${Math.min(100,x[1])}% inicial</small><div class="bar"><span style="width:${Math.min(100,x[1])}%"></span></div></div>`).join('')}</section>
-  <h2 class="section-title" id="assessments">📝 Organização curricular</h2>
-  <section class="card"><div class="timeline">${cfg.curriculum.map((x,i)=>`<div class="timeline-row"><b>${i+1}</b><div>${x}</div></div>`).join('')}</div>
-  <p class="note"><span class="pill">P1</span> ${cfg.examMap.P1} <span class="pill">P2</span> ${cfg.examMap.P2}</p></section>`;
- if(term===1)$('#reviewMode').onchange=e=>{review=e.target.checked;localStorage.setItem('alef_v3_review',review?'1':'0');render()};
- document.querySelectorAll('.vblock.open').forEach(b=>b.onclick=()=>openBlock(Number(b.dataset.start),Number(b.dataset.end)));
+ const bs=blocks();
+ document.querySelector('#semesterContent').innerHTML=`
+ <h2 class="section-title">${term===1?'🌱 Comece por aqui':'📜 Continue daqui'}</h2>
+ <section class="grid">${acts.map(a=>`<a class="card action" href="${a[3]}"><div class="ico">${a[0]}</div><h3>${a[1]}</h3><p>${a[2]}</p></a>`).join('')}</section>
+ <h2 class="section-title" id="vocab">${term===1?'📅 Vocabulário semanal 1–50':'📚 Vocabulário 51–100'}</h2>
+ <section class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0">${term===1?'5 palavras por semana':'Blocos de revisão'}</h3><p style="color:var(--muted);font-size:12px">${term===1?'Início padrão: 1º de fevereiro de 2027.':'O segundo semestre está completo até a palavra 100.'}</p></div>${term===1?`<label class="switch"><input id="reviewMode" type="checkbox" ${review?'checked':''}> Modo veterano/revisão</label>`:''}</div>
+ <div class="vocab-blocks">${bs.map(b=>{const r=release(b);const label=term===1?`Semana ${b.week}`:`Bloco ${b.block}`;return `<button class="vblock ${r.open?'':'locked'} ${r.current?'current':''}" data-start="${b.start}" data-end="${b.end}" ${r.open?'':'disabled'}><b>${label}</b><strong>${b.range}</strong><span>${r.label}</span></button>`}).join('')}</div><div id="study"></div></section>
+ <h2 class="section-title" id="lessons">📖 Conteúdo e atividades</h2>
+ <section class="lesson-list">${CFG.lessons.map(l=>`<article class="lesson"><div class="lesson-head"><div><small>${term===1?'LIÇÃO DIDÁTICA':'MÓDULO'} ${l.n}</small><h3>${l.title}</h3></div><span class="chip">${l.source||'Ementa HB II'}</span></div>${l.goals?`<div class="chips">${l.goals.map(g=>`<span class="chip">${g}</span>`).join('')}</div>`:''}${l.activities?`<div class="activity-list">${l.activities.map(a=>`<div class="activity">🎯 ${a}</div>`).join('')}</div>`:''}</article>`).join('')}</section>
+ <h2 class="section-title" id="assess">📝 Avaliações</h2><section class="card"><p><strong>T1:</strong> ${CFG.examMap.T1}</p><p><strong>P1:</strong> ${CFG.examMap.P1}</p><p><strong>P2:</strong> ${CFG.examMap.P2}</p></section>`;
+ if(term===1)document.querySelector('#reviewMode').onchange=e=>{review=e.target.checked;localStorage.setItem('alef_v31_review',review?'1':'0');render()};
+ $$('.vblock:not(.locked)').forEach(b=>b.onclick=()=>openWords(Number(b.dataset.start),Number(b.dataset.end)));
 }
-function openBlock(start,end){
- activeBlock=[start,end];const words=VOCAB.filter(x=>x.n>=start&&x.n<=end);const panel=$('#studyPanel');
- panel.innerHTML=`<div class="word-grid">${words.map(w=>`<article class="word-card"><div class="heb">${w.h}</div><strong>${w.p}</strong><small>#${w.n}${w.occurrences?` • ${w.occurrences}x`:''}</small></article>`).join('')}</div>
- <div class="quizbox"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="blockFlash">Flashcards</button><button class="btn ghost" id="blockQuiz">Quiz rápido</button><button class="btn ghost" id="allVocab">Abrir banco completo</button></div><div id="blockGame"></div></div>`;
- $('#blockFlash').onclick=()=>flash(words,0,false);$('#blockQuiz').onclick=()=>quiz(words);$('#allVocab').onclick=()=>proxy('vocab');panel.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-function flash(words,i,reveal){
- const w=words[i%words.length];$('#blockGame').innerHTML=`<button class="word-card" id="fc" style="width:100%;margin-top:10px;min-height:130px"><div class="heb">${reveal?'✓':w.h}</div><strong>${reveal?w.p:'Toque para revelar'}</strong><small>${reveal?(w.analysis||''):`${i+1}/${words.length}`}</small></button><div style="margin-top:7px"><button class="btn ghost" id="fcNext">Próximo</button></div>`;
- $('#fc').onclick=()=>flash(words,i,!reveal);$('#fcNext').onclick=()=>flash(words,(i+1)%words.length,false);
-}
-function quiz(words){
- const w=words[Math.floor(Math.random()*words.length)];let distract=shuffle(VOCAB.filter(x=>x.n!==w.n)).slice(0,3).map(x=>x.p),opts=shuffle([w.p,...distract]);
- $('#blockGame').innerHTML=`<div class="quizbox"><div class="word-card"><div class="heb">${w.h}</div><strong>Qual é o significado?</strong></div><div class="quizopts">${opts.map(o=>`<button class="quizopt">${o}</button>`).join('')}</div><div id="quizFeedback"></div></div>`;
- document.querySelectorAll('.quizopt').forEach(b=>b.onclick=()=>{const ok=b.textContent===w.p;$('#quizFeedback').innerHTML=`<p><strong>${ok?'✓ Certo':'✕ Tente lembrar'}</strong> — ${w.p}</p><button class="btn ghost" id="another">Outra questão</button>`;$('#another').onclick=()=>quiz(words)});
-}
-load().catch(err=>{$('#semesterContent').innerHTML=`<section class="card"><h3>Não foi possível carregar a jornada.</h3><p>${err.message}</p></section>`});
+function openWords(a,z){const words=VOCAB.filter(w=>Number(w.n)>=a&&Number(w.n)<=z),s=$('#study');if(!words.length){s.innerHTML='<p>Envie docs/content/vocabulario.json junto com a atualização.</p>';return}s.innerHTML=`<div class="word-grid">${words.map(w=>`<article class="word"><div class="heb">${w.h}</div><strong>${w.p}</strong><small>#${w.n}</small></article>`).join('')}</div><div class="study-actions"><button class="btn" id="flash">Flashcards do bloco</button><button class="btn ghost" id="quiz">Quiz rápido</button><a class="linkbtn ghost" href="index.html?go=vocab">Banco completo</a></div><div id="game"></div>`;$('#flash').onclick=()=>flash(words,0,false);$('#quiz').onclick=()=>quiz(words)}
+function flash(words,i,show){const w=words[i%words.length];$('#game').innerHTML=`<div class="card" style="margin-top:10px;text-align:center"><div style="font:50px 'Times New Roman';direction:rtl">${show?'✓':w.h}</div><h3>${show?w.p:'Toque para revelar'}</h3>${show?`<p>${w.analysis||''}</p>`:''}<button class="btn ghost" id="flip">${show?'Ocultar':'Revelar'}</button> <button class="btn" id="next">Próxima</button></div>`;$('#flip').onclick=()=>flash(words,i,!show);$('#next').onclick=()=>flash(words,(i+1)%words.length,false)}
+function quiz(words){const w=words[Math.floor(Math.random()*words.length)],opts=shuffle([w,...shuffle(VOCAB.filter(x=>x.n!==w.n)).slice(0,3)]);$('#game').innerHTML=`<div class="card" style="margin-top:10px;text-align:center"><div style="font:50px 'Times New Roman';direction:rtl">${w.h}</div><h3>Qual é o significado?</h3><div class="activity-list">${opts.map(o=>`<button class="btn ghost ans" data-n="${o.n}">${o.p}</button>`).join('')}</div><div id="fb"></div></div>`;$$('.ans').forEach(b=>b.onclick=()=>{const ok=Number(b.dataset.n)===Number(w.n);$('#fb').innerHTML=`<p><strong>${ok?'✓ Certo':'✕ Ainda não'}</strong> — ${w.p}</p><button class="btn" id="again">Outra</button>`;$('#again').onclick=()=>quiz(words)})}
+load()
 })();
