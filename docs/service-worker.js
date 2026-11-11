@@ -1,10 +1,7 @@
-const CACHE='alef-v3.2.2-home-semestres';
+const CACHE='alef-v3.2.3-ajuste-visual';
 const CORE=[
- './','./index.html','./styles.css','./app.js','./v18-bootstrap.js','./vocab-groups-v32.js?v=322',
- './semestre1.html','./semester-v321.js?v=321','./semester-v321.css?v=321',
- './semestre2.html','./semester2-v322.js?v=322','./semester2-v322.css?v=322',
- './alfabeto-cards.html','./alfabeto-v321.js?v=321','./alfabeto-v321.css?v=321',
- './fundamentos-game.html','./fundamentos-game.js','./fundamentos-game.css'
+ './alfabeto-cards.html','./alfabeto-v323.js?v=323','./alfabeto-v323.css?v=323',
+ './fundamentos-game.html','./fundamentos-v323.js?v=323','./fundamentos-v323.css?v=323'
 ];
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{
